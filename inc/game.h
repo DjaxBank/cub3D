@@ -10,21 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/include/MLX42/MLX42.h"
-#include <stdio.h>
-typedef struct s_mlx
-{
-	mlx_t			*mlx;
-	mlx_texture_t	*background;
-	mlx_image_t		*background_image;
-	mlx_texture_t	*block;
-	mlx_image_t		*block_image;
-	
-} s_mlx;
+#ifndef GAME_H
+# define GAME_H
+# include "MLX42/include/MLX42/MLX42.h"
+# include <stdio.h>
 
 typedef struct s_player
 {
-	unsigned int orientation;
+	unsigned int	orientation;
+	int				pos[2];
 	
 }	s_player;
 
@@ -32,7 +26,22 @@ typedef struct s_game_data
 {
 	char		**map;
 	s_player	player;
-
+	
 } s_game_data;
 
-void key_hook(struct mlx_key_data key, void *param);
+typedef struct s_mlx
+{
+	mlx_t			*mlx;
+	s_game_data		game;
+	mlx_image_t		*ceiling;
+	mlx_image_t		*floor;
+	mlx_texture_t	*block;
+	mlx_image_t		*block_image;
+	
+} s_mlx;
+
+void	key_hook(struct mlx_key_data key, void *param);
+void	loop_hook(void *param);
+void	render_background(const int ceilingc, const int floorc, s_mlx *mlx);
+
+#endif
