@@ -10,6 +10,8 @@ typedef struct s_state
 {
 	char *map_name;
 	int	fd;
+	t_list *l_map;
+	char **map;
 
 } t_state;
 
