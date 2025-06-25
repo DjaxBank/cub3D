@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/06/25 13:39:27 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/25 14:13:10 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void key_hook(struct mlx_key_data key, void *param)
 	static int count;
 	static int size = 100;
 	mlx_image_t *image;
-	mlx_s *box;
+	s_mlx *box;
 	box = param;
 	if (mlx_is_key_down(box->mlx, MLX_KEY_ESCAPE))
 		return (mlx_close_window(box->mlx));
@@ -32,7 +32,8 @@ void key_hook(struct mlx_key_data key, void *param)
 
 int main()
 {
-	mlx_s box;
+	s_mlx box;
+	s_game_data game;
 	box.background = mlx_load_png("textures/Background.png");
 	box.block = mlx_load_png("textures/block.png");
 	box.mlx = mlx_init(800, 800, "Cub3d", false);
