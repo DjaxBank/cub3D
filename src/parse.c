@@ -1,5 +1,10 @@
 #include "parse.h"
 
+// void werror(char *error_msg, t_state *state)
+// {
+	
+// }
+
 bool input_check(char *str, t_state *state)
 {
 	char *ext;
@@ -24,13 +29,13 @@ bool input_check(char *str, t_state *state)
 	return (true);
 }
 
-void map_init(t_state *state)
-{
-	state->fd = open(state->map_name, O_RDONLY);
-	if (state->fd == -1)
-		 //
+// void map_init(t_state *state)
+// {
+// 	state->fd = open(state->map_name, O_RDONLY);
+// 	if (state->fd == -1)
+		 
 
-}
+// }
 
 int	main(int argc, char *argv[])
 {
@@ -43,7 +48,7 @@ int	main(int argc, char *argv[])
 		printf("Usage: ./cub3d <map_file.cub>\n");
 		return (1);
 	}
-	map_init(&state);
+	// map_init(&state);
 
 	return 0;
 }
