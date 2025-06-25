@@ -13,4 +13,5 @@ typedef struct s_state
 
 } t_state;
 
+bool input_check(char *str, t_state *state);
 #endif
