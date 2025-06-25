@@ -36,19 +36,3 @@ bool input_check(char *str, t_state *state)
 		 
 
 // }
-
-int	main(int argc, char *argv[])
-{
-	t_state state;
-
-	ft_bzero(&state, sizeof(t_state));
-	if (argc != 2 || input_check(argv[1], &state) != 1)
-	{
-		printf("Error\n");
-		printf("Usage: ./cub3d <map_file.cub>\n");
-		return (1);
-	}
-	// map_init(&state);
-
-	return 0;
-}

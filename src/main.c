@@ -6,34 +6,28 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/06/25 14:13:10 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/25 14:30:44 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "game.h"
+#include "parse.h"
 
-void key_hook(struct mlx_key_data key, void *param)
+int	main(int argc, char *argv[])
 {
-	static int count;
-	static int size = 100;
-	mlx_image_t *image;
-	s_mlx *box;
-	box = param;
-	if (mlx_is_key_down(box->mlx, MLX_KEY_ESCAPE))
-		return (mlx_close_window(box->mlx));
-	else if (!mlx_is_key_down(box->mlx, MLX_KEY_RIGHT))
-		return ;
-	image = mlx_texture_to_image(box->mlx, box->block);
-	mlx_resize_image(image, size, size);
-	mlx_image_to_window(box->mlx, image, count * 80, 0 + (300 + (count * 2)));
-	count++;
-	size -= 10;
-}
+	t_state state;
+	s_mlx		box;
+	// s_game_data game;
+	
+	ft_bzero(&state, sizeof(t_state));
+	if (argc != 2 || input_check(argv[1], &state) != 1)
+	{
+		printf("Error\n");
+		printf("Usage: ./cub3d <map_file.cub>\n");
+		return (1);
+	}
+	// map_init(&state);
 
-int main()
-{
-	s_mlx box;
-	s_game_data game;
 	box.background = mlx_load_png("textures/Background.png");
 	box.block = mlx_load_png("textures/block.png");
 	box.mlx = mlx_init(800, 800, "Cub3d", false);
@@ -43,4 +37,5 @@ int main()
 	mlx_key_hook(box.mlx, key_hook, &box);
 	mlx_loop(box.mlx);
 	mlx_terminate(box.mlx);
+	return 0;
 }

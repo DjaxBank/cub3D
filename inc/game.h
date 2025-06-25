@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   game.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:46:47 by dbank             #+#    #+#             */
-/*   Updated: 2025/06/25 14:15:09 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/25 14:25:09 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/include/MLX42/MLX42.h"
 #include <stdio.h>
-
 typedef struct s_mlx
 {
 	mlx_t			*mlx;
@@ -35,3 +34,5 @@ typedef struct s_game_data
 	s_player	player;
 
 } s_game_data;
+
+void key_hook(struct mlx_key_data key, void *param);
