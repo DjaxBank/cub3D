@@ -114,6 +114,34 @@ char **lst_to_2darray(t_state *state)
 	return (map);
 }
 
+int	atoi_overflow(const char *nptr, t_state *state)
+{
+    int	sign;
+    long value;
+
+    sign = 1;
+    value = 0;
+    while ((*nptr >= 9 && *nptr <= 13) || *nptr == ' ')
+        nptr++;
+    if (*nptr == '+' || *nptr == '-')
+    {
+        if (*nptr == '-')
+            sign = -1;
+        nptr++;
+    }
+    while (*nptr >= '0' && *nptr <= '9')
+    {
+        int digit = *nptr - '0';
+        if (sign == 1 && (value > (INT_MAX - digit) / 10))
+            werror("Integer overflow detected.\n", state);
+        if (sign == -1 && (-value < (INT_MIN + digit) / 10))
+            werror("Integer underflow detected.\n", state);
+        value = value * 10 + digit;
+        nptr++;
+    }
+    return (value * sign);
+}
+
 void	validate_elements(char **map, t_state *state)
 {
 	int i;
@@ -129,11 +157,12 @@ void	validate_elements(char **map, t_state *state)
         werror("Invalid map element. West must be WE <path>\n", state);
     if (!map[i] || ft_strncmp(map[i++], "EA ./", 5) != 0)
         werror("Invalid map element. East must be EA <path>\n", state);
-    i++;
-    if (!map[i] || ft_strncmp(map[i++], "F ", 2) != 0)
+    if (!map[i] || ft_strncmp(map[++i], "F ", 2) != 0)
         werror("Invalid map element. Floor colour must be F <RGB>\n", state);
-    if (!map[i] || ft_strncmp(map[i++], "C ", 2) != 0)
+    if (!map[i] || ft_strncmp(map[++i], "C ", 2) != 0)
         werror("Invalid map element. Ceiling colour must be C <RGB>\n", state);
+	
+	// add atoi checks 0-255 as well for rgb
 
 }
 
