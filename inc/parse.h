@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <limits.h>
 
 #ifndef PARSE_H
 # define PARSE_H
