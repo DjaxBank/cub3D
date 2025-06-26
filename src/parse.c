@@ -142,12 +142,40 @@ int	atoi_overflow(const char *nptr, t_state *state)
     return (value * sign);
 }
 
+void	validate_rgb(char *str, t_state *state)
+{
+    int i;
+	int counter;
+	int num;
+
+    
+    i = 2;
+	counter = 0;
+	num = 0;
+    while (str[i] != '\n')
+    {
+        if (str[i] == '-' || !ft_isdigit(str[i]))
+            werror("RGB values incorrectly formatted (e.g., F 220,100,0). Negative values not allowed.\n", state);
+        num = atoi_overflow(&str[i], state);
+        if (num < 0 || num > 255)
+            werror("RGB values must be between 0-255\n", state);
+        while (ft_isdigit(str[i]))
+            i++;
+        counter++;
+        if (counter < 3)
+        {
+            if (str[i] != ',')
+                werror("RGB values incorrectly formatted (e.g., F 220,100,0)\n", state);
+            i++;
+        }
+    }
+}
+
 void	validate_elements(char **map, t_state *state)
 {
-	int i;
+    int i = 0;
 
-	i = 0;
-	while (map[i] && map[i][0] != 'N')
+    while (map[i] && map[i][0] != 'N')
         i++;
     if (!map[i] || ft_strncmp(map[i++], "NO ./", 5) != 0)
         werror("Invalid map element. North must be NO <path>\n", state);
@@ -159,11 +187,10 @@ void	validate_elements(char **map, t_state *state)
         werror("Invalid map element. East must be EA <path>\n", state);
     if (!map[i] || ft_strncmp(map[++i], "F ", 2) != 0)
         werror("Invalid map element. Floor colour must be F <RGB>\n", state);
+    validate_rgb(map[i], state);
     if (!map[i] || ft_strncmp(map[++i], "C ", 2) != 0)
         werror("Invalid map element. Ceiling colour must be C <RGB>\n", state);
-	
-	// add atoi checks 0-255 as well for rgb
-
+    validate_rgb(map[i], state);
 }
 
 void map_init(t_state *state)
