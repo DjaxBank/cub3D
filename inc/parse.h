@@ -24,6 +24,8 @@ typedef struct s_state
 	int ceiling[3]; 
 	int pos_x;
 	int pos_y;
+	int map_width;
+	int map_height;
 	
 
 } t_state;
