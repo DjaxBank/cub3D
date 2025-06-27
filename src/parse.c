@@ -5,7 +5,11 @@ void	werror(char *error_msg, t_state *state)
 	free(state->map_name);
 	if (state->fd >= 3)
 		state->fd = close(state->fd);
-	free_2d(state->map);
+	state->map = free_2d(state->map);
+	free(state->n_tex);
+	free(state->s_tex);
+	free(state->w_tex);
+	free(state->e_tex);
 	ft_putstr_fd("Error\n", 2, NULL);
 	ft_putstr_fd(error_msg, 2, NULL);
 	exit(EXIT_FAILURE);
@@ -196,23 +200,23 @@ void	validate_rgb(char *str, t_state *state, int *colour_arr)
 	}
 }
 
-void	validate_elements(char **map, t_state *state)
+int	validate_elements(char **map, t_state *state)
 {
 	int	i;
 
 	i = 0;
 	while (map[i] && map[i][0] != 'N')
 		i++;
-	state->n_tex = ft_strchr(map[i], '.');
+	state->n_tex = ft_strdup(ft_strchr(map[i], '.'));
 	if (!map[i] || ft_strncmp(map[i++], "NO ./", 5) != 0)
 		werror("Invalid map element. North must be NO <path>\n", state);
-	state->s_tex = ft_strchr(map[i], '.');
+	state->s_tex = ft_strdup(ft_strchr(map[i], '.'));
 	if (!map[i] || ft_strncmp(map[i++], "SO ./", 5) != 0)
 		werror("Invalid map element. South must be SO <path>\n", state);
-	state->w_tex = ft_strchr(map[i], '.');
+	state->w_tex = ft_strdup(ft_strchr(map[i], '.'));
 	if (!map[i] || ft_strncmp(map[i++], "WE ./", 5) != 0)
 		werror("Invalid map element. West must be WE <path>\n", state);
-	state->e_tex = ft_strchr(map[i], '.');
+	state->e_tex = ft_strdup(ft_strchr(map[i], '.'));
 	if (!map[i] || ft_strncmp(map[i++], "EA ./", 5) != 0)
 		werror("Invalid map element. East must be EA <path>\n", state);
 	if (!map[i] || ft_strncmp(map[++i], "F ", 2) != 0)
@@ -221,22 +225,148 @@ void	validate_elements(char **map, t_state *state)
 	if (!map[i] || ft_strncmp(map[++i], "C ", 2) != 0)
 		werror("Invalid map element. Ceiling colour must be C <RGB>\n", state);
 	validate_rgb(map[i], state, state->ceiling);
+	return (i + 1);
+}
+
+void	init_player_pos(t_state *state, char **map)
+{
+	int	x;
+	int	y;
+	int	counter;
+
+	y = 0;
+	counter = 0;
+	while (map[y] != NULL)
+	{
+		x = 0;
+		while (map[y][x] != '\0')
+		{
+			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W'
+				|| map[y][x] == 'E')
+			{
+				state->pos_x = x;
+				state->pos_y = y;
+				counter++;
+			}
+			x++;
+		}
+		y++;
+	}
+	if (counter != 1)
+		werror("Invalid player position. There must be one. (e.g. N, S, W, or E)\n", state);
+}
+
+char	**find_start_line(char **map, int start_line)
+{
+	int	i;
+	int	j;
+
+	i = start_line;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j] != '\0')
+		{
+			if (map[i][j] != ' ')
+			{
+				return (&map[i]);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+void	map_trim(t_state *state, char **start_line)
+{
+	int		line_count;
+	char	**trimmed_map;
+	int		i;
+
+	i = 0;
+	line_count = 0;
+	if (start_line == NULL)
+		werror("Reached end of file before finding map start", state);
+	while (start_line[line_count] != NULL)
+		line_count++;
+	trimmed_map = (char **)malloc((line_count + 1) * sizeof(char *));
+	if (trimmed_map == NULL)
+		werror("Malloc failure", state);
+	while (i < line_count)
+	{
+		trimmed_map[i] = ft_strdup(start_line[i]);
+		i++;
+	}
+	trimmed_map[i] = NULL;
+	free_2d(state->map);
+	state->map = trimmed_map;
+}
+
+int	valid_char(char c)
+{
+	if (c == ' ' || c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
+		|| c == 'E')
+		return (1);
+	return (0);
+}
+
+void	validate_chars(t_state *state, char **map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j] != '\0')
+		{
+			if (valid_char(map[i][j]) == 0)
+			{
+				werror("Invalid character detected in map.", state);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void print_map(t_state *state)
+{
+	int i;
+
+	i = 0;
+	while (state->map[i] != NULL)
+	{
+		printf("%s\n", state->map[i]);
+		i++;
+	}
+	printf("x: %i y: %i\n", state->pos_x, state->pos_y);
+	printf("n: %s\n", state->n_tex);
+	printf("n: %s\n", state->s_tex);
+	printf("n: %s\n", state->w_tex);
+	printf("n: %s\n", state->e_tex);
+	printf("R: %i, G: %i, B: %i\n", state->floor[RED], state->floor[GREEN],
+		state->floor[BLUE]);
+	printf("R: %i, G: %i, B: %i\n", state->ceiling[RED], state->ceiling[GREEN],
+		state->ceiling[BLUE]);
 }
 
 void	map_init(t_state *state)
 {
+	int	counter;
+
 	state->fd = open(state->map_name, O_RDONLY);
 	if (state->fd == -1)
 		werror("Cannot open map file.\n", state);
 	init_map(state);
 	state->map = lst_to_2darray(state);
-	validate_elements(state->map, state);
-	printf("%s\n", state->n_tex);
-	printf("%s\n", state->s_tex);
-	printf("%s\n", state->w_tex);
-	printf("%s\n", state->e_tex);
-	printf("R: %i, G: %i, B: %i\n", state->floor[RED], state->floor[GREEN], state->floor[BLUE]);
-	printf("R: %i, G: %i, B: %i\n", state->ceiling[RED], state->ceiling[GREEN], state->ceiling[BLUE]);
+	counter = validate_elements(state->map, state);
+	map_trim(state, find_start_line(state->map, counter));
+	validate_chars(state, state->map);
+	init_player_pos(state, state->map);
+	// print_map(state);
 }
 
 int	main(int argc, char *argv[])
