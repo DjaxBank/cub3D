@@ -353,6 +353,50 @@ void print_map(t_state *state)
 		state->ceiling[BLUE]);
 }
 
+static void	flood_map(t_state *state, char **map, int x, int y)
+{
+	if (y < 0 || map[y] == NULL || x < 0 || x >= (int)ft_strlen(map[y]))
+    	werror("Map is not closed. Player got out of bounds.", state);
+	if (map[y][x] == ' ')
+   		werror("Map is not closed. Player touched space.", state);
+	if (map[y][x] == '1' || map[y][x] == '.')
+		return ;
+	map[y][x] = '.';
+	flood_map(state, map, x + 1, y);
+	flood_map(state, map, x - 1, y);
+	flood_map(state, map, x, y + 1);
+	flood_map(state, map, x, y - 1);
+}
+
+void init_map_bounds(t_state *state, char **map)
+{
+	int x;
+	int y;
+	int map_chars;
+
+	y = 0;
+	while (map[y] != NULL)
+	{
+		x = 0;
+		map_chars = 0;
+		while (map[y][x] != '\0')
+		{
+			if (map[y][x] == '1' || map[y][x] == '0' || map[y][x] == 'N' ||
+				map[y][x] == 'S' || map[y][x] == 'W' || map[y][x] == 'E')
+			{
+				map_chars++;
+			}
+			x++;
+		}
+		if (map_chars == 0)
+			werror("Map line is empty or contains no valid characters.\n", state);
+		if (x > state->map_width)
+			state->map_width = x;
+		y++;
+	}
+	state->map_height = y;
+}
+
 void	map_init(t_state *state)
 {
 	int	counter;
@@ -366,6 +410,8 @@ void	map_init(t_state *state)
 	map_trim(state, find_start_line(state->map, counter));
 	validate_chars(state, state->map);
 	init_player_pos(state, state->map);
+	init_map_bounds(state, state->map);
+	flood_map(state, state->map, state->pos_x, state->pos_y);
 	// print_map(state);
 }
 
