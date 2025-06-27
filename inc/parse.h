@@ -6,6 +6,9 @@
 
 #ifndef PARSE_H
 # define PARSE_H
+# define RED 0
+# define GREEN 1
+# define BLUE 2
 
 typedef struct s_state
 {
@@ -13,6 +16,13 @@ typedef struct s_state
 	int	fd;
 	t_list *l_map;
 	char **map;
+	char *n_tex;
+	char *s_tex;
+	char *w_tex;
+	char *e_tex;
+	int floor[3];
+	int ceiling[3]; 
+	
 
 } t_state;
 

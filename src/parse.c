@@ -1,6 +1,6 @@
 #include "parse.h"
 
-void werror(char *error_msg, t_state *state)
+void	werror(char *error_msg, t_state *state)
 {
 	free(state->map_name);
 	if (state->fd >= 3)
@@ -11,11 +11,11 @@ void werror(char *error_msg, t_state *state)
 	exit(EXIT_FAILURE);
 }
 
-bool input_check(char *str, t_state *state)
+bool	input_check(char *str, t_state *state)
 {
-	char *ext;
-	char *map_name;
-	int i;
+	char	*ext;
+	char	*map_name;
+	int		i;
 
 	ext = ".cub";
 	map_name = str;
@@ -37,14 +37,14 @@ bool input_check(char *str, t_state *state)
 
 void	init_map(t_state *state)
 {
-	char *line;
-	t_list *node;
+	char	*line;
+	t_list	*node;
 
 	while (1)
 	{
 		line = get_next_line(state->fd);
 		if (line == NULL)
-			break;
+			break ;
 		node = ft_lstnew(line);
 		if (node == NULL)
 			werror("Malloc failure in map initialization.\n", state);
@@ -54,7 +54,7 @@ void	init_map(t_state *state)
 
 void	print_list(t_list *lst)
 {
-	t_list *current;
+	t_list	*current;
 
 	current = lst;
 	while (current)
@@ -69,8 +69,8 @@ void	print_list(t_list *lst)
 
 int	count_list(t_list *lst)
 {
-	t_list *current;
-	int i;
+	t_list	*current;
+	int		i;
 
 	i = 0;
 	current = lst;
@@ -83,16 +83,38 @@ int	count_list(t_list *lst)
 }
 void	ft_lstdelcontent(void *content)
 {
-    free(content);
-    content = NULL;
+	free(content);
+	content = NULL;
 }
 
-char **lst_to_2darray(t_state *state)
+char	*ft_strdup_nonl(const char *s)
 {
-	char **map;
-	int lines;
-	t_list *current;
-	int i;
+	int		length;
+	int		i;
+	char	*str;
+
+	length = 0;
+	i = 0;
+	while (s[length] && s[length] != '\n')
+		length++;
+	str = (char *)malloc((length + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (i < length)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	**lst_to_2darray(t_state *state)
+{
+	char	**map;
+	int		lines;
+	t_list	*current;
+	int		i;
 
 	i = 0;
 	current = state->l_map;
@@ -102,7 +124,7 @@ char **lst_to_2darray(t_state *state)
 		werror("Malloc failure in map initialization\n", state);
 	while (current)
 	{
-		map[i] = ft_strdup((char *)current->content);
+		map[i] = ft_strdup_nonl((char *)current->content);
 		if (map[i] == NULL)
 			werror("Malloc failure in map initialization\n", state);
 		current = current->next;
@@ -116,84 +138,92 @@ char **lst_to_2darray(t_state *state)
 
 int	atoi_overflow(const char *nptr, t_state *state)
 {
-    int	sign;
-    long value;
+	int		sign;
+	long	value;
+	int		digit;
 
-    sign = 1;
-    value = 0;
-    while ((*nptr >= 9 && *nptr <= 13) || *nptr == ' ')
-        nptr++;
-    if (*nptr == '+' || *nptr == '-')
-    {
-        if (*nptr == '-')
-            sign = -1;
-        nptr++;
-    }
-    while (*nptr >= '0' && *nptr <= '9')
-    {
-        int digit = *nptr - '0';
-        if (sign == 1 && (value > (INT_MAX - digit) / 10))
-            werror("Integer overflow detected.\n", state);
-        if (sign == -1 && (-value < (INT_MIN + digit) / 10))
-            werror("Integer underflow detected.\n", state);
-        value = value * 10 + digit;
-        nptr++;
-    }
-    return (value * sign);
+	sign = 1;
+	value = 0;
+	while ((*nptr >= 9 && *nptr <= 13) || *nptr == ' ')
+		nptr++;
+	if (*nptr == '+' || *nptr == '-')
+	{
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
+	}
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		digit = *nptr - '0';
+		if (sign == 1 && (value > (INT_MAX - digit) / 10))
+			werror("Integer overflow detected.\n", state);
+		if (sign == -1 && (-value < (INT_MIN + digit) / 10))
+			werror("Integer underflow detected.\n", state);
+		value = value * 10 + digit;
+		nptr++;
+	}
+	return (value * sign);
 }
 
-void	validate_rgb(char *str, t_state *state)
+void	validate_rgb(char *str, t_state *state, int *colour_arr)
 {
-    int i;
-	int counter;
-	int num;
+	int	i;
+	int	counter;
+	int	num;
 
-    
-    i = 2;
+	i = 2;
 	counter = 0;
 	num = 0;
-    while (str[i] != '\n')
-    {
-        if (str[i] == '-' || !ft_isdigit(str[i]))
-            werror("RGB values incorrectly formatted (e.g., F 220,100,0). Negative values not allowed.\n", state);
-        num = atoi_overflow(&str[i], state);
-        if (num < 0 || num > 255)
-            werror("RGB values must be between 0-255\n", state);
-        while (ft_isdigit(str[i]))
-            i++;
-        counter++;
-        if (counter < 3)
-        {
-            if (str[i] != ',')
-                werror("RGB values incorrectly formatted (e.g., F 220,100,0)\n", state);
-            i++;
-        }
-    }
+	while (str[i] != '\0')
+	{
+		if (str[i] == '-' || !ft_isdigit(str[i]))
+			werror("RGB values incorrectly formatted (e.g., F 220,100,0).\n",
+				state);
+		num = atoi_overflow(&str[i], state);
+		if (num < 0 || num > 255)
+			werror("RGB values must be between 0-255\n", state);
+		colour_arr[counter] = num;
+		while (ft_isdigit(str[i]))
+			i++;
+		counter++;
+		if (counter < 3)
+		{
+			if (str[i] != ',')
+				werror("RGB values incorrectly formatted (e.g., F 220,100,0)\n",
+					state);
+			i++;
+		}
+	}
 }
 
 void	validate_elements(char **map, t_state *state)
 {
-    int i = 0;
+	int	i;
 
-    while (map[i] && map[i][0] != 'N')
-        i++;
-    if (!map[i] || ft_strncmp(map[i++], "NO ./", 5) != 0)
-        werror("Invalid map element. North must be NO <path>\n", state);
-    if (!map[i] || ft_strncmp(map[i++], "SO ./", 5) != 0)
-        werror("Invalid map element. South must be SO <path>\n", state);
-    if (!map[i] || ft_strncmp(map[i++], "WE ./", 5) != 0)
-        werror("Invalid map element. West must be WE <path>\n", state);
-    if (!map[i] || ft_strncmp(map[i++], "EA ./", 5) != 0)
-        werror("Invalid map element. East must be EA <path>\n", state);
-    if (!map[i] || ft_strncmp(map[++i], "F ", 2) != 0)
-        werror("Invalid map element. Floor colour must be F <RGB>\n", state);
-    validate_rgb(map[i], state);
-    if (!map[i] || ft_strncmp(map[++i], "C ", 2) != 0)
-        werror("Invalid map element. Ceiling colour must be C <RGB>\n", state);
-    validate_rgb(map[i], state);
+	i = 0;
+	while (map[i] && map[i][0] != 'N')
+		i++;
+	state->n_tex = ft_strchr(map[i], '.');
+	if (!map[i] || ft_strncmp(map[i++], "NO ./", 5) != 0)
+		werror("Invalid map element. North must be NO <path>\n", state);
+	state->s_tex = ft_strchr(map[i], '.');
+	if (!map[i] || ft_strncmp(map[i++], "SO ./", 5) != 0)
+		werror("Invalid map element. South must be SO <path>\n", state);
+	state->w_tex = ft_strchr(map[i], '.');
+	if (!map[i] || ft_strncmp(map[i++], "WE ./", 5) != 0)
+		werror("Invalid map element. West must be WE <path>\n", state);
+	state->e_tex = ft_strchr(map[i], '.');
+	if (!map[i] || ft_strncmp(map[i++], "EA ./", 5) != 0)
+		werror("Invalid map element. East must be EA <path>\n", state);
+	if (!map[i] || ft_strncmp(map[++i], "F ", 2) != 0)
+		werror("Invalid map element. Floor colour must be F <RGB>\n", state);
+	validate_rgb(map[i], state, state->floor);
+	if (!map[i] || ft_strncmp(map[++i], "C ", 2) != 0)
+		werror("Invalid map element. Ceiling colour must be C <RGB>\n", state);
+	validate_rgb(map[i], state, state->ceiling);
 }
 
-void map_init(t_state *state)
+void	map_init(t_state *state)
 {
 	state->fd = open(state->map_name, O_RDONLY);
 	if (state->fd == -1)
@@ -201,6 +231,12 @@ void map_init(t_state *state)
 	init_map(state);
 	state->map = lst_to_2darray(state);
 	validate_elements(state->map, state);
+	printf("%s\n", state->n_tex);
+	printf("%s\n", state->s_tex);
+	printf("%s\n", state->w_tex);
+	printf("%s\n", state->e_tex);
+	printf("R: %i, G: %i, B: %i\n", state->floor[RED], state->floor[GREEN], state->floor[BLUE]);
+	printf("R: %i, G: %i, B: %i\n", state->ceiling[RED], state->ceiling[GREEN], state->ceiling[BLUE]);
 }
 
 int	main(int argc, char *argv[])
@@ -216,5 +252,5 @@ int	main(int argc, char *argv[])
 	}
 	map_init(&state);
 	werror("Finished.\n", &state);
-	return 0;
+	return (0);
 }
