@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 18:52:06 by showard       #+#    #+#                 */
-/*   Updated: 2025/04/23 16:03:38 by showard       ########   odam.nl         */
+/*   Updated: 2025/06/27 15:33:04 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	**free_2d(char **str)
 	while (*temp != NULL)
 	{
 		free(*temp);
+		*temp = NULL;
 		temp++;
 	}
 	free(str);

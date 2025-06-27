@@ -22,6 +22,8 @@ typedef struct s_state
 	char *e_tex;
 	int floor[3];
 	int ceiling[3]; 
+	int pos_x;
+	int pos_y;
 	
 
 } t_state;
