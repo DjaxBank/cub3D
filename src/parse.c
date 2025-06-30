@@ -1,6 +1,7 @@
 #include "parse.h"
+#include "game.h"
 
-void	werror(char *error_msg, t_state *state)
+void	werror(char *error_msg, t_data *state)
 {
 	free(state->map_name);
 	if (state->fd >= 3)
@@ -15,7 +16,7 @@ void	werror(char *error_msg, t_state *state)
 	exit(EXIT_FAILURE);
 }
 
-bool	input_check(char *str, t_state *state)
+bool	input_check(char *str, t_data *state)
 {
 	char	*ext;
 	char	*map_name;
@@ -39,7 +40,7 @@ bool	input_check(char *str, t_state *state)
 	return (true);
 }
 
-void	init_map(t_state *state)
+void	init_map(t_data *state)
 {
 	char	*line;
 	t_list	*node;
@@ -113,7 +114,7 @@ char	*ft_strdup_nonl(const char *s)
 	return (str);
 }
 
-char	**lst_to_2darray(t_state *state)
+char	**lst_to_2darray(t_data *state)
 {
 	char	**map;
 	int		lines;
@@ -140,7 +141,7 @@ char	**lst_to_2darray(t_state *state)
 	return (map);
 }
 
-int	atoi_overflow(const char *nptr, t_state *state)
+int	atoi_overflow(const char *nptr, t_data *state)
 {
 	int		sign;
 	long	value;
@@ -169,7 +170,7 @@ int	atoi_overflow(const char *nptr, t_state *state)
 	return (value * sign);
 }
 
-void	validate_rgb(char *str, t_state *state, int *colour_arr)
+void	validate_rgb(char *str, t_data *state, int *colour_arr)
 {
 	int	i;
 	int	counter;
@@ -200,7 +201,7 @@ void	validate_rgb(char *str, t_state *state, int *colour_arr)
 	}
 }
 
-char	*copy_path(const char *s, t_state *state)
+char	*copy_path(const char *s, t_data *state)
 {
 	int		length;
 	int		i;
@@ -228,7 +229,7 @@ char	*copy_path(const char *s, t_state *state)
 	return (str);
 }
 
-void	init_tex_path(char *map, t_state *state, char **path)
+void	init_tex_path(char *map, t_data *state, char **path)
 {
 	int i;
 
@@ -238,7 +239,7 @@ void	init_tex_path(char *map, t_state *state, char **path)
 	*path = copy_path(&map[i], state);
 }
 
-bool	check_element(char *element, t_state *state)
+bool	check_element(char *element, t_data *state)
 {
 	int i;
 
@@ -259,7 +260,7 @@ bool	check_element(char *element, t_state *state)
 		return (false);
 	return (true);
 }
-int	validate_elements(char **map, t_state *state)
+int	validate_elements(char **map, t_data *state)
 {
 	int i;
 	int j;
@@ -288,7 +289,7 @@ int	validate_elements(char **map, t_state *state)
 	return (i);
 }
 
-void	init_player_pos(t_state *state, char **map)
+void	init_player_pos(t_data *state, char **map)
 {
 	int	x;
 	int	y;
@@ -304,8 +305,8 @@ void	init_player_pos(t_state *state, char **map)
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W'
 				|| map[y][x] == 'E')
 			{
-				state->pos_x = x;
-				state->pos_y = y;
+				state->player.pos_y = y;
+				state->player.pos_x = x;
 				counter++;
 			}
 			x++;
@@ -338,7 +339,7 @@ char	**find_start_line(char **map, int start_line)
 	return (NULL);
 }
 
-void	map_trim(t_state *state, char **start_line)
+void	map_trim(t_data *state, char **start_line)
 {
 	int		line_count;
 	char	**trimmed_map;
@@ -371,7 +372,7 @@ int	valid_char(char c)
 	return (0);
 }
 
-void	validate_chars(t_state *state, char **map)
+void	validate_chars(t_data *state, char **map)
 {
 	int i;
 	int j;
@@ -393,7 +394,7 @@ void	validate_chars(t_state *state, char **map)
 	}
 }
 
-void print_map(t_state *state)
+void print_map(t_data *state)
 {
 	int i;
 
@@ -403,7 +404,7 @@ void print_map(t_state *state)
 		printf("%s\n", state->map[i]);
 		i++;
 	}
-	printf("x: %i y: %i\n", state->pos_x, state->pos_y);
+	printf("x: %i y: %i\n", state->player.pos_x, state->player.pos_y);
 	printf("n: %s\n", state->n_tex);
 	printf("n: %s\n", state->s_tex);
 	printf("n: %s\n", state->w_tex);
@@ -414,7 +415,7 @@ void print_map(t_state *state)
 		state->ceiling[BLUE]);
 }
 
-static void	flood_map(t_state *state, char **map, int x, int y)
+static void	flood_map(t_data *state, char **map, int x, int y)
 {
 	if (y < 0 || map[y] == NULL || x < 0 || x >= (int)ft_strlen(map[y]))
     	werror("Map is not closed. Player got out of bounds.", state);
@@ -429,7 +430,7 @@ static void	flood_map(t_state *state, char **map, int x, int y)
 	flood_map(state, map, x, y - 1);
 }
 
-void init_map_bounds(t_state *state, char **map)
+void init_map_bounds(t_data *state, char **map)
 {
 	int x;
 	int y;
@@ -458,7 +459,7 @@ void init_map_bounds(t_state *state, char **map)
 	state->map_height = y;
 }
 
-void	map_init(t_state *state)
+void	map_init(t_data *state)
 {
 	int	counter;
 
@@ -472,22 +473,7 @@ void	map_init(t_state *state)
 	validate_chars(state, state->map);
 	init_player_pos(state, state->map);
 	init_map_bounds(state, state->map);
-	flood_map(state, state->map, state->pos_x, state->pos_y);
+	flood_map(state, state->map, state->player.pos_x, state->player.pos_y);
 	print_map(state);
 }
 
-int	main(int argc, char *argv[])
-{
-	t_state state;
-
-	ft_bzero(&state, sizeof(t_state));
-	if (argc != 2 || input_check(argv[1], &state) != 1)
-	{
-		printf("Error\n");
-		printf("Usage: ./cub3d <map_file.cub>\n");
-		return (1);
-	}
-	map_init(&state);
-	werror("Finished.\n", &state);
-	return (0);
-}
