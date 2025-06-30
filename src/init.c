@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 15:58:30 by showard       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 
-static void	init_map(t_state *state)
+static void	init_map(t_data *data)
 {
 	char	*line;
 	t_list	*node;
 
 	while (1)
 	{
-		line = get_next_line(state->fd);
+		line = get_next_line(data->fd);
 		if (line == NULL)
 			break ;
 		node = ft_lstnew(line);
 		if (node == NULL)
-			werror("Malloc failure in map initialization.\n", state);
-		ft_lstadd_back(&state->l_map, node);
+			werror("Malloc failure in map initialization.\n", data);
+		ft_lstadd_back(&data->l_map, node);
 	}
 }
 
-static void	init_player_pos(t_state *state, char **map)
+static void	init_player_pos(t_data *data, char **map)
 {
 	int	x;
 	int	y;
@@ -33,8 +45,8 @@ static void	init_player_pos(t_state *state, char **map)
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W'
 				|| map[y][x] == 'E')
 			{
-				state->pos_x = x;
-				state->pos_y = y;
+				data->pos_x = x;
+				data->pos_y = y;
 				counter++;
 			}
 			x++;
@@ -42,14 +54,14 @@ static void	init_player_pos(t_state *state, char **map)
 		y++;
 	}
 	if (counter != 1)
-		werror("Invalid player position. There must be one. (e.g. N, S, W, or E)\n", state);
+		werror("Invalid player position. There must be one.\n", data);
 }
 
-static void init_map_bounds(t_state *state, char **map)
+static void	init_map_bounds(t_data *data, char **map)
 {
-	int x;
-	int y;
-	int map_chars;
+	int	x;
+	int	y;
+	int	map_chars;
 
 	y = 0;
 	while (map[y] != NULL)
@@ -58,36 +70,35 @@ static void init_map_bounds(t_state *state, char **map)
 		map_chars = 0;
 		while (map[y][x] != '\0')
 		{
-			if (map[y][x] == '1' || map[y][x] == '0' || map[y][x] == 'N' ||
-				map[y][x] == 'S' || map[y][x] == 'W' || map[y][x] == 'E')
-			{
+			if (map[y][x] == '1' || map[y][x] == '0' || map[y][x] == 'N'
+				|| map[y][x] == 'S' || map[y][x] == 'W' || map[y][x] == 'E')
 				map_chars++;
-			}
 			x++;
 		}
 		if (map_chars == 0)
-			werror("Map line is empty or contains no valid characters.\n", state);
-		if (x > state->map_width)
-			state->map_width = x;
+			werror("Map line is empty or contains no valid characters.\n",
+				data);
+		if (x > data->map_width)
+			data->map_width = x;
 		y++;
 	}
-	state->map_height = y;
+	data->map_height = y;
 }
 
-void	map_init(t_state *state)
+void	map_init(t_data *data)
 {
 	int	counter;
 
-	state->fd = open(state->map_name, O_RDONLY);
-	if (state->fd == -1)
-		werror("Cannot open map file.\n", state);
-	init_map(state);
-	state->map = lst_to_2darray(state);
-	counter = validate_elements(state->map, state);
-	map_trim(state, find_start_line(state->map, counter));
-	validate_chars(state, state->map);
-	init_player_pos(state, state->map);
-	init_map_bounds(state, state->map);
-	flood_map(state, state->map, state->pos_x, state->pos_y);
-	print_map(state);
+	data->fd = open(data->map_name, O_RDONLY);
+	if (data->fd == -1)
+		werror("Cannot open map file.\n", data);
+	init_map(data);
+	data->map = lst_to_2darray(data);
+	counter = validate_elements(data->map, data);
+	map_trim(data, find_start_line(data->map, counter));
+	validate_chars(data, data->map);
+	init_player_pos(data, data->map);
+	init_map_bounds(data, data->map);
+	flood_map(data, data->map, data->pos_x, data->pos_y);
+	print_map(data);
 }

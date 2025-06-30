@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse_utils_b.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:44:49 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 15:52:47 by showard       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 
 int	count_list(t_list *lst)
@@ -15,23 +27,23 @@ int	count_list(t_list *lst)
 	return (i);
 }
 
-void print_map(t_state *state)
+void	print_map(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (state->map[i] != NULL)
+	while (data->map[i] != NULL)
 	{
-		printf("%s\n", state->map[i]);
+		printf("%s\n", data->map[i]);
 		i++;
 	}
-	printf("x: %i y: %i\n", state->pos_x, state->pos_y);
-	printf("n: %s\n", state->n_tex);
-	printf("n: %s\n", state->s_tex);
-	printf("n: %s\n", state->w_tex);
-	printf("n: %s\n", state->e_tex);
-	printf("R: %i, G: %i, B: %i\n", state->floor[RED], state->floor[GREEN],
-		state->floor[BLUE]);
-	printf("R: %i, G: %i, B: %i\n", state->ceiling[RED], state->ceiling[GREEN],
-		state->ceiling[BLUE]);
+	printf("x: %i y: %i\n", data->pos_x, data->pos_y);
+	printf("n: %s\n", data->n_tex);
+	printf("n: %s\n", data->s_tex);
+	printf("n: %s\n", data->w_tex);
+	printf("n: %s\n", data->e_tex);
+	printf("R: %i, G: %i, B: %i\n", data->floor[RED], data->floor[GREEN],
+		data->floor[BLUE]);
+	printf("R: %i, G: %i, B: %i\n", data->ceiling[RED], data->ceiling[GREEN],
+		data->ceiling[BLUE]);
 }

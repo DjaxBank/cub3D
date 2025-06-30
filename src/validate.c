@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   validate.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:48:39 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 15:52:47 by showard       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 
-bool	input_check(char *str, t_state *state)
+bool	input_check(char *str, t_data *data)
 {
 	char	*ext;
 	char	*map_name;
@@ -20,7 +32,7 @@ bool	input_check(char *str, t_state *state)
 		i--;
 		str--;
 	}
-	state->map_name = ft_strjoin("./maps/", map_name);
+	data->map_name = ft_strjoin("./maps/", map_name);
 	return (true);
 }
 
@@ -32,10 +44,10 @@ static int	valid_char(char c)
 	return (0);
 }
 
-void	validate_chars(t_state *state, char **map)
+void	validate_chars(t_data *data, char **map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map[i] != NULL)
@@ -46,7 +58,7 @@ void	validate_chars(t_state *state, char **map)
 			if (valid_char(map[i][j]) == 0)
 			{
 				printf("%s\n", map[i]);
-				werror("Invalid character detected in map.", state);
+				werror("Invalid character detected in map.", data);
 			}
 			j++;
 		}
@@ -54,17 +66,17 @@ void	validate_chars(t_state *state, char **map)
 	}
 }
 
-void	flood_map(t_state *state, char **map, int x, int y)
+void	flood_map(t_data *data, char **map, int x, int y)
 {
 	if (y < 0 || map[y] == NULL || x < 0 || x >= (int)ft_strlen(map[y]))
-    	werror("Map is not closed. Player got out of bounds.", state);
+		werror("Map is not closed. Player got out of bounds.", data);
 	if (map[y][x] == ' ')
-   		werror("Map is not closed. Player touched space.", state);
+		werror("Map is not closed. Player touched space.", data);
 	if (map[y][x] == '1' || map[y][x] == '.')
 		return ;
 	map[y][x] = '.';
-	flood_map(state, map, x + 1, y);
-	flood_map(state, map, x - 1, y);
-	flood_map(state, map, x, y + 1);
-	flood_map(state, map, x, y - 1);
+	flood_map(data, map, x + 1, y);
+	flood_map(data, map, x - 1, y);
+	flood_map(data, map, x, y + 1);
+	flood_map(data, map, x, y - 1);
 }

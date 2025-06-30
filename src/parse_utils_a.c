@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse_utils_a.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:44:55 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 15:52:47 by showard       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 
 static void	ft_lstdelcontent(void *content)
@@ -6,7 +18,7 @@ static void	ft_lstdelcontent(void *content)
 	content = NULL;
 }
 
-char	**lst_to_2darray(t_state *state)
+char	**lst_to_2darray(t_data *data)
 {
 	char	**map;
 	int		lines;
@@ -14,26 +26,26 @@ char	**lst_to_2darray(t_state *state)
 	int		i;
 
 	i = 0;
-	current = state->l_map;
-	lines = count_list(state->l_map);
+	current = data->l_map;
+	lines = count_list(data->l_map);
 	map = (char **)malloc((lines + 1) * sizeof(char **));
 	if (map == NULL)
-		werror("Malloc failure in map initialization\n", state);
+		werror("Malloc failure in map initialization\n", data);
 	while (current)
 	{
 		map[i] = ft_strdup_nonl((char *)current->content);
 		if (map[i] == NULL)
-			werror("Malloc failure in map initialization\n", state);
+			werror("Malloc failure in map initialization\n", data);
 		current = current->next;
 		i++;
 	}
 	map[i] = NULL;
-	ft_lstclear(&state->l_map, ft_lstdelcontent);
-	state->l_map = NULL;
+	ft_lstclear(&data->l_map, ft_lstdelcontent);
+	data->l_map = NULL;
 	return (map);
 }
 
-int	atoi_overflow(const char *nptr, t_state *state)
+int	atoi_overflow(const char *nptr, t_data *data)
 {
 	int		sign;
 	long	value;
@@ -53,9 +65,9 @@ int	atoi_overflow(const char *nptr, t_state *state)
 	{
 		digit = *nptr - '0';
 		if (sign == 1 && (value > (INT_MAX - digit) / 10))
-			werror("Integer overflow detected.\n", state);
+			werror("Integer overflow detected.\n", data);
 		if (sign == -1 && (-value < (INT_MIN + digit) / 10))
-			werror("Integer underflow detected.\n", state);
+			werror("Integer underflow detected.\n", data);
 		value = value * 10 + digit;
 		nptr++;
 	}
@@ -84,7 +96,7 @@ char	*ft_strdup_nonl(const char *s)
 	return (str);
 }
 
-void	map_trim(t_state *state, char **start_line)
+void	map_trim(t_data *data, char **start_line)
 {
 	int		line_count;
 	char	**trimmed_map;
@@ -93,18 +105,18 @@ void	map_trim(t_state *state, char **start_line)
 	i = 0;
 	line_count = 0;
 	if (start_line == NULL)
-		werror("Reached end of file before finding map start", state);
+		werror("Reached end of file before finding map start", data);
 	while (start_line[line_count] != NULL)
 		line_count++;
 	trimmed_map = (char **)malloc((line_count + 1) * sizeof(char *));
 	if (trimmed_map == NULL)
-		werror("Malloc failure", state);
+		werror("Malloc failure", data);
 	while (i < line_count)
 	{
 		trimmed_map[i] = ft_strdup(start_line[i]);
 		i++;
 	}
 	trimmed_map[i] = NULL;
-	free_2d(state->map);
-	state->map = trimmed_map;
+	free_2d(data->map);
+	data->map = trimmed_map;
 }

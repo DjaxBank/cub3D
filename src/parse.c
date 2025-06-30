@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:44:41 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 15:52:47 by showard       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 
-void	werror(char *error_msg, t_state *state)
+void	werror(char *error_msg, t_data *data)
 {
-	free(state->map_name);
-	if (state->fd >= 3)
-		state->fd = close(state->fd);
-	state->map = free_2d(state->map);
-	free(state->n_tex);
-	free(state->s_tex);
-	free(state->w_tex);
-	free(state->e_tex);
+	free(data->map_name);
+	if (data->fd >= 3)
+		data->fd = close(data->fd);
+	data->map = free_2d(data->map);
+	free(data->n_tex);
+	free(data->s_tex);
+	free(data->w_tex);
+	free(data->e_tex);
 	ft_putstr_fd("Error\n", 2, NULL);
 	ft_putstr_fd(error_msg, 2, NULL);
 	exit(EXIT_FAILURE);
@@ -39,19 +51,19 @@ char	**find_start_line(char **map, int start_line)
 
 int	main(int argc, char *argv[])
 {
-	t_state state;
+	t_data	data;
 
-	ft_bzero(&state, sizeof(t_state));
-	if (argc != 2 || input_check(argv[1], &state) != 1)
+	ft_bzero(&data, sizeof(t_data));
+	if (argc != 2 || input_check(argv[1], &data) != 1)
 	{
 		printf("Error\n");
 		printf("Usage: ./cub3d <map_file.cub>\n");
 		return (1);
 	}
-	map_init(&state);
-	werror("Finished.\n", &state);
+	map_init(&data);
+	werror("Finished.\n", &data);
 	return (0);
 }
 
 // to do:
-// fix everything to be s_data
+// fix everything to be t_data
