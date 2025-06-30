@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:48:50 by showard           #+#    #+#             */
-/*   Updated: 2025/06/30 16:24:51 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:48:50 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 16:58:37 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void		validate_chars(t_data *data, char **map);
 char		**find_start_line(char **map, int start_line);
 void		flood_map(t_data *data, char **map, int x, int y);
 void		map_init(t_data *data);
+void		ft_lstdelcontent(void *content);
+
 
 // debug
 void		print_map(t_data *data);

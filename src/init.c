@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/06/30 16:25:49 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
+/*   Updated: 2025/06/30 16:59:41 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,10 @@ void	map_init(t_data *data)
 	init_player_pos(data, data->map);
 	init_map_bounds(data, data->map);
 	flood_map(data, data->map, data->player.pos_x, data->player.pos_y);
+	free_2d(data->map);
+	data->map = lst_to_2darray(data);
+	map_trim(data, find_start_line(data->map, counter));
+	ft_lstclear(&data->l_map, ft_lstdelcontent);
+	data->l_map = NULL;
 	print_map(data);
 }
