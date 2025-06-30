@@ -16,6 +16,11 @@
 #include "libft/libft.h"
 # include <stdio.h>
 
+# define N 0
+# define S 1
+# define W 2
+# define E 3
+
 typedef struct t_player
 {
 	unsigned int	orientation;
@@ -29,6 +34,7 @@ typedef struct t_mlx
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
 	mlx_texture_t	*block;
+	mlx_texture_t	*tex[4];
 	mlx_image_t		*block_image;
 	
 } t_mlx;
