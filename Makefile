@@ -9,7 +9,8 @@ RM = rm -f
 
 ## Files ##
 
-SRCS = src/parse.c
+SRCS = src/parse.c src/parse_utils_a.c src/parse_utils_b.c src/elements.c \
+	   src/validate.c src/init.c
 OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
