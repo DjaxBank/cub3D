@@ -200,32 +200,92 @@ void	validate_rgb(char *str, t_state *state, int *colour_arr)
 	}
 }
 
-int	validate_elements(char **map, t_state *state)
+char	*copy_path(const char *s, t_state *state)
 {
-	int	i;
+	int		length;
+	int		i;
+	char	*str;
+
+	length = 0;
+	i = 0;
+	while (s[length] && s[length] != ' ')
+		length++;
+	str = (char *)malloc((length + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (i < length)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	while (s[i] != '\0')
+	{
+		if (s[i] != ' ')
+			werror("Invalid element line found in file.", state);
+		i++;
+	}
+	return (str);
+}
+
+void	init_tex_path(char *map, t_state *state, char **path)
+{
+	int i;
 
 	i = 0;
-	while (map[i] && map[i][0] != 'N')
+	while(map[i] == ' ')
 		i++;
-	state->n_tex = ft_strdup(ft_strchr(map[i], '.'));
-	if (!map[i] || ft_strncmp(map[i++], "NO ./", 5) != 0)
-		werror("Invalid map element. North must be NO <path>\n", state);
-	state->s_tex = ft_strdup(ft_strchr(map[i], '.'));
-	if (!map[i] || ft_strncmp(map[i++], "SO ./", 5) != 0)
-		werror("Invalid map element. South must be SO <path>\n", state);
-	state->w_tex = ft_strdup(ft_strchr(map[i], '.'));
-	if (!map[i] || ft_strncmp(map[i++], "WE ./", 5) != 0)
-		werror("Invalid map element. West must be WE <path>\n", state);
-	state->e_tex = ft_strdup(ft_strchr(map[i], '.'));
-	if (!map[i] || ft_strncmp(map[i++], "EA ./", 5) != 0)
-		werror("Invalid map element. East must be EA <path>\n", state);
-	if (!map[i] || ft_strncmp(map[++i], "F ", 2) != 0)
-		werror("Invalid map element. Floor colour must be F <RGB>\n", state);
-	validate_rgb(map[i], state, state->floor);
-	if (!map[i] || ft_strncmp(map[++i], "C ", 2) != 0)
-		werror("Invalid map element. Ceiling colour must be C <RGB>\n", state);
-	validate_rgb(map[i], state, state->ceiling);
-	return (i + 1);
+	*path = copy_path(&map[i], state);
+}
+
+bool	check_element(char *element, t_state *state)
+{
+	int i;
+
+	i = 0;
+	if (element[i] == 'N' && (element[i + 1] == 'O') && state->n_tex == NULL)
+		init_tex_path(&element[i + 2], state, &state->n_tex);
+	else if (element[i] == 'S' && (element[i + 1] == 'O') && state->s_tex == NULL)
+		init_tex_path(&element[i + 2], state, &state->s_tex);
+	else if (element[i] == 'W' && (element[i + 1] == 'E') && state->w_tex == NULL)
+		init_tex_path(&element[i + 2], state, &state->w_tex);
+	else if (element[i] == 'E' && (element[i + 1] == 'A') && state->e_tex == NULL)
+		init_tex_path(&element[i + 2], state, &state->e_tex);
+	else if (element[i] == 'F' && state->floor[0] == -1)
+		validate_rgb(&element[i], state, state->floor);
+	else if (element[i] == 'C' && state->ceiling[0] == -1)
+		validate_rgb(&element[i], state, state->ceiling);
+	else
+		return (false);
+	return (true);
+}
+int	validate_elements(char **map, t_state *state)
+{
+	int i;
+	int j;
+	int element_count;
+
+	i = 0;
+	element_count = 0;
+	state->floor[0] = -1;
+	state->ceiling[0] = -1;
+	while (map[i] != NULL && element_count != 6)
+	{
+		j = 0;
+		while (map[i][j] == ' ')
+			j++;
+		if (check_element(&map[i][j], state) == false)
+		{
+			if (map[i][j] != '\0')
+				werror("Invalid element line found in file.", state);
+		}
+		else
+			element_count++;
+		i++;
+	}
+	if (element_count != 6)
+		werror("Couldn't find all required elements.", state);
+	return (i);
 }
 
 void	init_player_pos(t_state *state, char **map)
@@ -324,6 +384,7 @@ void	validate_chars(t_state *state, char **map)
 		{
 			if (valid_char(map[i][j]) == 0)
 			{
+				printf("%s\n", map[i]);
 				werror("Invalid character detected in map.", state);
 			}
 			j++;
@@ -412,7 +473,7 @@ void	map_init(t_state *state)
 	init_player_pos(state, state->map);
 	init_map_bounds(state, state->map);
 	flood_map(state, state->map, state->pos_x, state->pos_y);
-	// print_map(state);
+	print_map(state);
 }
 
 int	main(int argc, char *argv[])
