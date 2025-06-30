@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:44:41 by showard           #+#    #+#             */
-/*   Updated: 2025/06/30 16:23:57 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/30 16:26:40 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,6 @@ char	**find_start_line(char **map, int start_line)
 		i++;
 	}
 	return (NULL);
-}
-
-int	main(int argc, char *argv[])
-{
-	t_data	data;
-
-	ft_bzero(&data, sizeof(t_data));
-	if (argc != 2 || input_check(argv[1], &data) != 1)
-	{
-		printf("Error\n");
-		printf("Usage: ./cub3d <map_file.cub>\n");
-		return (1);
-	}
-	map_init(&data);
-	werror("Finished.\n", &data);
-	return (0);
 }
 
 // to do:

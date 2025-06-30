@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: showard <showard@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
-/*   Updated: 2025/06/30 15:58:30 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
+/*   Updated: 2025/06/30 16:25:49 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void	init_player_pos(t_data *data, char **map)
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W'
 				|| map[y][x] == 'E')
 			{
-				data->pos_x = x;
-				data->pos_y = y;
+				data->player.pos_x = x;
+				data->player.pos_y = y;
 				counter++;
 			}
 			x++;
@@ -99,6 +99,6 @@ void	map_init(t_data *data)
 	validate_chars(data, data->map);
 	init_player_pos(data, data->map);
 	init_map_bounds(data, data->map);
-	flood_map(data, data->map, data->pos_x, data->pos_y);
+	flood_map(data, data->map, data->player.pos_x, data->player.pos_y);
 	print_map(data);
 }

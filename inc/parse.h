@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:48:50 by showard           #+#    #+#             */
-/*   Updated: 2025/06/30 16:23:28 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/30 16:24:51 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define RED 0
 # define GREEN 1
 # define BLUE 2
-
+# include "game.h"
 # include "libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
