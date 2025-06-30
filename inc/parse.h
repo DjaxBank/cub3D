@@ -10,25 +10,8 @@
 # define GREEN 1
 # define BLUE 2
 
-typedef struct s_state
-{
-	char *map_name;
-	int	fd;
-	t_list *l_map;
-	char **map;
-	char *n_tex;
-	char *s_tex;
-	char *w_tex;
-	char *e_tex;
-	int floor[3];
-	int ceiling[3]; 
-	int pos_x;
-	int pos_y;
-	int map_width;
-	int map_height;
-	
+#include "game.h"
 
-} t_state;
-
-bool input_check(char *str, t_state *state);
+void	map_init(t_data *state);
+bool input_check(char *str, t_data *state);
 #endif

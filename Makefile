@@ -8,7 +8,7 @@ LDFLAGS = -L./libft
 
 ## Files ##
 
-SRCS = src/parse.c src/rendering.c src/main.c
+SRCS = src/parse.c src/rendering.c src/main.c src/raycaster.c
 OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##

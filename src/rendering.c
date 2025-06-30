@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/06/30 14:26:37 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/30 15:56:42 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	loop_hook(void *param)
 
 void	key_hook(struct mlx_key_data key, void *param)
 {
-
+	if (key.key == MLX_KEY_ESCAPE)
+		mlx_terminate(param);
 }
 
-void render_background(const int ceilingc[3], const int floorc[3], s_mlx *mlx)
+void render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx)
 {
 	const	uint32_t		converted_ceiling = ceilingc[0] << 24 | ceilingc[1] << 16 | ceilingc[2] << 8 | 255;
 	const	uint32_t		converted_floor = floorc[0] << 24 | floorc[1] << 16 | floorc[2] << 8 | 255;
