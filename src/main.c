@@ -6,41 +6,46 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/06/25 14:13:10 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/30 14:34:59 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "game.h"
+#include "parse.h"
 
-void key_hook(struct mlx_key_data key, void *param)
+char **testmap()
 {
-	static int count;
-	static int size = 100;
-	mlx_image_t *image;
-	s_mlx *box;
-	box = param;
-	if (mlx_is_key_down(box->mlx, MLX_KEY_ESCAPE))
-		return (mlx_close_window(box->mlx));
-	else if (!mlx_is_key_down(box->mlx, MLX_KEY_RIGHT))
-		return ;
-	image = mlx_texture_to_image(box->mlx, box->block);
-	mlx_resize_image(image, size, size);
-	mlx_image_to_window(box->mlx, image, count * 80, 0 + (300 + (count * 2)));
-	count++;
-	size -= 10;
+	char	**map = malloc(7 * sizeof(char *));
+
+	map[0] = ft_strdup("1111111111111111111");
+	map[1] = ft_strdup("1000000000000000001");
+	map[2] = ft_strdup("1000000000000000001");
+	map[3] = ft_strdup("1000000000000000001");
+	map[4] = ft_strdup("100000000N000000001");
+	map[5] = ft_strdup("1111111111111111111");
+	map[6] = NULL;
+	return (map);
 }
-
-int main()
+int	main(int argc, char *argv[])
 {
-	s_mlx box;
-	s_game_data game;
-	box.background = mlx_load_png("textures/Background.png");
+	t_state		state;
+	s_mlx		box;
+	
+	ft_bzero(&state, sizeof(t_state));
+	if (argc != 2 || input_check(argv[1], &state) != 1)
+	{
+		printf("Error\n");
+		printf("Usage: ./cub3d <map_file.cub>\n");
+		return (1);
+	}
+	// map_init(&state);
 	box.block = mlx_load_png("textures/block.png");
 	box.mlx = mlx_init(800, 800, "Cub3d", false);
-	box.background_image = mlx_texture_to_image(box.mlx, box.background);
-	mlx_resize_image(box.background_image, 800, 800);
-	mlx_image_to_window(box.mlx, box.background_image, 0, 0);
 	mlx_key_hook(box.mlx, key_hook, &box);
+	box.game.map = test_map();
+	mlx_loop_hook(box.mlx, loop_hook, &box);
+	render_background((int[3]){40, 40, 120}, (int[3]){50, 110, 40}, &box);
 	mlx_loop(box.mlx);
 	mlx_terminate(box.mlx);
+	return 0;
 }
