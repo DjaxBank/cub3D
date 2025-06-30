@@ -30,4 +30,19 @@ typedef struct s_state
 
 } t_state;
 
+void	map_trim(t_state *state, char **start_line);
+char	*ft_strdup_nonl(const char *s);
+int		atoi_overflow(const char *nptr, t_state *state);
+char	**lst_to_2darray(t_state *state);
+void	werror(char *error_msg, t_state *state);
+int		count_list(t_list *lst);
+int		validate_elements(char **map, t_state *state);
+bool	input_check(char *str, t_state *state);
+void	validate_chars(t_state *state, char **map);
+char	**find_start_line(char **map, int start_line);
+void	flood_map(t_state *state, char **map, int x, int y);
+void	map_init(t_state *state);
+
+// debug
+void 	print_map(t_state *state);
 #endif
