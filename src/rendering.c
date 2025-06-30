@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/06/27 16:21:33 by dbank            ###   ########.fr       */
+/*   Updated: 2025/06/30 14:26:37 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,7 @@ void	loop_hook(void *param)
 
 void	key_hook(struct mlx_key_data key, void *param)
 {
-	static int	count;
-	static int	size = 100;
-	mlx_image_t	*image;
-	s_mlx		*box;
 
-	(void)key;
-	box = param;
-	if (mlx_is_key_down(box->mlx, MLX_KEY_ESCAPE))
-		return (mlx_close_window(box->mlx));
-	else if (!mlx_is_key_down(box->mlx, MLX_KEY_RIGHT))
-		return ;
-	image = mlx_texture_to_image(box->mlx, box->block);
-	mlx_resize_image(image, size, size);
-	mlx_image_to_window(box->mlx, image, count * 80, 0 + (300 + (count * 2)));
-	count++;
-	size -= 10;
 }
 
 void render_background(const int ceilingc[3], const int floorc[3], s_mlx *mlx)

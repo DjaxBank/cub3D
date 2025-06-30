@@ -43,5 +43,6 @@ typedef struct s_mlx
 void	key_hook(struct mlx_key_data key, void *param);
 void	loop_hook(void *param);
 void	render_background(const int ceilingc[3], const int floorc[3], s_mlx *mlx);
+void	raycaster(s_game_data *game);
 
 #endif
