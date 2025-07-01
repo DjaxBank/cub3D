@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:45:03 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/01 15:32:13 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/01 15:43:45 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ static void	validate_rgb(char *str, t_data *data, int *colour_arr)
 	int	counter;
 	int	num;
 
-	i = 1;
+	i = 0;
 	counter = 0;
 	num = 0;
 	while (str[i] == ' ')
 		i++;
 	while (str[i] != '\0' && counter < 3)
 	{
-		if (str[i] == '-' || !ft_isdigit(str[i]))
+		if (str[i] == '-' || !ft_isdigit(str[i]) || i < 1)
 			werror("RGB values incorrectly formatted\n", data);
 		num = atoi_overflow(&str[i], data);
 		colour_arr[counter] = num;
@@ -96,9 +96,9 @@ static bool	check_element(char *element, t_data *data)
 		&& data->e_tex == NULL)
 		init_tex_path(&element[i + 2], data, &data->e_tex);
 	else if (element[i] == 'F' && data->floor[0] == -1)
-		validate_rgb(&element[i], data, data->floor);
+		validate_rgb(&element[i + 1], data, data->floor);
 	else if (element[i] == 'C' && data->ceiling[0] == -1)
-		validate_rgb(&element[i], data, data->ceiling);
+		validate_rgb(&element[i + 1], data, data->ceiling);
 	else
 		return (false);
 	return (true);
