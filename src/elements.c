@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:45:03 by showard       #+#    #+#                 */
-/*   Updated: 2025/06/30 15:57:59 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/01 15:32:13 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,27 @@ static void	validate_rgb(char *str, t_data *data, int *colour_arr)
 	int	counter;
 	int	num;
 
-	i = 2;
+	i = 1;
 	counter = 0;
 	num = 0;
-	while (str[i] != '\0')
+	while (str[i] == ' ')
+		i++;
+	while (str[i] != '\0' && counter < 3)
 	{
 		if (str[i] == '-' || !ft_isdigit(str[i]))
 			werror("RGB values incorrectly formatted\n", data);
 		num = atoi_overflow(&str[i], data);
-		if (num < 0 || num > 255)
-			werror("RGB values must be between 0-255\n", data);
 		colour_arr[counter] = num;
 		while (ft_isdigit(str[i]))
 			i++;
 		counter++;
-		if (counter < 3)
-		{
-			if (str[i++] != ',')
-				werror("RGB values incorrectly formatted.\n", data);
-		}
+		if ((counter != 3 && str[i++] != ',') || (num < 0 || num > 255))
+    		werror("RGB values incorrectly formatted.\n", data);
 	}
+	while (str[i] == ' ')
+		i++;
+	if (counter < 3 || str[i] != '\0')
+		werror("RGB values incorrectly formatted.\n", data);
 }
 
 static char	*copy_path(const char *s, t_data *data)
