@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:44:49 by showard       #+#    #+#                 */
-/*   Updated: 2025/06/30 16:55:34 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/01 17:19:51 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_map(t_data *data)
 		printf("%s\n", data->map[i]);
 		i++;
 	}
-	printf("x: %i y: %i\n", data->player.pos_x, data->player.pos_y);
+	printf("x: %f y: %f\n", data->player.pos_x, data->player.pos_y);
 	printf("n: %s\n", data->n_tex);
 	printf("n: %s\n", data->s_tex);
 	printf("n: %s\n", data->w_tex);

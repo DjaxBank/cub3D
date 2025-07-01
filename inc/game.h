@@ -13,7 +13,7 @@
 #ifndef GAME_H
 # define GAME_H
 # include "MLX42/include/MLX42/MLX42.h"
-#include "libft/libft.h"
+# include "libft/libft.h"
 # include <stdio.h>
 
 # define N 0
@@ -24,8 +24,8 @@
 typedef struct t_player
 {
 	unsigned int	orientation;
-	int				pos_y;
-	int				pos_x;
+	float			pos_y;
+	float				pos_x;
 	
 }	t_player;
 typedef struct t_mlx
@@ -42,7 +42,7 @@ typedef struct t_mlx
 typedef struct t_data
 {
 	char		**map;
-		char *map_name;
+	char		*map_name;
 	int	fd;
 	t_list *l_map;
 	char *n_tex;
@@ -54,7 +54,7 @@ typedef struct t_data
 	int map_width;
 	int map_height;
 	t_player	player;
-	t_mlx mlx;
+	t_mlx 		mlx;
 	
 } t_data;
 
