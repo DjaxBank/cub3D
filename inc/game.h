@@ -13,21 +13,24 @@
 #ifndef GAME_H
 # define GAME_H
 # include "MLX42/include/MLX42/MLX42.h"
-#include "libft/libft.h"
+# include "libft/libft.h"
 # include <stdio.h>
+# include <math.h>
 
 typedef struct t_player
 {
-	unsigned int	orientation;
-	int				pos_y;
-	int				pos_x;
+	double			orientation;
+	double			pos_y;
+	double			pos_x;
 	
 }	t_player;
+
 typedef struct t_mlx
 {
 	mlx_t			*mlx;
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
+	mlx_image_t		**wall;
 	mlx_texture_t	*block;
 	mlx_image_t		*block_image;
 	
@@ -56,6 +59,7 @@ typedef struct t_data
 void	key_hook(struct mlx_key_data key, void *param);
 void	loop_hook(void *param);
 void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx);
-void	raycaster(void *param);
+void	raycaster(t_data *game);
+void	fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height);
 
 #endif
