@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 14:44:30 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 15:58:04 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char *argv[])
 	data.mlx.mlx = mlx_init(800, 800, "Cub3d", false);
 	data.player.orientation = -M_PI/2;
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
-	render_background(data.floor, data.ceiling, &data.mlx);
+	render_background(data.ceiling, data.floor, &data.mlx);
 	raycaster(&data);
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);

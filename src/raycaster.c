@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 15:23:45 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 15:50:46 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static double cast_ray(t_data *game, double angle)
 	y = game->player.pos_y;
 	while (game->map[(int)y][(int)x] != '1')
 	{
-		y += sin(angle) * 0.0005;
-		x += cos(angle) * 0.0005;
+		y += sin(angle) * 0.001;
+		x += cos(angle) * 0.001;
 	}
 	xcalc = x - game->player.pos_x;
 	ycalc = y - game->player.pos_y;
