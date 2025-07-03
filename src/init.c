@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/03 14:01:24 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 16:17:30 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,4 @@ void	map_init(t_data *data)
 	map_trim(data, find_start_line(data->map, counter));
 	ft_lstclear(&data->l_map, ft_lstdelcontent);
 	data->l_map = NULL;
-	print_map(data);
 }
