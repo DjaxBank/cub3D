@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 15:26:04 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 15:49:12 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static void move_player(struct mlx_key_data key, t_data *game)
 	new_x = 0;
 	if (key.key == MLX_KEY_W)
 	{
-		new_y = game->player.pos_y + sin(game->player.orientation) / 12;
-		new_x = game->player.pos_x + cos(game->player.orientation) / 12;
+		new_y = game->player.pos_y + sin(game->player.orientation) / 10;
+		new_x = game->player.pos_x + cos(game->player.orientation) / 10;
 	}
 	else if (key.key == MLX_KEY_S)
 	{
-		new_y = game->player.pos_y - sin(game->player.orientation) / 12;
-		new_x = game->player.pos_x - cos(game->player.orientation) / 12;
+		new_y = game->player.pos_y - sin(game->player.orientation) / 10;
+		new_x = game->player.pos_x - cos(game->player.orientation) / 10;
 	}
 	if (game->map[(int)new_y][(int)new_x] != '1')
 	{
