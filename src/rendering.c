@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rendering.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 13:52:28 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   rendering.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/25 14:24:43 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/03 14:17:07 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height
 		x = 0;
 		while (x < width)
 		{
+			// printf("x: %zu, y: %zu\n", x, y);
 			mlx_put_pixel(image, x, y, colour);
 			x++;
 		}
