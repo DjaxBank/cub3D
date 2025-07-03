@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/02 23:44:03 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 13:55:49 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ int	main(int argc, char *argv[])
 	data.mlx.wall = malloc(800 * sizeof(mlx_image_t *));
 	data.player.orientation = -M_PI/2;
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
-	render_background((int[3]){40, 40, 120}, (int[3]){50, 110, 40}, &data.mlx);
+	render_background(data.floor, data.ceiling, &data.mlx);
 	raycaster(&data);
 	mlx_loop(data.mlx.mlx);
-	mlx_terminate(data.mlx.mlx);
 	free(data.mlx.wall);
+	mlx_terminate(data.mlx.mlx);
+	werror("finished\n", &data);
 	return 0;
 }

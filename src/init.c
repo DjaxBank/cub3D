@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/02 21:06:14 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 12:34:29 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	map_init(t_data *data)
 {
 	int	counter;
 
-	data->fd = open("/Users/djaxbank/Coding/cub3d/maps/map.cub", O_RDONLY);
+	data->fd = open(data->map_name, O_RDONLY);
 	if (data->fd == -1)
 		werror("Cannot open map file.\n", data);
 	init_map(data);

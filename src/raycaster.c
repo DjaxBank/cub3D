@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/02 23:53:44 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 13:57:05 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ static double cast_ray(t_data *game, double angle)
 
 	x = game->player.pos_x;
 	y = game->player.pos_y;
+	printf("%d %d\n", (int)y, (int)x);
 	while (game->map[(int)y][(int)x] != '1')
 	{
-		y += sin(angle);
-		x += cos(angle);
+		y += sin(angle) * 0.02;
+		x += cos(angle) * 0.02;
 	}
 	xcalc = x - game->player.pos_x;
 	ycalc = y - game->player.pos_y;
@@ -41,7 +42,7 @@ void	raycaster(t_data *game)
 	size_t	count;
 	double	ray;
 	double 	distance;
-	int		height;
+	double	height;
 	
 	count = 0;
 	if (run == true)
@@ -55,14 +56,16 @@ void	raycaster(t_data *game)
 	else
 		run = true;
 	count = 0;
+	// printf("new render\n");
 	while (count < MAX_RAYS)
 	{
 		ray = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
 		distance = cast_ray(game, ray);
 		distance *= cos(ray - game->player.orientation);
 		height = SCALE / (distance + 0.0001);
+		// printf("ray: %zu: distance: %f height: %f\n", count, distance, height);
 		game->mlx.wall[count] = mlx_new_image(game->mlx.mlx, 1, height);
-		fill_image(game->mlx.wall[count], (uint32_t){130 << 24 | 186 << 16 | 3 << 8 | 255}, 1, height);
+		fill_image(game->mlx.wall[count], (uint32_t){60 << 24 | 40 << 16 | 20 << 8 | 255}, 1, height);
 		mlx_image_to_window(game->mlx.mlx, game->mlx.wall[count], count, 300 - (height / 2));
 		count++;
 	}
