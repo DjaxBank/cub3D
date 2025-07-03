@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 14:41:43 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 15:22:24 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #define	FOV 60 * M_PI / 180.0
 #define SCALE 500
 #define SCREENSIZE 800
+
+static void put_line(mlx_image_t *window, uint32_t colour, int x, int y, int size)
+{
+	while (size > 0)
+	{
+		mlx_put_pixel(window, x, y, colour);
+		y++;
+		size--;
+	}	
+}
 
 static double cast_ray(t_data *game, double angle)
 {
@@ -25,11 +35,10 @@ static double cast_ray(t_data *game, double angle)
 
 	x = game->player.pos_x;
 	y = game->player.pos_y;
-	// printf("%d %d\n", (int)y, (int)x);
 	while (game->map[(int)y][(int)x] != '1')
 	{
-		y += sin(angle) * 0.0001;
-		x += cos(angle) * 0.0001;
+		y += sin(angle) * 0.001;
+		x += cos(angle) * 0.001;
 	}
 	xcalc = x - game->player.pos_x;
 	ycalc = y - game->player.pos_y;
@@ -46,17 +55,11 @@ void	raycaster(t_data *game)
 	
 	count = 0;
 	if (run == true)
-	{
-		while (count < MAX_RAYS)
-		{
-			mlx_delete_image(game->mlx.mlx, game->mlx.wall[count]);
-			count++;
-		}
-	}
+		mlx_delete_image(game->mlx.mlx, game->mlx.wall);
 	else
 		run = true;
+	game->mlx.wall = mlx_new_image(game->mlx.mlx, 800, 800);
 	count = 0;
-	// printf("new render\n");
 	while (count < MAX_RAYS)
 	{
 		ray = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
@@ -67,13 +70,10 @@ void	raycaster(t_data *game)
 		height = SCALE / (distance + 0.0001);
 		if (height < 1)
    			height = 1;
-		if (height > 1000)
-			height = 1000;
-		// printf("ray: %zu: distance: %f height: %f\n", count, distance, height);
-		game->mlx.wall[count] = mlx_new_image(game->mlx.mlx, 1, height);
-		// printf("%p\n", game->mlx.wall[count]);
-		fill_image(game->mlx.wall[count], (uint32_t){60 << 24 | 40 << 16 | 20 << 8 | 255}, 1, height);
-		mlx_image_to_window(game->mlx.mlx, game->mlx.wall[count], count, 300 - (height / 2));
+		if (height > 800)
+			height = 800;
+		put_line(game->mlx.wall, (uint32_t){60 << 24 | 40 << 16 | 20 << 8 | 255}, count, 400 - (height / 2), height);
 		count++;
 	}
+	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
 }
