@@ -6,12 +6,24 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 15:58:04 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 16:16:35 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #include "parse.h"
+
+double set_orientation(char player)
+{
+	if (player == 'N')
+		return (-M_PI/2);
+	else if (player == 'E')
+		return (0);
+	else if (player == 'S')
+		return (M_PI / 2);
+	else
+		return (M_PI);
+}
 
 void	init_textures(t_data *data, t_mlx *mlx)
 {
@@ -43,7 +55,7 @@ int	main(int argc, char *argv[])
 	map_init(&data);
 	data.mlx.block = mlx_load_png("textures/block.png");
 	data.mlx.mlx = mlx_init(800, 800, "Cub3d", false);
-	data.player.orientation = -M_PI/2;
+	data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
 	render_background(data.ceiling, data.floor, &data.mlx);
 	raycaster(&data);

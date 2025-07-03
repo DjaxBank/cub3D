@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:44:49 by showard           #+#    #+#             */
-/*   Updated: 2025/07/03 14:01:51 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 16:17:16 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,4 @@ int	count_list(t_list *lst)
 		current = current->next;
 	}
 	return (i);
-}
-
-void	print_map(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->map[i] != NULL)
-	{
-		printf("%s\n", data->map[i]);
-		i++;
-	}
-	printf("x: %f y: %f\n", data->player.pos_x, data->player.pos_y);
-	printf("n: %s\n", data->n_tex);
-	printf("n: %s\n", data->s_tex);
-	printf("n: %s\n", data->w_tex);
-	printf("n: %s\n", data->e_tex);
-	printf("R: %i, G: %i, B: %i\n", data->floor[RED], data->floor[GREEN],
-		data->floor[BLUE]);
-	printf("R: %i, G: %i, B: %i\n", data->ceiling[RED], data->ceiling[GREEN],
-		data->ceiling[BLUE]);
 }
