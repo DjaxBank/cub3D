@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: dbank <dbank@student.codam.nl>               +#+                      #
-#                                                    +#+                       #
-#    Created: 2025/06/30 16:22:59 by dbank         #+#    #+#                  #
-#    Updated: 2025/07/03 14:06:25 by showard       ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
+#    Updated: 2025/07/03 14:40:25 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ## Commands ##
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./inc -I./ -g -fsanitize=address,undefined
+CFLAGS = -Wall -Wextra -Werror -I./inc -I./ -Ofast
 LDFLAGS = -L./libft
 
 ## Files ##
