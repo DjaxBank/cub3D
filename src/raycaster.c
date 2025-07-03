@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/03 14:15:25 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/03 14:41:43 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static double cast_ray(t_data *game, double angle)
 	// printf("%d %d\n", (int)y, (int)x);
 	while (game->map[(int)y][(int)x] != '1')
 	{
-		y += sin(angle) * 0.01;
-		x += cos(angle) * 0.01;
+		y += sin(angle) * 0.0001;
+		x += cos(angle) * 0.0001;
 	}
 	xcalc = x - game->player.pos_x;
 	ycalc = y - game->player.pos_y;
@@ -42,7 +42,7 @@ void	raycaster(t_data *game)
 	size_t	count;
 	double	ray;
 	double 	distance;
-	double	height;
+	int	height;
 	
 	count = 0;
 	if (run == true)
@@ -62,11 +62,13 @@ void	raycaster(t_data *game)
 		ray = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
 		distance = cast_ray(game, ray);
 		distance *= cos(ray - game->player.orientation);
-		if (distance < 1)
-   			distance = 1;
+		if (distance < 0.0001)
+   			distance = 0.0001;
 		height = SCALE / (distance + 0.0001);
 		if (height < 1)
    			height = 1;
+		if (height > 1000)
+			height = 1000;
 		// printf("ray: %zu: distance: %f height: %f\n", count, distance, height);
 		game->mlx.wall[count] = mlx_new_image(game->mlx.mlx, 1, height);
 		// printf("%p\n", game->mlx.wall[count]);
