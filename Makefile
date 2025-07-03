@@ -6,7 +6,7 @@
 #    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/03 14:40:25 by dbank            ###   ########.fr        #
+#    Updated: 2025/07/03 15:27:57 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
 
-NAME = cube3d
+NAME = cub3d
 
 ## Compilation rules ##
 
