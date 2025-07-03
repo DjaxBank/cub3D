@@ -36,7 +36,7 @@ typedef struct t_mlx
 	mlx_t			*mlx;
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
-	mlx_image_t		**wall;
+	mlx_image_t		*wall;
 	mlx_texture_t	*block;
 	mlx_texture_t	*tex[4];
 	mlx_image_t		*block_image;
