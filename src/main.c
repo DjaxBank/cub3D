@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/01 17:39:11 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/03 13:59:14 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,6 @@ void	init_textures(t_data *data, t_mlx *mlx)
 		werror("Failure loading EA texture.", data);
 }
 
-void	calc_movement(t_data *data, float x_inc, float y_inc)
-{
-	int new_y = (int)(data->player.pos_y + y_inc);
-	int new_x = (int)(data->player.pos_x + x_inc);
-	if (data->map[new_y][new_x] == '1')
-	{
-		return;
-	}
-	data->player.pos_x += x_inc;
-	data->player.pos_y += y_inc;
-	printf("x: %f, y: %f\n", data->player.pos_x, data->player.pos_y);
-}
-
-void move_player(void *param)
-{
-	t_data *data = (t_data *)param;
-
-	if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_W))
-		calc_movement(data, 0, -0.5);
-	if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_S))
-	   calc_movement(data, 0, 0.5);
-	if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_A))
-		calc_movement(data, -0.5, 0);
-	if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_D))
-		calc_movement(data, 0.5, 0);
-}
-
 int	main(int argc, char *argv[])
 {
 	t_data		data;
@@ -74,7 +47,7 @@ int	main(int argc, char *argv[])
 	// mlx_key_hook(data.mlx.mlx, key_hook, &data.mlx.mlx);
 	// mlx_loop_hook(data.mlx.mlx, raycaster, &data);
 	// render_background((int[3]){40, 40, 120}, (int[3]){50, 110, 40}, &data.mlx);
-	mlx_loop_hook(data.mlx.mlx, move_player, &data);
+	// mlx_loop_hook(data.mlx.mlx, move_player, &data);
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);
 	werror("Finished.", &data);
