@@ -17,6 +17,12 @@
 # include <stdio.h>
 # include <math.h>
 
+# define N 0
+# define S 1
+# define W 2
+# define E 3
+# define MFACTOR 0.25
+
 typedef struct t_player
 {
 	double			orientation;
@@ -32,6 +38,7 @@ typedef struct t_mlx
 	mlx_image_t		*floor;
 	mlx_image_t		**wall;
 	mlx_texture_t	*block;
+	mlx_texture_t	*tex[4];
 	mlx_image_t		*block_image;
 	
 } t_mlx;
@@ -39,7 +46,7 @@ typedef struct t_mlx
 typedef struct t_data
 {
 	char		**map;
-		char *map_name;
+	char		*map_name;
 	int	fd;
 	t_list *l_map;
 	char *n_tex;
@@ -51,7 +58,7 @@ typedef struct t_data
 	int map_width;
 	int map_height;
 	t_player	player;
-	t_mlx mlx;
+	t_mlx 		mlx;
 	
 } t_data;
 

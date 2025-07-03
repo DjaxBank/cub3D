@@ -6,13 +6,13 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:44:55 by showard       #+#    #+#                 */
-/*   Updated: 2025/06/30 15:52:47 by showard       ########   odam.nl         */
+/*   Updated: 2025/06/30 16:58:19 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-static void	ft_lstdelcontent(void *content)
+void	ft_lstdelcontent(void *content)
 {
 	free(content);
 	content = NULL;
@@ -40,8 +40,6 @@ char	**lst_to_2darray(t_data *data)
 		i++;
 	}
 	map[i] = NULL;
-	ft_lstclear(&data->l_map, ft_lstdelcontent);
-	data->l_map = NULL;
 	return (map);
 }
 
