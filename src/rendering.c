@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/03 15:20:43 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/03 15:26:04 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static void move_player(struct mlx_key_data key, t_data *game)
 	new_x = 0;
 	if (key.key == MLX_KEY_W)
 	{
-		new_y = game->player.pos_y + sin(game->player.orientation) / 8;
-		new_x = game->player.pos_x + cos(game->player.orientation) / 8;
+		new_y = game->player.pos_y + sin(game->player.orientation) / 12;
+		new_x = game->player.pos_x + cos(game->player.orientation) / 12;
 	}
 	else if (key.key == MLX_KEY_S)
 	{
-		new_y = game->player.pos_y - sin(game->player.orientation) / 8;
-		new_x = game->player.pos_x - cos(game->player.orientation) / 8;
+		new_y = game->player.pos_y - sin(game->player.orientation) / 12;
+		new_x = game->player.pos_x - cos(game->player.orientation) / 12;
 	}
 	if (game->map[(int)new_y][(int)new_x] != '1')
 	{
@@ -66,7 +66,6 @@ void fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height
 		x = 0;
 		while (x < width)
 		{
-			// printf("x: %zu, y: %zu\n", x, y);
 			mlx_put_pixel(image, x, y, colour);
 			x++;
 		}
