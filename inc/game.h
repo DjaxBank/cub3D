@@ -20,12 +20,15 @@
 # define S 1
 # define W 2
 # define E 3
+# define MFACTOR 0.25
 
 typedef struct t_player
 {
 	unsigned int	orientation;
 	float			pos_y;
-	float				pos_x;
+	float			pos_x;
+	float			dir_x;
+	float			dir_y;
 	
 }	t_player;
 typedef struct t_mlx
