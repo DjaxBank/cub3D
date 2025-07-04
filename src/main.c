@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/03 16:51:07 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/04 15:30:20 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ static void collision_check(t_data *game, float new_y, float new_x)
 	{
 		game->player.pos_x = new_x;
         game->player.pos_y = new_y;
+	}
+	else
+	{
+		if (game->map[(int)(game->player.pos_y)][(int)(new_x - 0.1)] != '1' 
+			&& game->map[(int)(game->player.pos_y)][(int)(new_x + 0.1)] != '1')
+			game->player.pos_x = new_x;
+		if (game->map[(int)(new_y - 0.1)][(int)(game->player.pos_x )] != '1' 
+			&& game->map[(int)(new_y + 0.1)][(int)(game->player.pos_x )] != '1')
+			game->player.pos_y = new_y;
 	}
 }
 
