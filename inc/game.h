@@ -22,6 +22,7 @@
 # define W 2
 # define E 3
 # define MFACTOR 0.25
+# define MINIMAP_SCALE 8
 
 typedef struct t_player
 {
@@ -40,8 +41,9 @@ typedef struct t_mlx
 	mlx_texture_t	*block;
 	mlx_texture_t	*tex[4];
 	mlx_image_t		*block_image;
-	
-} t_mlx;
+	mlx_image_t		*minimap_image;
+
+}t_mlx;
 
 typedef struct t_data
 {
@@ -68,5 +70,6 @@ void	loop_hook(void *param);
 void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx);
 void	raycaster(t_data *game);
 void	fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height);
+void	draw_minimap(t_data *d);
 
 #endif

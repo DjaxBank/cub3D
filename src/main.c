@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/04 15:30:20 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/07 14:40:28 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void loop_hook(void *param)
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_D))
 		game->player.orientation += 0.05;
 	raycaster(game);
+	fill_image(game->mlx.minimap_image, 0xFF000000, game->map_width * MINIMAP_SCALE, game->map_height * MINIMAP_SCALE);
+    draw_minimap(game);
 }
 
 int	main(int argc, char *argv[])
@@ -99,6 +101,11 @@ int	main(int argc, char *argv[])
 	map_init(&data);
 	data.mlx.block = mlx_load_png("textures/block.png");
 	data.mlx.mlx = mlx_init(800, 800, "Cub3d", false);
+	data.mlx.minimap_image = mlx_new_image(data.mlx.mlx, data.map_width * MINIMAP_SCALE, data.map_height * MINIMAP_SCALE);
+	if (!data.mlx.minimap_image)
+        werror("Failed to create minimap image", &data);
+	mlx_image_to_window(data.mlx.mlx, data.mlx.minimap_image, 10, 10);
+	mlx_set_instance_depth(data.mlx.minimap_image->instances, 100);
 	data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
 	// i didn't rip out all of the key hook functions yet.
 	// mlx_key_hook(data.mlx.mlx, key_hook, &data);
