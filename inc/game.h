@@ -16,13 +16,24 @@
 # include "libft/libft.h"
 # include <stdio.h>
 # include <math.h>
-
+# define VERTICAL 1
+# define HORIZONTAL 0
 # define N 0
 # define S 1
 # define W 2
 # define E 3
 # define MFACTOR 0.25
 
+typedef struct t_ray
+{
+	double	hit_x;
+	double	hit_y;
+	double	angle;
+	double	distance;
+	double	pos;
+	int		side;
+
+}	t_ray ;
 typedef struct t_player
 {
 	double			orientation;
@@ -37,9 +48,7 @@ typedef struct t_mlx
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
 	mlx_image_t		*wall;
-	mlx_texture_t	*block;
 	mlx_texture_t	*tex[4];
-	mlx_image_t		*block_image;
 	
 } t_mlx;
 
@@ -64,9 +73,9 @@ typedef struct t_data
 
 
 void	key_hook(struct mlx_key_data key, void *param);
-void	loop_hook(void *param);
 void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx);
 void	raycaster(t_data *game);
 void	fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height);
+void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size);
 
 #endif
