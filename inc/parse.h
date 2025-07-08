@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 15:48:50 by showard       #+#    #+#                 */
-/*   Updated: 2025/06/30 16:58:37 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:48:50 by showard           #+#    #+#             */
+/*   Updated: 2025/07/08 15:36:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
-
 
 
 void		map_trim(t_data *data, char **start_line);

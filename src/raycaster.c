@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/04 15:30:10 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/08 17:17:48 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,7 @@
 #define SCALE 500
 #define SCREENSIZE 800
 
-static void put_line(mlx_image_t *window, uint32_t colour, int x, int y, int size)
-{
-	while (size > 0)
-	{
-		mlx_put_pixel(window, x, y, colour);
-		y++;
-		size--;
-	}	
-}
-
-static double cast_ray(t_data *game, double angle)
+static t_ray cast_ray(t_data *game, t_ray ray)
 {
 	double x;
 	double y;
@@ -37,21 +27,27 @@ static double cast_ray(t_data *game, double angle)
 	y = game->player.pos_y;
 	while (game->map[(int)y][(int)x] != '1')
 	{
-		y += sin(angle) * 0.001;
-		x += cos(angle) * 0.001;
+		y += sin(ray.angle) * 0.001;
+		x += cos(ray.angle) * 0.001;
 	}
+	ray.hit_x = x;
+	ray.hit_y = y;
 	xcalc = x - game->player.pos_x;
 	ycalc = y - game->player.pos_y;
-	return (sqrt(xcalc * xcalc + ycalc * ycalc));
+	if (xcalc > ycalc)
+		ray.side = VERTICAL;
+	else
+		ray.side = HORIZONTAL;
+	ray.distance = sqrt(xcalc * xcalc + ycalc * ycalc);
+	return (ray);
 }
 
 void	raycaster(t_data *game)
 {
 	static bool	run = false;
-	size_t	count;
-	double	ray;
-	double 	distance;
-	int	height;
+	size_t		count;
+	t_ray		ray;
+	int			height;
 	
 	count = 0;
 	if (run == true)
@@ -62,17 +58,17 @@ void	raycaster(t_data *game)
 	count = 0;
 	while (count < MAX_RAYS)
 	{
-		ray = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
-		distance = cast_ray(game, ray);
-		distance *= cos(ray - game->player.orientation);
-		if (distance < 0.0001)
-   			distance = 0.0001;
-		height = SCALE / (distance + 0.0001);
+		ray.angle = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
+		ray = cast_ray(game, ray);
+		ray.distance *= cos(ray.angle - game->player.orientation);
+		if (ray.distance < 0.0001)
+   			ray.distance = 0.0001;
+		height = SCALE / (ray.distance + 0.0001);
 		if (height < 1)
    			height = 1;
 		if (height > 800)
 			height = 800;
-		put_line(game->mlx.wall, (uint32_t){60 << 24 | 40 << 16 | 20 << 8 | 255}, count, 400 - (height / 2), height);
+		put_wall(game, ray, count, 400 - (height / 2), height);	
 		count++;
 	}
 	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
