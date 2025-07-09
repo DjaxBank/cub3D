@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/07 14:40:28 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/09 14:56:29 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #include "parse.h"
 
-double set_orientation(char player)
+static double set_orientation(char player)
 {
 	if (player == 'N')
 		return (-M_PI/2);
@@ -25,7 +25,7 @@ double set_orientation(char player)
 		return (M_PI);
 }
 
-void	init_textures(t_data *data, t_mlx *mlx)
+static void	init_textures(t_data *data, t_mlx *mlx)
 {
 	mlx->tex[N] = mlx_load_png(data->n_tex);
 	if (mlx->tex[N] == NULL)
@@ -62,7 +62,7 @@ static void collision_check(t_data *game, float new_y, float new_x)
 	}
 }
 
-void loop_hook(void *param)
+static void loop_hook(void *param)
 {
     t_data *game = (t_data *)param;
 
@@ -99,7 +99,7 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	map_init(&data);
-	data.mlx.block = mlx_load_png("textures/block.png");
+	init_textures(&data, &data.mlx);
 	data.mlx.mlx = mlx_init(800, 800, "Cub3d", false);
 	data.mlx.minimap_image = mlx_new_image(data.mlx.mlx, data.map_width * MINIMAP_SCALE, data.map_height * MINIMAP_SCALE);
 	if (!data.mlx.minimap_image)
