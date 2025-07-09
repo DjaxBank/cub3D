@@ -28,6 +28,14 @@ typedef struct t_ray
 {
 	double	hit_x;
 	double	hit_y;
+	double	raydir_X;
+	double	raydir_Y;
+	double	deltaX;
+	double	deltaY;
+	double	sidedistX;
+	double	sidedistY;
+	double	stepX;
+	double	stepY;
 	double	angle;
 	double	distance;
 	double	pos;
