@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: showard <showard@student.42.fr>            +#+  +:+       +#+         #
+#    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/07 14:50:30 by showard          ###   ########.fr        #
+#    Updated: 2025/07/09 14:55:47 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,14 @@
 ## Commands ##
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./inc -I./ -Ofast
+CFLAGS = -Wall -Wextra -Werror -I./inc -I./ -Ofast -flto
 LDFLAGS = -L./libft
 
 ## Files ##
 
 SRCS 	= src/parse.c src/rendering.c src/main.c src/raycaster.c \
 		 src/parse.c src/parse_utils_a.c src/parse_utils_b.c src/elements.c \
-	   src/validate.c src/init.c src/minimap.c
+	   src/validate.c src/init.c src/minimap.c src/put_wall.c
 OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##

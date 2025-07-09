@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/07 14:38:01 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/09 14:55:25 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,72 @@
 #define SCALE 500
 #define SCREENSIZE 800
 
-static void put_line(mlx_image_t *window, uint32_t colour, int x, int y, int size)
+static void init_ray(t_data *game, t_ray *ray)
 {
-	while (size > 0)
+	ray->raydir_X = cos(ray->angle);
+	ray->raydir_Y = sin(ray->angle);
+	ray->deltaX = fabs(1 / ray->raydir_X);
+	ray->deltaY = fabs( 1 / ray->raydir_Y);
+	if (ray->raydir_X < 0)
 	{
-		mlx_put_pixel(window, x, y, colour);
-		y++;
-		size--;
-	}	
+		ray->stepX = -1;
+		ray->sidedistX = (game->player.pos_x - (int)game->player.pos_x) * ray->deltaX;
+	}
+	else
+	{
+		ray->stepX = 1;
+		ray->sidedistX = ((int)game->player.pos_x + 1 - game->player.pos_x) * ray->deltaX;
+	}
+	if (ray->raydir_Y < 0)
+	{
+		ray->stepY = -1;
+		ray->sidedistY = (game->player.pos_y - (int)game->player.pos_y) * ray->deltaY;	
+	}
+	else
+	{
+		ray->stepY = 1;
+		ray->sidedistY = ((int)game->player.pos_y + 1 - game->player.pos_y) * ray->deltaY;	
+	}
 }
 
-static double cast_ray(t_data *game, double angle)
+static t_ray cast_ray(t_data *game, t_ray ray)
 {
-	double x;
-	double y;
-	double xcalc;
-	double ycalc;
+	int x;
+	int y;
 
-	x = game->player.pos_x;
 	y = game->player.pos_y;
-	while (game->map[(int)y][(int)x] != '1')
+	x = game->player.pos_x;
+	init_ray(game, &ray);
+	while (game->map[y][x] != '1')
 	{
-		y += sin(angle) * 0.001;
-		x += cos(angle) * 0.001;
+		if (ray.sidedistX < ray.sidedistY)
+		{
+			x += ray.stepX;
+			ray.sidedistX += ray.deltaX;
+			ray.side = VERTICAL;
+		}
+		else
+		{
+			y += ray.stepY;
+			ray.sidedistY += ray.deltaY;
+			ray.side = HORIZONTAL;
+		}
 	}
-	xcalc = x - game->player.pos_x;
-	ycalc = y - game->player.pos_y;
-	return (sqrt(xcalc * xcalc + ycalc * ycalc));
+	if (ray.side == VERTICAL)
+		ray.distance = (x - game->player.pos_x + (1 - ray.stepX) / 2) / ray.raydir_X;
+	else
+		ray.distance = (y - game->player.pos_y + (1 - ray.stepY) / 2) / ray.raydir_Y;
+	ray.hit_y = game->player.pos_y + ray.raydir_Y * ray.distance;
+	ray.hit_x = game->player.pos_x + ray.raydir_X * ray.distance;
+	return (ray);
 }
 
 void	raycaster(t_data *game)
 {
 	static bool	run = false;
-	size_t	count;
-	double	ray;
-	double 	distance;
-	int	height;
+	size_t		count;
+	t_ray		ray;
+	int			height;
 	
 	count = 0;
 	if (run == true)
@@ -62,17 +92,17 @@ void	raycaster(t_data *game)
 	count = 0;
 	while (count < MAX_RAYS)
 	{
-		ray = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
-		distance = cast_ray(game, ray);
-		distance *= cos(ray - game->player.orientation);
-		if (distance < 0.0001)
-   			distance = 0.0001;
-		height = SCALE / (distance + 0.0001);
+		ray.angle = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
+		ray = cast_ray(game, ray);
+		ray.distance *= cos(ray.angle - game->player.orientation);
+		if (ray.distance < 0.0001)
+   			ray.distance = 0.0001;
+		height = SCALE / (ray.distance + 0.0001);
 		if (height < 1)
    			height = 1;
 		if (height > 800)
 			height = 800;
-		put_line(game->mlx.wall, (uint32_t){60 << 24 | 40 << 16 | 20 << 8 | 255}, count, 400 - (height / 2), height);
+		put_wall(game, ray, count, 400 - (height / 2), height);	
 		count++;
 	}
 	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
