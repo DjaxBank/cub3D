@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/08 17:17:48 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/09 13:16:02 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,63 @@
 #define SCALE 500
 #define SCREENSIZE 800
 
+static void init_ray(t_data *game, t_ray *ray)
+{
+	ray->raydir_X = cos(ray->angle);
+	ray->raydir_Y = sin(ray->angle);
+	ray->deltaX = fabs(1 / ray->raydir_X);
+	ray->deltaY = fabs( 1 / ray->raydir_Y);
+	if (ray->raydir_X < 0)
+	{
+		ray->stepX = -1;
+		ray->sidedistX = (game->player.pos_x - (int)game->player.pos_x) * ray->deltaX;
+	}
+	else
+	{
+		ray->stepX = 1;
+		ray->sidedistX = ((int)game->player.pos_x + 1 - game->player.pos_x) * ray->deltaX;
+	}
+	if (ray->raydir_Y < 0)
+	{
+		ray->stepY = -1;
+		ray->sidedistY = (game->player.pos_y - (int)game->player.pos_y) * ray->deltaY;	
+	}
+	else
+	{
+		ray->stepY = 1;
+		ray->sidedistY = ((int)game->player.pos_y + 1 - game->player.pos_y) * ray->deltaY;	
+	}
+}
+
 static t_ray cast_ray(t_data *game, t_ray ray)
 {
-	double x;
-	double y;
-	double xcalc;
-	double ycalc;
+	int x;
+	int y;
 
-	x = game->player.pos_x;
 	y = game->player.pos_y;
-	while (game->map[(int)y][(int)x] != '1')
+	x = game->player.pos_x;
+	init_ray(game, &ray);
+	while (game->map[y][x] != '1')
 	{
-		y += sin(ray.angle) * 0.001;
-		x += cos(ray.angle) * 0.001;
+		if (ray.sidedistX < ray.sidedistY)
+		{
+			x += ray.stepX;
+			ray.sidedistX += ray.deltaX;
+			ray.side = VERTICAL;
+		}
+		else
+		{
+			y += ray.stepY;
+			ray.sidedistY += ray.deltaY;
+			ray.side = HORIZONTAL;
+		}
 	}
-	ray.hit_x = x;
-	ray.hit_y = y;
-	xcalc = x - game->player.pos_x;
-	ycalc = y - game->player.pos_y;
-	if (xcalc > ycalc)
-		ray.side = VERTICAL;
+	if (ray.side == VERTICAL)
+		ray.distance = (x - game->player.pos_x + (1 - ray.stepX) / 2) / ray.raydir_X;
 	else
-		ray.side = HORIZONTAL;
-	ray.distance = sqrt(xcalc * xcalc + ycalc * ycalc);
+		ray.distance = (y - game->player.pos_y + (1 - ray.stepY) / 2) / ray.raydir_Y;
+	ray.hit_y = game->player.pos_y + ray.raydir_Y * ray.distance;
+	ray.hit_x = game->player.pos_x + ray.raydir_X * ray.distance;
 	return (ray);
 }
 
