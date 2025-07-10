@@ -23,7 +23,8 @@
 # define W 2
 # define E 3
 # define MFACTOR 0.25
-# define MINIMAP_SCALE 8
+# define SCREENSIZE 1500
+# define MINIMAP_SCALE SCREENSIZE / 100
 
 typedef struct t_ray
 {

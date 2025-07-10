@@ -6,15 +6,14 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/09 14:55:25 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/10 11:14:00 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-#define MAX_RAYS 800
+#define MAX_RAYS SCREENSIZE
 #define	FOV 60 * M_PI / 180.0
 #define SCALE 500
-#define SCREENSIZE 800
 
 static void init_ray(t_data *game, t_ray *ray)
 {
@@ -88,7 +87,7 @@ void	raycaster(t_data *game)
 		mlx_delete_image(game->mlx.mlx, game->mlx.wall);
 	else
 		run = true;
-	game->mlx.wall = mlx_new_image(game->mlx.mlx, 800, 800);
+	game->mlx.wall = mlx_new_image(game->mlx.mlx, SCREENSIZE, SCREENSIZE);
 	count = 0;
 	while (count < MAX_RAYS)
 	{
@@ -100,9 +99,9 @@ void	raycaster(t_data *game)
 		height = SCALE / (ray.distance + 0.0001);
 		if (height < 1)
    			height = 1;
-		if (height > 800)
-			height = 800;
-		put_wall(game, ray, count, 400 - (height / 2), height);	
+		if (height > SCREENSIZE)
+			height = SCREENSIZE;
+		put_wall(game, ray, count, SCREENSIZE / 2  - (height / 2), height);	
 		count++;
 	}
 	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
