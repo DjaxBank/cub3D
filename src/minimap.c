@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:50:17 by showard           #+#    #+#             */
-/*   Updated: 2025/07/07 14:54:07 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/10 11:50:56 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #include "parse.h"
 
-void	put_player_pixel(t_data *data, int pos_x, int pos_y, int radius)
+static void	put_player_pixel(t_data *data, int pos_x, int pos_y, int radius)
 {
     int offsetx;
     int offsety;
@@ -38,7 +38,7 @@ void	put_player_pixel(t_data *data, int pos_x, int pos_y, int radius)
     }
 }
 
-void	draw_player(t_data *data)
+static void	draw_player(t_data *data)
 {
     int pos_x;
     int pos_y;
@@ -50,7 +50,7 @@ void	draw_player(t_data *data)
     put_player_pixel(data, pos_x, pos_y, radius);
 }
 
-void	draw_minimap_pixel(t_data *data, int map_i, int map_j, uint32_t color)
+static void	draw_minimap_pixel(t_data *data, int map_i, int map_j, uint32_t color)
 {
     int pos_x;
     int pos_y;

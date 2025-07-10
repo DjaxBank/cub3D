@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:44:41 by showard           #+#    #+#             */
-/*   Updated: 2025/06/30 16:26:40 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/10 11:52:38 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ void	werror(char *error_msg, t_data *data)
 	free(data->s_tex);
 	free(data->w_tex);
 	free(data->e_tex);
-	ft_putstr_fd("Error\n", 2, NULL);
-	ft_putstr_fd(error_msg, 2, NULL);
-	exit(EXIT_FAILURE);
+	if (error_msg)
+	{
+		ft_putstr_fd("Error\n", 2, NULL);
+		ft_putstr_fd(error_msg, 2, NULL);
+		exit(EXIT_FAILURE);
+	}
 }
 
 char	**find_start_line(char **map, int start_line)

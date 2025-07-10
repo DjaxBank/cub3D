@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/10 11:44:21 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/10 11:58:40 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static void loop_hook(void *param)
     t_data *game = (t_data *)param;
 	const double save[3] = {game->player.pos_y, game->player.pos_x, game->player.orientation};
 
+	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
+		return (mlx_close_window(game->mlx.mlx));
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_W))
     {
         double new_y = game->player.pos_y + sin(game->player.orientation) / 20;
@@ -93,9 +95,8 @@ static void loop_hook(void *param)
 
 int	main(int argc, char *argv[])
 {
-	t_data		data;
+	static t_data	data;
 	
-	ft_bzero(&data, sizeof(t_data));
 	if (argc != 2 || input_check(argv[1], &data) != 1)
 	{
 		printf("Error\n");
@@ -111,13 +112,11 @@ int	main(int argc, char *argv[])
 	mlx_image_to_window(data.mlx.mlx, data.mlx.minimap_image, 10, 10);
 	mlx_set_instance_depth(data.mlx.minimap_image->instances, 100);
 	data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
-	// i didn't rip out all of the key hook functions yet.
-	// mlx_key_hook(data.mlx.mlx, key_hook, &data);
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
 	render_background(data.ceiling, data.floor, &data.mlx);
 	raycaster(&data);
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);
-	werror("Finished.", &data);
+	werror(NULL, &data);
 	return 0;
 }
