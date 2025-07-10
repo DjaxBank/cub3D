@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/10 14:17:14 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/10 14:39:36 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #define	FOV 60 * M_PI / 180.0
-#define SCALE 500
 
 static void init_ray(t_data *game, t_ray *ray)
 {
@@ -97,7 +96,7 @@ void	raycaster(t_data *game)
 		ray.distance *= cos(ray.angle - game->player.orientation);
 		if (ray.distance < 0.0001)
    			ray.distance = 0.0001;
-		height = SCALE / (ray.distance + 0.0001);
+		height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
 		if (height < 1)
    			height = 1;
 		if (height > game->mlx.mlx->height)
@@ -106,5 +105,4 @@ void	raycaster(t_data *game)
 		count++;
 	}
 	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
-	mlx_set_instance_depth(game->mlx.wall->instances, 50);
 }
