@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/10 11:58:40 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/10 13:53:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,28 @@ static void loop_hook(void *param)
 	const double save[3] = {game->player.pos_y, game->player.pos_x, game->player.orientation};
 
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
-		return (mlx_close_window(game->mlx.mlx));
+	return (mlx_close_window(game->mlx.mlx));
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_W))
     {
-        double new_y = game->player.pos_y + sin(game->player.orientation) / 20;
+		double new_y = game->player.pos_y + sin(game->player.orientation) / 20;
     	double new_x = game->player.pos_x + cos(game->player.orientation) / 20;
-       	collision_check(game, new_y, new_x);
+		collision_check(game, new_y, new_x);
     }
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_S))
     {
-        double new_y = game->player.pos_y - sin(game->player.orientation) / 20;
+		double new_y = game->player.pos_y - sin(game->player.orientation) / 20;
         double new_x = game->player.pos_x - cos(game->player.orientation) / 20;
 		collision_check(game, new_y, new_x);
 	}
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_A))
-		game->player.orientation -= 0.05;
+	game->player.orientation -= 0.05;
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_D))
-		game->player.orientation += 0.05;
-	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation)
+	game->player.orientation += 0.05;
+	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation 
+		|| game->mlx.current_height != game->mlx.mlx->height || game->mlx.current_width != game->mlx.mlx->width)
 	{
+		if (game->mlx.current_height != game->mlx.mlx->height|| game->mlx.current_width != game->mlx.mlx->width)
+			render_background(game->ceiling, game->floor, &game->mlx);
 		raycaster(game);
 		fill_image(game->mlx.minimap_image, 0xFF000000, game->map_width * MINIMAP_SCALE, game->map_height * MINIMAP_SCALE);
 		draw_minimap(game);
@@ -105,7 +108,7 @@ int	main(int argc, char *argv[])
 	}
 	map_init(&data);
 	init_textures(&data, &data.mlx);
-	data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", false);
+	data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", true);
 	data.mlx.minimap_image = mlx_new_image(data.mlx.mlx, data.map_width * MINIMAP_SCALE, data.map_height * MINIMAP_SCALE);
 	if (!data.mlx.minimap_image)
         werror("Failed to create minimap image", &data);

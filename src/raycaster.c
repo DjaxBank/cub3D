@@ -6,12 +6,11 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/10 11:14:00 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/10 13:41:19 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-#define MAX_RAYS SCREENSIZE
 #define	FOV 60 * M_PI / 180.0
 #define SCALE 500
 
@@ -81,17 +80,19 @@ void	raycaster(t_data *game)
 	size_t		count;
 	t_ray		ray;
 	int			height;
+	size_t		max_rays;
 	
+	max_rays = game->mlx.mlx->width;
 	count = 0;
 	if (run == true)
 		mlx_delete_image(game->mlx.mlx, game->mlx.wall);
 	else
 		run = true;
-	game->mlx.wall = mlx_new_image(game->mlx.mlx, SCREENSIZE, SCREENSIZE);
+	game->mlx.wall = mlx_new_image(game->mlx.mlx, game->mlx.mlx->width, game->mlx.mlx->height);
 	count = 0;
-	while (count < MAX_RAYS)
+	while (count < max_rays)
 	{
-		ray.angle = game->player.orientation - (FOV / 2) + ((FOV / MAX_RAYS) * count);
+		ray.angle = game->player.orientation - (FOV / 2) + ((FOV / max_rays) * count);
 		ray = cast_ray(game, ray);
 		ray.distance *= cos(ray.angle - game->player.orientation);
 		if (ray.distance < 0.0001)
@@ -99,9 +100,9 @@ void	raycaster(t_data *game)
 		height = SCALE / (ray.distance + 0.0001);
 		if (height < 1)
    			height = 1;
-		if (height > SCREENSIZE)
-			height = SCREENSIZE;
-		put_wall(game, ray, count, SCREENSIZE / 2  - (height / 2), height);	
+		if (height > game->mlx.mlx->height)
+			height = game->mlx.mlx->height;
+		put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height);	
 		count++;
 	}
 	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
