@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/10 14:14:35 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/10 15:39:04 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void collision_check(t_data *game, float new_y, float new_x)
 
 static void loop_hook(void *param)
 {
+	#include <unistd.h>
     t_data *game = (t_data *)param;
 	const double save[3] = {game->player.pos_y, game->player.pos_x, game->player.orientation};
 
@@ -71,20 +72,20 @@ static void loop_hook(void *param)
 	return (mlx_close_window(game->mlx.mlx));
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_W))
     {
-		double new_y = game->player.pos_y + sin(game->player.orientation) / 20;
-    	double new_x = game->player.pos_x + cos(game->player.orientation) / 20;
+		double new_y = game->player.pos_y + sin(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
+    	double new_x = game->player.pos_x + cos(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
 		collision_check(game, new_y, new_x);
     }
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_S))
     {
-		double new_y = game->player.pos_y - sin(game->player.orientation) / 20;
-        double new_x = game->player.pos_x - cos(game->player.orientation) / 20;
+		double new_y = game->player.pos_y - sin(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
+        double new_x = game->player.pos_x - cos(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
 		collision_check(game, new_y, new_x);
 	}
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_A))
-	game->player.orientation -= 0.05;
+	game->player.orientation -= 0.05 * (game->mlx.mlx->delta_time * 60);
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_D))
-	game->player.orientation += 0.05;
+	game->player.orientation += 0.05 * (game->mlx.mlx->delta_time * 60);
 	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation 
 		|| game->mlx.current_height != game->mlx.mlx->height || game->mlx.current_width != game->mlx.mlx->width)
 	{
