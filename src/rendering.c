@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   rendering.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/25 14:24:43 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/10 14:13:59 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   rendering.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/10 14:39:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,4 @@ void render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx)
 	mlx_image_to_window(mlx->mlx, mlx->floor, 0, mlx->mlx->height / 2);
 	mlx->current_height = mlx->mlx->height;
 	mlx->current_width = mlx->mlx->width;
-	mlx_set_instance_depth(mlx->ceiling->instances, 0);
-	mlx_set_instance_depth(mlx->floor->instances, 0);
 }
