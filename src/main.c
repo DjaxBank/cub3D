@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/10 15:39:04 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/11 14:23:14 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,36 +92,55 @@ static void loop_hook(void *param)
 		if (game->mlx.current_height != game->mlx.mlx->height|| game->mlx.current_width != game->mlx.mlx->width)
 			render_background(game->ceiling, game->floor, &game->mlx);
 		raycaster(game);
-		fill_image(game->mlx.minimap_image, 0xFF000000, game->map_width * MINIMAP_SCALE, game->map_height * MINIMAP_SCALE);
 		draw_minimap(game);
-		mlx_image_to_window(game->mlx.mlx, game->mlx.minimap_image, 10, 10);
 	}
+}
+
+static void resize_hook(int32_t width, int32_t height, void* param)
+{
+    t_data *game = (t_data *)param;
+    int new_scale;
+    
+    if (width < height)
+        new_scale = width / 100;
+    else
+        new_scale = height / 100;
+    if (new_scale < 1) 
+        new_scale = 1;
+    game->minimap_scale = new_scale;
+    if (game->mlx.minimap_image)
+        mlx_delete_image(game->mlx.mlx, game->mlx.minimap_image);
+		game->mlx.minimap_image = mlx_new_image(game->mlx.mlx,game->map_width * new_scale, game->map_height * new_scale);
+    if (!game->mlx.minimap_image)
+        werror("Failed to create minimap image", game);
+    draw_minimap(game);
+    mlx_image_to_window(game->mlx.mlx, game->mlx.minimap_image, 10, 10);
+    mlx_set_instance_depth(game->mlx.minimap_image->instances, 100);
 }
 
 int	main(int argc, char *argv[])
 {
-	static t_data	data;
-	
-	if (argc != 2 || input_check(argv[1], &data) != 1)
-	{
-		printf("Error\n");
-		printf("Usage: ./cub3d <map_file.cub>\n");
-		return (1);
-	}
-	map_init(&data);
-	init_textures(&data, &data.mlx);
-	data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", true);
-	data.mlx.minimap_image = mlx_new_image(data.mlx.mlx, data.map_width * MINIMAP_SCALE, data.map_height * MINIMAP_SCALE);
-	if (!data.mlx.minimap_image)
+    static t_data	data;
+    
+    if (argc != 2 || input_check(argv[1], &data) != 1)
+    {
+        printf("Error\n");
+        printf("Usage: ./cub3d <map_file.cub>\n");
+        return (1);
+    }
+    map_init(&data);
+    init_textures(&data, &data.mlx);
+    data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", true);
+    data.mlx.minimap_image = mlx_new_image(data.mlx.mlx, data.map_width * data.minimap_scale, data.map_height * data.minimap_scale);
+    if (!data.mlx.minimap_image)
         werror("Failed to create minimap image", &data);
-	mlx_image_to_window(data.mlx.mlx, data.mlx.minimap_image, 10, 10);
-	mlx_set_instance_depth(data.mlx.minimap_image->instances, 100);
-	data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
-	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
-	render_background(data.ceiling, data.floor, &data.mlx);
-	raycaster(&data);
-	mlx_loop(data.mlx.mlx);
-	mlx_terminate(data.mlx.mlx);
-	werror(NULL, &data);
-	return 0;
+    data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
+	mlx_resize_hook(data.mlx.mlx, resize_hook, &data);
+    mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
+    render_background(data.ceiling, data.floor, &data.mlx);
+    raycaster(&data);
+    mlx_loop(data.mlx.mlx);
+    mlx_terminate(data.mlx.mlx);
+    werror(NULL, &data);
+    return 0;
 }
