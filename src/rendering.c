@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/11 14:23:38 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/11 14:35:53 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,4 @@ void render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx)
 	fill_image(mlx->floor, converted_floor,  mlx->mlx->width, mlx->mlx->height / 2);
 	mlx_image_to_window(mlx->mlx, mlx->ceiling, 0, 0);
 	mlx_image_to_window(mlx->mlx, mlx->floor, 0, mlx->mlx->height / 2);
-	mlx->current_height = mlx->mlx->height;
-	mlx->current_width = mlx->mlx->width;
 }

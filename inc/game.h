@@ -55,8 +55,6 @@ typedef struct t_player
 typedef struct t_mlx
 {
 	mlx_t			*mlx;
-	int32_t			current_width;
-	int32_t			current_height;
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
 	mlx_image_t		*wall;

@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/11 14:23:14 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/11 14:44:54 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,36 +86,35 @@ static void loop_hook(void *param)
 	game->player.orientation -= 0.05 * (game->mlx.mlx->delta_time * 60);
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_D))
 	game->player.orientation += 0.05 * (game->mlx.mlx->delta_time * 60);
-	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation 
-		|| game->mlx.current_height != game->mlx.mlx->height || game->mlx.current_width != game->mlx.mlx->width)
+	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation )
 	{
-		if (game->mlx.current_height != game->mlx.mlx->height|| game->mlx.current_width != game->mlx.mlx->width)
-			render_background(game->ceiling, game->floor, &game->mlx);
 		raycaster(game);
 		draw_minimap(game);
 	}
 }
 
-static void resize_hook(int32_t width, int32_t height, void* param)
+static void resize_hook(int32_t width, int32_t height, void *param)
 {
-    t_data *game = (t_data *)param;
-    int new_scale;
-    
-    if (width < height)
-        new_scale = width / 100;
-    else
-        new_scale = height / 100;
-    if (new_scale < 1) 
-        new_scale = 1;
-    game->minimap_scale = new_scale;
-    if (game->mlx.minimap_image)
-        mlx_delete_image(game->mlx.mlx, game->mlx.minimap_image);
-		game->mlx.minimap_image = mlx_new_image(game->mlx.mlx,game->map_width * new_scale, game->map_height * new_scale);
-    if (!game->mlx.minimap_image)
-        werror("Failed to create minimap image", game);
-    draw_minimap(game);
-    mlx_image_to_window(game->mlx.mlx, game->mlx.minimap_image, 10, 10);
-    mlx_set_instance_depth(game->mlx.minimap_image->instances, 100);
+	t_data *game = (t_data *)param;
+	int new_scale;
+
+	if (width < height)
+		new_scale = width / 100;
+	else
+		new_scale = height / 100;
+	if (new_scale < 1)
+		new_scale = 1;
+	game->minimap_scale = new_scale;
+	if (game->mlx.minimap_image)
+		mlx_delete_image(game->mlx.mlx, game->mlx.minimap_image);
+	game->mlx.minimap_image = mlx_new_image(game->mlx.mlx, game->map_width * new_scale, game->map_height * new_scale);
+	if (!game->mlx.minimap_image)
+		werror("Failed to create minimap image", game);
+	render_background(game->ceiling, game->floor, &game->mlx);
+	raycaster(game);
+	draw_minimap(game);
+	mlx_image_to_window(game->mlx.mlx, game->mlx.minimap_image, 10, 10);
+	mlx_set_instance_depth(game->mlx.minimap_image->instances, 100);
 }
 
 int	main(int argc, char *argv[])
