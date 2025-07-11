@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/11 14:23:30 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/11 15:45:05 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	raycaster(t_data *game)
 		height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
 		if (height < 1)
    			height = 1;
-		if (height > game->mlx.mlx->height)
-			height = game->mlx.mlx->height;
 		put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height);	
 		count++;
 	}

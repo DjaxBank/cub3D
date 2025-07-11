@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/11 14:44:54 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/11 14:51:53 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void loop_hook(void *param)
 	const double save[3] = {game->player.pos_y, game->player.pos_x, game->player.orientation};
 
 	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
-	return (mlx_close_window(game->mlx.mlx));
+		return (mlx_close_window(game->mlx.mlx));
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_W))
     {
 		double new_y = game->player.pos_y + sin(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);

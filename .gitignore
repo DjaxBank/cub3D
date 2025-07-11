@@ -4,3 +4,4 @@ cub3d
 build
 *.o
 cub3d
+obj
