@@ -6,13 +6,13 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:04 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/10 10:52:52 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/11 16:01:18 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static void sample_wall(mlx_image_t *wall, mlx_texture_t *to_render, int x, int y, size_t size, size_t texture_x)
+static void sample_wall(t_data *game, mlx_image_t *wall, mlx_texture_t *to_render, int x, int y, int size, size_t texture_x)
 {
 	const size_t	height = size;
 	const double	step = (double)to_render->height / (double)height;
@@ -21,9 +21,15 @@ static void sample_wall(mlx_image_t *wall, mlx_texture_t *to_render, int x, int 
 	double			tex_pos;
 	
 	tex_pos = 0;
+	if (y < 0)
+	{
+		tex_pos += -y * step;
+		size += y;
+		y = 0;
+	}
 	if (texture_x >= to_render->width)
 		texture_x = to_render->width - 1;
-	while (size > 0)
+	while (size > 0 && y < game->mlx.mlx->height)
 	{
 		texture_y = ((size_t)tex_pos);
 		tex_pos += step;
@@ -50,5 +56,5 @@ void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size)
 		hit_pos = fmod(ray.hit_x, 1);
 	if (hit_pos < 0)
 		hit_pos += 1;
-	sample_wall(game->mlx.wall, to_render, x, y, size, hit_pos * to_render->width);
+	sample_wall(game, game->mlx.wall, to_render, x, y, size, hit_pos * to_render->width);
 }
