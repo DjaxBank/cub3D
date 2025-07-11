@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/10 14:17:14 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/11 11:56:51 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,5 @@ void	raycaster(t_data *game)
 		count++;
 	}
 	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
-	mlx_set_instance_depth(game->mlx.wall->instances, 50);
+	// mlx_set_instance_depth(game->mlx.wall->instances, 50);
 }
