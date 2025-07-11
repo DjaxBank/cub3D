@@ -81,7 +81,8 @@ typedef struct t_data
 	int map_height;
 	t_player	player;
 	t_mlx 		mlx;
-	
+	int minimap_scale;
+
 } t_data;
 
 
