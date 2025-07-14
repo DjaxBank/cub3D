@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/11 12:00:01 by showard          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/14 19:02:44 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,5 @@ void	map_init(t_data *data)
 	ft_lstclear(&data->l_map, ft_lstdelcontent);
 	data->l_map = NULL;
 	data->minimap_scale = SCREENSIZE / 100;
+	data->resizing = false;
 }

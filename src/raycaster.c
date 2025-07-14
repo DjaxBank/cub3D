@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycaster.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/11 15:45:05 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycaster.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/14 20:09:39 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,45 @@ static t_ray cast_ray(t_data *game, t_ray ray)
 	return (ray);
 }
 
-void	raycaster(t_data *game)
+void raycaster(t_data *game, bool force_recreate)
 {
-	static bool	run = false;
-	size_t		count;
-	t_ray		ray;
-	int			height;
-	size_t		max_rays;
-	
+    size_t count;
+    t_ray ray;
+    int height;
+    size_t max_rays;
+    
+	if (!is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
+        return;
+      if (force_recreate || !game->mlx.wall)
+    {
+        if (game->mlx.wall)
+            mlx_delete_image(game->mlx.mlx, game->mlx.wall);
+        game->mlx.wall = mlx_new_image(game->mlx.mlx, game->mlx.mlx->width, game->mlx.mlx->height);
+        if (!game->mlx.wall)
+            return;
+        if (mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0) == -1)
+        {
+            printf("Failed to add wall to window\n");
+            return;
+        }
+        mlx_set_instance_depth(game->mlx.wall->instances, 1);
+    }
+    if (!game->mlx.wall)
+        return;
+    fill_image(game->mlx.wall, 0x00000000, game->mlx.mlx->width, game->mlx.mlx->height);
 	max_rays = game->mlx.mlx->width;
-	count = 0;
-	if (run == true)
-		mlx_delete_image(game->mlx.mlx, game->mlx.wall);
-	else
-		run = true;
-	game->mlx.wall = mlx_new_image(game->mlx.mlx, game->mlx.mlx->width, game->mlx.mlx->height);
-	count = 0;
-	while (count < max_rays)
-	{
-		ray.angle = game->player.orientation - (FOV / 2) + ((FOV / max_rays) * count);
-		ray = cast_ray(game, ray);
-		ray.distance *= cos(ray.angle - game->player.orientation);
-		if (ray.distance < 0.0001)
-   			ray.distance = 0.0001;
-		height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
-		if (height < 1)
-   			height = 1;
-		put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height);	
-		count++;
-	}
-	mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0);
+    count = 0;
+    while (count < max_rays)
+    {
+        ray.angle = game->player.orientation - (FOV / 2) + ((FOV / max_rays) * count);
+        ray = cast_ray(game, ray);
+        ray.distance *= cos(ray.angle - game->player.orientation);
+        if (ray.distance < 0.0001)
+            ray.distance = 0.0001;
+        height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
+        if (height < 1)
+            height = 1;
+        put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height);   
+        count++;
+    }
 }

@@ -80,15 +80,17 @@ typedef struct t_data
 	t_player	player;
 	t_mlx 		mlx;
 	int minimap_scale;
+	bool resizing;
 
 } t_data;
 
 
 void	key_hook(struct mlx_key_data key, void *param);
-void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx);
-void	raycaster(t_data *game);
+void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx, bool force_recreate);
+void	raycaster(t_data *game, bool force_recreate);
 void	fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height);
-void	draw_minimap(t_data *d);
+void	draw_minimap(t_data *d, bool force_recreate);
 void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size);
+bool 	is_window_size_valid(int32_t width, int32_t height);
 
 #endif

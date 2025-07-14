@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 14:50:17 by showard           #+#    #+#             */
-/*   Updated: 2025/07/11 12:04:15 by showard          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minimap.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/07 14:50:17 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/14 19:39:18 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,31 @@ void	draw_minimap_fov(t_data *data)
     }
 }
 
-void	draw_minimap(t_data *data)
+void draw_minimap(t_data *data, bool force_recreate)
 {
     int i;
     int j;
     uint32_t color;
 
+     if (!is_window_size_valid(data->mlx.mlx->width, data->mlx.mlx->height))
+        return;
+    if (force_recreate || !data->mlx.minimap_image)
+    {
+        if (data->mlx.minimap_image)
+            mlx_delete_image(data->mlx.mlx, data->mlx.minimap_image);
+        data->mlx.minimap_image = mlx_new_image(data->mlx.mlx, 
+            data->map_width * data->minimap_scale, 
+            data->map_height * data->minimap_scale);
+        if (!data->mlx.minimap_image)
+        {
+            printf("Failed to create minimap image\n");
+            return;
+        }
+        mlx_image_to_window(data->mlx.mlx, data->mlx.minimap_image, 10, 10);
+        mlx_set_instance_depth(data->mlx.minimap_image->instances, 2);
+    }
+    if (!data->mlx.minimap_image)
+        return;
     fill_image(data->mlx.minimap_image, 0xFF000000, data->map_width * data->minimap_scale, data->map_height * data->minimap_scale);
     i = 0;
     while (data->map[i] != NULL)
@@ -146,7 +165,6 @@ void	draw_minimap(t_data *data)
     }
     draw_minimap_fov(data);
     draw_player(data);
-    mlx_image_to_window(data->mlx.mlx, data->mlx.minimap_image, 10, 10);
 }
 
 // todo:
