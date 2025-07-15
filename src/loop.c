@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/15 18:24:16 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 18:29:26 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,3 @@ void    loop_hook(void *param)
 		draw_minimap(game, false);
 	 }
  }
- 
