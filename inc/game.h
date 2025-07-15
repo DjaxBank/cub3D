@@ -81,6 +81,8 @@ typedef struct t_data
 	t_mlx 		mlx;
 	int minimap_scale;
 	bool resizing;
+	int last_w; // last known width
+	int last_h; // last known height
 
 } t_data;
 
