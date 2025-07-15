@@ -99,6 +99,6 @@ bool 	is_window_size_valid(int32_t width, int32_t height);
 void	werror(char *error_msg, t_data *data);
 void    loop_hook(void *param);
 void 	handle_window_resize(t_data *game);
-void 	collision_check(t_data *game, float new_y, float new_x, char sam);
+void 	collision_check(t_data *game, float new_y, float new_x);
 
 #endif
