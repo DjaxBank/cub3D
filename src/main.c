@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 15:41:56 by showard          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/15 17:18:10 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,49 @@ static void	init_textures(t_data *data, t_mlx *mlx)
 		werror("Failure loading EA texture.", data);
 }
 
+void try_x_movement(t_data *game, float new_x)
+{
+	float temp_x;
+	float temp_y;
+
+	if (game->map[(int)game->player.pos_y][(int)(new_x - 0.1)] != '1' 
+		&& game->map[(int)game->player.pos_y][(int)(new_x + 0.1)] != 1)
+	{
+		temp_x = new_x;
+		temp_y = game->player.pos_y;
+		if (game->map[(int)(temp_y - 0.1)][(int)(temp_x - 0.1)] != '1'
+            && game->map[(int)(temp_y - 0.1)][(int)(temp_x + 0.1)] != '1' 
+            && game->map[(int)(temp_y + 0.1)][(int)(temp_x - 0.1)] != '1' 
+            && game->map[(int)(temp_y + 0.1)][(int)(temp_x + 0.1)] != '1')
+        {
+            game->player.pos_x = new_x;
+        }
+	}
+}
+
+void try_y_movement(t_data *game, float new_y)
+{
+	float temp_x;
+	float temp_y;
+
+	if (game->map[(int)(new_y - 0.1)][(int)(game->player.pos_x)] != '1' 
+        && game->map[(int)(new_y + 0.1)][(int)(game->player.pos_x)] != '1')
+    {
+		temp_x = game->player.pos_x;
+		temp_y = new_y;
+        if (game->map[(int)(temp_y - 0.1)][(int)(temp_x - 0.1)] != '1'
+            && game->map[(int)(temp_y - 0.1)][(int)(temp_x + 0.1)] != '1' 
+            && game->map[(int)(temp_y + 0.1)][(int)(temp_x - 0.1)] != '1' 
+            && game->map[(int)(temp_y + 0.1)][(int)(temp_x + 0.1)] != '1')
+        {
+            game->player.pos_y = new_y;
+        }
+    }
+}
+
 void collision_check(t_data *game, float new_y, float new_x)
 {
+	
 	if (game->map[(int)(new_y - 0.1)][(int)(new_x - 0.1)] != '1'
 		&& game->map[(int)(new_y - 0.1)][(int)(new_x + 0.1)] != '1' 
 		&& game->map[(int)(new_y + 0.1)][(int)(new_x - 0.1)] != '1' 
@@ -51,27 +92,22 @@ void collision_check(t_data *game, float new_y, float new_x)
 		game->player.pos_x = new_x;
 		game->player.pos_y = new_y;
 	}
-	else
-	{
-		if (game->map[(int)(game->player.pos_y)][(int)(new_x - 0.1)] != '1' 
-			&& game->map[(int)(game->player.pos_y)][(int)(new_x + 0.1)] != '1')
-			game->player.pos_x = new_x;
-		if (game->map[(int)(new_y - 0.1)][(int)(game->player.pos_x )] != '1' 
-			&& game->map[(int)(new_y + 0.1)][(int)(game->player.pos_x )] != '1')
-			game->player.pos_y = new_y;
-	}
+	try_x_movement(game, new_x);
+	try_y_movement(game, new_y);
 }
 
 void handle_window_resize(t_data *game)
 {
-	int w = game->mlx.mlx->width;
-	int h = game->mlx.mlx->height;
+	int width;
+	int height;
 
-	if ((w != game->last_w || h != game->last_h) && is_window_size_valid(w, h))
+	width = game->mlx.mlx->width;
+	height = game->mlx.mlx->height;
+	if ((width != game->last_w || height != game->last_h) && is_window_size_valid(width, height))
 	{
-		game->last_w = w;
-		game->last_h = h;
-		game->minimap_scale = h / 100;
+		game->last_w = width;
+		game->last_h = height;
+		game->minimap_scale = height / 100;
 		render_background(game->ceiling, game->floor, game, true);
 		raycaster(game, true);
 		draw_minimap(game, true);
