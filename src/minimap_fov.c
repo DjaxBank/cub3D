@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/15 17:35:31 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/15 17:37:08 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/15 18:50:14 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	draw_minimap_ray(t_data *data, double angle, double max_distance,
 	distance = 0.0;
 	while (distance < max_distance)
 	{
-		if (data->map[(int)y][(int)x] == '1')
+		if (data->map[(int)y][(int)x] == '1' || data->map[(int)y][(int)x] == 'D')
 			break ;
 		px = (int)(x * data->minimap_scale);
 		py = (int)(y * data->minimap_scale);
