@@ -1,17 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/14 20:09:39 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/15 15:08:43 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #define	FOV 60 * M_PI / 180.0
+
+mlx_texture_t *choose_image(t_data *game, t_ray ray)
+{
+	if (ray.side == HORIZONTAL)
+	{
+		if (game->player.pos_y > ray.hit_y)
+			return (game->mlx.tex[N]);
+		else
+			return (game->mlx.tex[S]);	
+	}
+	else if (ray.side == VERTICAL)
+	{
+		if (game->player.pos_x > ray.hit_x)
+			return (game->mlx.tex[E]);
+		else
+			return (game->mlx.tex[W]);	
+	}
+	else
+		return (NULL);
+}
 
 static void init_ray(t_data *game, t_ray *ray)
 {
@@ -111,7 +131,7 @@ void raycaster(t_data *game, bool force_recreate)
         height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
         if (height < 1)
             height = 1;
-        put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height);   
+        put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height, choose_image(game, ray));   
         count++;
     }
 }

@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:04 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/11 16:01:18 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 14:17:39 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,10 @@ static void sample_wall(t_data *game, mlx_image_t *wall, mlx_texture_t *to_rende
 	}
 }
 
-void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size)
+void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size, mlx_texture_t *to_render)
 {
-	mlx_texture_t	*to_render;
 	double			hit_pos;
 
-	to_render = game->mlx.tex[N];
 	if (ray.side == VERTICAL)
 		hit_pos = fmod(ray.hit_y, 1);
 	else

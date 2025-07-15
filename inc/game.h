@@ -90,7 +90,7 @@ void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx, b
 void	raycaster(t_data *game, bool force_recreate);
 void	fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height);
 void	draw_minimap(t_data *d, bool force_recreate);
-void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size);
+void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size, mlx_texture_t *to_render);
 bool 	is_window_size_valid(int32_t width, int32_t height);
 
 #endif
