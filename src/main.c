@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 15:17:05 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 15:41:56 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void handle_window_resize(t_data *game)
 	{
 		game->last_w = w;
 		game->last_h = h;
+		game->minimap_scale = h / 100;
 		render_background(game->ceiling, game->floor, game, true);
 		raycaster(game, true);
 		draw_minimap(game, true);
