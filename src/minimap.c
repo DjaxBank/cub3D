@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:50:17 by showard           #+#    #+#             */
-/*   Updated: 2025/07/15 14:06:34 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:13:07 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void draw_minimap(t_data *data, bool force_recreate)
     int j;
     uint32_t color;
 
-    printf("d\n");
      if (!is_window_size_valid(data->mlx.mlx->width, data->mlx.mlx->height))
         return;
     if (force_recreate || !data->mlx.minimap_image)
@@ -140,16 +139,11 @@ void draw_minimap(t_data *data, bool force_recreate)
             data->map_width * data->minimap_scale, 
             data->map_height * data->minimap_scale);
         if (!data->mlx.minimap_image)
-        {
-            printf("Failed to create minimap image\n");
-            return;
-        }
-        mlx_image_to_window(data->mlx.mlx, data->mlx.minimap_image, 10, 10);
+            werror("Failed to create minimap image", data);
+        if (mlx_image_to_window(data->mlx.mlx, data->mlx.minimap_image, 10, 10) == -1)
+            werror("Failed to add minimap image to window", data);
         mlx_set_instance_depth(data->mlx.minimap_image->instances, 2);
     }
-    printf("e\n");
-    if (!data->mlx.minimap_image)
-        return;
     fill_image(data->mlx.minimap_image, 0xFF000000, data->map_width * data->minimap_scale, data->map_height * data->minimap_scale);
     i = 0;
     while (data->map[i] != NULL)
@@ -167,7 +161,6 @@ void draw_minimap(t_data *data, bool force_recreate)
     }
     draw_minimap_fov(data);
     draw_player(data);
-    printf("f\n");
 }
 
 // todo:
