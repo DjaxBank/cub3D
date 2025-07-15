@@ -100,5 +100,6 @@ void	werror(char *error_msg, t_data *data);
 void    loop_hook(void *param);
 void 	handle_window_resize(t_data *game);
 void 	collision_check(t_data *game, float new_y, float new_x);
+void	init_textures(t_data *data, t_mlx *mlx);
 
 #endif

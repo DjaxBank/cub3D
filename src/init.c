@@ -6,11 +6,27 @@
 /*   By: showard <showard@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/14 19:02:44 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/15 17:32:12 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+void	init_textures(t_data *data, t_mlx *mlx)
+{
+	mlx->tex[N] = mlx_load_png(data->n_tex);
+	if (mlx->tex[N] == NULL)
+		werror("Failure loading NO texture.", data);
+	mlx->tex[S] = mlx_load_png(data->s_tex);
+	if (mlx->tex[S] == NULL)
+		werror("Failure loading SO texture.", data);
+	mlx->tex[W] = mlx_load_png(data->w_tex);
+	if (mlx->tex[W] == NULL)
+		werror("Failure loading WE texture.", data);
+	mlx->tex[E] = mlx_load_png(data->e_tex);
+	if (mlx->tex[E] == NULL)
+		werror("Failure loading EA texture.", data);
+}
 
 static void	init_map(t_data *data)
 {

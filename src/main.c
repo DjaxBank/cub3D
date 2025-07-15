@@ -6,17 +6,17 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 18:26:22 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 18:29:39 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #include "parse.h"
 
-static double set_orientation(char player)
+static double	set_orientation(char player)
 {
 	if (player == 'N')
-		return (-M_PI/2);
+		return (-M_PI / 2);
 	else if (player == 'E')
 		return (0);
 	else if (player == 'S')
@@ -25,7 +25,7 @@ static double set_orientation(char player)
 		return (M_PI);
 }
 
-static void	init_textures(t_data *data, t_mlx *mlx)
+void	handle_window_resize(t_data *game)
 {
 	mlx->tex[N] = mlx_load_png(data->n_tex);
 	if (mlx->tex[N] == NULL)
@@ -121,7 +121,8 @@ void handle_window_resize(t_data *game)
 
 	width = game->mlx.mlx->width;
 	height = game->mlx.mlx->height;
-	if ((width != game->last_w || height != game->last_h) && is_window_size_valid(width, height))
+	if ((width != game->last_w || height != game->last_h)
+		&& is_window_size_valid(width, height))
 	{
 		game->last_w = width;
 		game->last_h = height;
@@ -132,19 +133,19 @@ void handle_window_resize(t_data *game)
 	}
 }
 
-bool is_window_size_valid(int32_t width, int32_t height)
+bool	is_window_size_valid(int32_t width, int32_t height)
 {
 	if (width < 100 || height < 100)
-		return false;
+		return (false);
 	if (height / 2 < 2)
-		return false;
-	return true;
+		return (false);
+	return (true);
 }
 
 int	main(int argc, char *argv[])
 {
-	static t_data data;
-	
+	static t_data	data;
+
 	if (argc != 2 || input_check(argv[1], &data) != 1)
 	{
 		printf("Error\n");
@@ -167,5 +168,5 @@ int	main(int argc, char *argv[])
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);
 	werror(NULL, &data);
-	return 0;
+	return (0);
 }
