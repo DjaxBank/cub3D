@@ -42,6 +42,7 @@ typedef struct t_ray
 	double	distance;
 	double	pos;
 	int		side;
+	bool	hit_door;
 
 }	t_ray ;
 typedef struct t_player
@@ -59,6 +60,7 @@ typedef struct t_mlx
 	mlx_image_t		*floor;
 	mlx_image_t		*wall;
 	mlx_texture_t	*tex[4];
+	mlx_texture_t	*door;
 	mlx_image_t		*minimap_image;
 
 }t_mlx;
@@ -97,6 +99,6 @@ bool 	is_window_size_valid(int32_t width, int32_t height);
 void	werror(char *error_msg, t_data *data);
 void    loop_hook(void *param);
 void 	handle_window_resize(t_data *game);
-void 	collision_check(t_data *game, float new_y, float new_x);
+void 	collision_check(t_data *game, float new_y, float new_x, char sam);
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: showard <showard@student.42.fr>            +#+  +:+       +#+         #
+#    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/15 15:08:02 by showard          ###   ########.fr        #
+#    Updated: 2025/07/15 18:04:08 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ## Commands ##
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./inc -I./ -Ofast -flto
+CFLAGS = -Wall -Wextra -Werror -I./inc -I./  -flto -g
 LDFLAGS = -L./libft
 
 ## Files ##

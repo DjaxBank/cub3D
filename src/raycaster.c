@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 15:16:41 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 17:49:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 mlx_texture_t *choose_image(t_data *game, t_ray ray)
 {
+	if (ray.hit_door)
+		return (game->mlx.door);
 	if (ray.side == HORIZONTAL)
 	{
 		if (game->player.pos_y > ray.hit_y)
@@ -69,7 +71,7 @@ static t_ray cast_ray(t_data *game, t_ray ray)
 	y = game->player.pos_y;
 	x = game->player.pos_x;
 	init_ray(game, &ray);
-	while (game->map[y][x] != '1')
+	while (game->map[y][x] != '1' && game->map[y][x] != 'D')
 	{
 		if (ray.sidedistX < ray.sidedistY)
 		{
@@ -84,6 +86,7 @@ static t_ray cast_ray(t_data *game, t_ray ray)
 			ray.side = HORIZONTAL;
 		}
 	}
+	ray.hit_door = game->map[y][x] == 'D';
 	if (ray.side == VERTICAL)
 		ray.distance = (x - game->player.pos_x + (1 - ray.stepX) / 2) / ray.raydir_X;
 	else
