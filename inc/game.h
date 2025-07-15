@@ -81,16 +81,22 @@ typedef struct t_data
 	t_mlx 		mlx;
 	int minimap_scale;
 	bool resizing;
+	int last_w; // last known width
+	int last_h; // last known height
 
 } t_data;
 
 
 void	key_hook(struct mlx_key_data key, void *param);
-void	render_background(const int ceilingc[3], const int floorc[3], t_mlx *mlx, bool force_recreate);
+void 	render_background(const int ceilingc[3], const int floorc[3], t_data *data, bool force_recreate);
 void	raycaster(t_data *game, bool force_recreate);
 void	fill_image(mlx_image_t *image, uint32_t colour, size_t width, size_t height);
 void	draw_minimap(t_data *d, bool force_recreate);
 void	put_wall(t_data *game, t_ray ray, int x , int y , size_t size, mlx_texture_t *to_render);
 bool 	is_window_size_valid(int32_t width, int32_t height);
+void	werror(char *error_msg, t_data *data);
+void    loop_hook(void *param);
+void 	handle_window_resize(t_data *game);
+void 	collision_check(t_data *game, float new_y, float new_x);
 
 #endif

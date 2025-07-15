@@ -26,7 +26,7 @@ OBJS := ft_atoi.o ft_bzero.o ft_calloc.o ft_isalnum.o ft_isalpha.o\
 	ft_mapnew.o ft_mapadd_back.o ft_maplast.o ft_strcmp.o ft_lstdelcontent.o\
 	get_next_line.o get_next_line_utils.o ft_free2d.o \
 
-CFLAGS ?= -Wall -Wextra -Werror -Ofast -flto
+CFLAGS ?= -Ofast -flto
 
 CC = cc
 
