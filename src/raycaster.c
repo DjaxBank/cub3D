@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 17:49:28 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 18:24:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ mlx_texture_t *choose_image(t_data *game, t_ray ray)
 			return (game->mlx.tex[W]);	
 	}
 	else
-		return (NULL);
+		return (game->mlx.door);
 }
 
 static void init_ray(t_data *game, t_ray *ray)

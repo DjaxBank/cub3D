@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/15 17:55:25 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 18:24:16 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void    handle_key_w(t_data *game)
 		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
 	new_x = game->player.pos_x + cos(game->player.orientation)
 		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	collision_check(game, new_y, new_x, '1');
-	collision_check(game, new_y, new_x, 'D');
+	collision_check(game, new_y, new_x);
 }
 
 static void    handle_key_s(t_data *game)
@@ -34,8 +33,7 @@ static void    handle_key_s(t_data *game)
 		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
 	new_x = game->player.pos_x - cos(game->player.orientation)
 		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	collision_check(game, new_y, new_x, '1');
-	collision_check(game, new_y, new_x, 'D');
+	collision_check(game, new_y, new_x);
 }
 
 static void    handle_key_a(t_data *game)
