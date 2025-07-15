@@ -1,10 +1,10 @@
-NO ./textures/Asset_11.png
-SO ./textures/Asset_12.png
-WE ./textures/Asset_13.png
-EA ./textures/Asset_14.png
+NO ./textures/Wall_1.png
+SO ./textures/Wall_2.png
+WE ./textures/Wall_3.png
+EA ./textures/Wall_4.png
 
-F 34,139,34
-C 135,206,235
+F 13,30,13
+C 0,0,0
 
         1111111111111111111111111
         1000000000110000000000001
