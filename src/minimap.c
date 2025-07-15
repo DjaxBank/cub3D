@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 14:50:17 by showard           #+#    #+#             */
-/*   Updated: 2025/07/15 18:41:25 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minimap.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/07 14:50:17 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/15 18:55:21 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ void	draw_minimap(t_data *data, bool force_recreate)
 		while (data->map[i][j] != '\0')
 		{
 			color = 0xFFEEEEEE;
-			if (data->map[i][j] == '1')
+			if (data->map[i][j] == '1' || data->map[i][j] == ' ')
 				color = 0x000000FF;
+            if (data->map[i][j] == 'D')
+				color = (uint32_t){176 << 24 | 109 << 16 | 28 << 8 | 255};
 			draw_minimap_pixel(data, i, j, color);
 			j++;
 		}
