@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 14:30:06 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:07:12 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	init_textures(t_data *data, t_mlx *mlx)
 		werror("Failure loading EA texture.", data);
 }
 
-static void collision_check(t_data *game, float new_y, float new_x)
+void collision_check(t_data *game, float new_y, float new_x)
 {
 	if (game->map[(int)(new_y - 0.1)][(int)(new_x - 0.1)] != '1'
 		&& game->map[(int)(new_y - 0.1)][(int)(new_x + 0.1)] != '1' 
@@ -49,7 +49,7 @@ static void collision_check(t_data *game, float new_y, float new_x)
 		&& game->map[(int)(new_y + 0.1)][(int)(new_x + 0.1)] != '1')
 	{
 		game->player.pos_x = new_x;
-        game->player.pos_y = new_y;
+		game->player.pos_y = new_y;
 	}
 	else
 	{
@@ -62,91 +62,55 @@ static void collision_check(t_data *game, float new_y, float new_x)
 	}
 }
 
-static void loop_hook(void *param)
+void handle_window_resize(t_data *game)
 {
-    t_data *game = (t_data *)param;
-    const double save[3] = {
-        game->player.pos_y,
-        game->player.pos_x,
-        game->player.orientation
-    };
-    int      w    = game->mlx.mlx->width;
-    int      h    = game->mlx.mlx->height;
+	int w = game->mlx.mlx->width;
+	int h = game->mlx.mlx->height;
 
-    // Only re-create images if the window size has actually changed
-    if ((w != game->last_w || h != game->last_h)
-         && is_window_size_valid(w, h))
-    {
-        game->last_w = w;
-        game->last_h = h;
-
-        render_background(game->ceiling, game->floor, &game->mlx, true);
-        raycaster      (game,                     true);
-        draw_minimap   (game,                     true);
-    }
-
-    // now do your normal “move + redraw if needed” logic
-    
-
-    if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
-        return (mlx_close_window(game->mlx.mlx));
-    if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_W))
-    {
-		double new_y = game->player.pos_y + sin(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
-    	double new_x = game->player.pos_x + cos(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
-		collision_check(game, new_y, new_x);
-    }
-    if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_S))
-    {
-		double new_y = game->player.pos_y - sin(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
-        double new_x = game->player.pos_x - cos(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
-		collision_check(game, new_y, new_x);
-	}
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_A))
-	game->player.orientation -= 0.05 * (game->mlx.mlx->delta_time * 60);
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_D))
-	game->player.orientation += 0.05 * (game->mlx.mlx->delta_time * 60);
-	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation)
+	if ((w != game->last_w || h != game->last_h) && is_window_size_valid(w, h))
 	{
-		raycaster    (game, false);
-		draw_minimap (game, false);
+		game->last_w = w;
+		game->last_h = h;
+		render_background(game->ceiling, game->floor, game, true);
+		raycaster(game, true);
+		draw_minimap(game, true);
 	}
 }
 
 bool is_window_size_valid(int32_t width, int32_t height)
 {
-    if (width < 100 || height < 100)
-        return false;
-    if (height / 2 < 2)
-        return false;
-    return true;
+	if (width < 100 || height < 100)
+		return false;
+	if (height / 2 < 2)
+		return false;
+	return true;
 }
 
 int	main(int argc, char *argv[])
 {
-    static t_data data;
-    
-    if (argc != 2 || input_check(argv[1], &data) != 1)
-    {
-        printf("Error\n");
-        printf("Usage: ./cub3d <map_file.cub>\n");
-        return (1);
-    }
-    map_init(&data);
+	static t_data data;
+	
+	if (argc != 2 || input_check(argv[1], &data) != 1)
+	{
+		printf("Error\n");
+		printf("Usage: ./cub3d <map_file.cub>\n");
+		return (1);
+	}
+	map_init(&data);
 	data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", true);
-    if (!data.mlx.mlx)
-    {
-        printf("Failed to initialize MLX\n");
-        return (1);
-    }
-    init_textures(&data, &data.mlx);
-    data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
-    render_background(data.ceiling, data.floor, &data.mlx, true);
-    raycaster(&data, true);
-    draw_minimap(&data, true);
-    mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
-    mlx_loop(data.mlx.mlx);
-    mlx_terminate(data.mlx.mlx);
-    werror(NULL, &data);
-    return 0;
+	if (!data.mlx.mlx)
+	{
+		printf("Failed to initialize MLX\n");
+		return (1);
+	}
+	init_textures(&data, &data.mlx);
+	data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
+	render_background(data.ceiling, data.floor, &data, true);
+	raycaster(&data, true);
+	draw_minimap(&data, true);
+	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
+	mlx_loop(data.mlx.mlx);
+	mlx_terminate(data.mlx.mlx);
+	werror(NULL, &data);
+	return 0;
 }
