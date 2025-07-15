@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 18:29:39 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 18:38:13 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,95 +23,6 @@ static double	set_orientation(char player)
 		return (M_PI / 2);
 	else
 		return (M_PI);
-}
-
-void	handle_window_resize(t_data *game)
-{
-	mlx->tex[N] = mlx_load_png(data->n_tex);
-	if (mlx->tex[N] == NULL)
-		werror("Failure loading NO texture.", data);
-	mlx->tex[S] = mlx_load_png(data->s_tex);
-	if (mlx->tex[S] == NULL)
-		werror("Failure loading SO texture.", data);
-	mlx->tex[W] = mlx_load_png(data->w_tex);
-	if (mlx->tex[W] == NULL)
-		werror("Failure loading WE texture.", data);
-	mlx->tex[E] = mlx_load_png(data->e_tex);
-	if (mlx->tex[E] == NULL)
-		werror("Failure loading EA texture.", data);
-	mlx->door = mlx_load_png("./textures/Door.png");
-	if (mlx->door == NULL)
-		werror("Failure loading Door texture.", data);
-}
-
-void try_x_movement(t_data *game, float new_x)
-{
-	float temp_x;
-	float temp_y;
-
-	if (game->map[(int)game->player.pos_y][(int)(new_x - 0.1)] != '1' 
-		&& game->map[(int)game->player.pos_y][(int)(new_x + 0.1)] != '1'
-		&& game->map[(int)game->player.pos_y][(int)(new_x - 0.1)] != 'D' 
-		&& game->map[(int)game->player.pos_y][(int)(new_x + 0.1)] != 'D')
-	{
-		temp_x = new_x;
-		temp_y = game->player.pos_y;
-		if (game->map[(int)(temp_y - 0.1)][(int)(temp_x - 0.1)] != '1'
-            && game->map[(int)(temp_y - 0.1)][(int)(temp_x + 0.1)] != '1' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x - 0.1)] != '1' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x + 0.1)] != '1'
-			&& game->map[(int)(temp_y - 0.1)][(int)(temp_x - 0.1)] != 'D'
-            && game->map[(int)(temp_y - 0.1)][(int)(temp_x + 0.1)] != 'D' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x - 0.1)] != 'D' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x + 0.1)] != 'D')
-        {
-            game->player.pos_x = new_x;
-        }
-	}
-}
-
-void try_y_movement(t_data *game, float new_y)
-{
-	float temp_x;
-	float temp_y;
-
-	if (game->map[(int)(new_y - 0.1)][(int)(game->player.pos_x)] != '1' 
-        && game->map[(int)(new_y + 0.1)][(int)(game->player.pos_x)] != '1'
-		&& game->map[(int)(new_y - 0.1)][(int)(game->player.pos_x)] != 'D' 
-        && game->map[(int)(new_y + 0.1)][(int)(game->player.pos_x)] != 'D')
-    {
-		temp_x = game->player.pos_x;
-		temp_y = new_y;
-        if (game->map[(int)(temp_y - 0.1)][(int)(temp_x - 0.1)] != '1'
-            && game->map[(int)(temp_y - 0.1)][(int)(temp_x + 0.1)] != '1' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x - 0.1)] != '1' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x + 0.1)] != '1'
-			&& game->map[(int)(temp_y - 0.1)][(int)(temp_x - 0.1)] != 'D'
-            && game->map[(int)(temp_y - 0.1)][(int)(temp_x + 0.1)] != 'D' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x - 0.1)] != 'D' 
-            && game->map[(int)(temp_y + 0.1)][(int)(temp_x + 0.1)] != 'D')
-        {
-            game->player.pos_y = new_y;
-        }
-    }
-}
-
-void collision_check(t_data *game, float new_y, float new_x)
-{	
-	if (game->map[(int)(new_y - 0.1)][(int)(new_x - 0.1)] != '1'
-		&& game->map[(int)(new_y - 0.1)][(int)(new_x + 0.1)] != '1' 
-		&& game->map[(int)(new_y + 0.1)][(int)(new_x - 0.1)] != '1' 
-		&& game->map[(int)(new_y + 0.1)][(int)(new_x + 0.1)] != '1'
-		&& game->map[(int)(new_y - 0.1)][(int)(new_x - 0.1)] != 'D'
-		&& game->map[(int)(new_y - 0.1)][(int)(new_x + 0.1)] != 'D' 
-		&& game->map[(int)(new_y + 0.1)][(int)(new_x - 0.1)] != 'D' 
-		&& game->map[(int)(new_y + 0.1)][(int)(new_x + 0.1)] != 'D')
-	{
-		game->player.pos_x = new_x;
-		game->player.pos_y = new_y;
-	}
-	try_x_movement(game, new_x);
-	try_y_movement(game, new_y);
 }
 
 void handle_window_resize(t_data *game)
