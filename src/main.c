@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/14 20:20:11 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/15 14:30:06 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,31 @@ static void collision_check(t_data *game, float new_y, float new_x)
 static void loop_hook(void *param)
 {
     t_data *game = (t_data *)param;
-	const double save[3] = {game->player.pos_y, game->player.pos_x, game->player.orientation};
+    const double save[3] = {
+        game->player.pos_y,
+        game->player.pos_x,
+        game->player.orientation
+    };
+    int      w    = game->mlx.mlx->width;
+    int      h    = game->mlx.mlx->height;
 
-	if (game->resizing)
+    // Only re-create images if the window size has actually changed
+    if ((w != game->last_w || h != game->last_h)
+         && is_window_size_valid(w, h))
     {
-        printf("blocking loop during resize\n");
-        return;
+        game->last_w = w;
+        game->last_h = h;
+
+        render_background(game->ceiling, game->floor, &game->mlx, true);
+        raycaster      (game,                     true);
+        draw_minimap   (game,                     true);
     }
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
-		return (mlx_close_window(game->mlx.mlx));
+
+    // now do your normal “move + redraw if needed” logic
+    
+
+    if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
+        return (mlx_close_window(game->mlx.mlx));
     if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_W))
     {
 		double new_y = game->player.pos_y + sin(game->player.orientation) / 20 * (game->mlx.mlx->delta_time * 60);
@@ -92,9 +108,8 @@ static void loop_hook(void *param)
 	game->player.orientation += 0.05 * (game->mlx.mlx->delta_time * 60);
 	if (save[0] != game->player.pos_y || save[1] != game->player.pos_x || save[2] != game->player.orientation)
 	{
-		printf("entered loop\n");
-		raycaster(game, false);
-		draw_minimap(game, false);
+		raycaster    (game, false);
+		draw_minimap (game, false);
 	}
 }
 
@@ -105,29 +120,6 @@ bool is_window_size_valid(int32_t width, int32_t height)
     if (height / 2 < 2)
         return false;
     return true;
-}
-
-static void resize_hook(int32_t width, int32_t height, void *param)
-{
-    t_data *game = (t_data *)param;
-    int new_scale;
-
-    if (!is_window_size_valid(width, height))
-        return;
-    game->resizing = true;
-    // last_resize = current_time;
-    
-    if (width < height)
-        new_scale = width / 100;
-    else
-        new_scale = height / 100;
-    if (new_scale < 1)
-        new_scale = 1;
-    game->minimap_scale = new_scale;
-    render_background(game->ceiling, game->floor, &game->mlx, true);
-    raycaster(game, true);
-    draw_minimap(game, true);
-    game->resizing = false;
 }
 
 int	main(int argc, char *argv[])
@@ -152,7 +144,6 @@ int	main(int argc, char *argv[])
     render_background(data.ceiling, data.floor, &data.mlx, true);
     raycaster(&data, true);
     draw_minimap(&data, true);
-    mlx_resize_hook(data.mlx.mlx, resize_hook, &data);
     mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
     mlx_loop(data.mlx.mlx);
     mlx_terminate(data.mlx.mlx);

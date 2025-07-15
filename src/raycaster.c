@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/14 20:09:39 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/15 14:06:09 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void raycaster(t_data *game, bool force_recreate)
     int height;
     size_t max_rays;
     
+	printf("a\n");
 	if (!is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
         return;
       if (force_recreate || !game->mlx.wall)
@@ -96,6 +97,7 @@ void raycaster(t_data *game, bool force_recreate)
         }
         mlx_set_instance_depth(game->mlx.wall->instances, 1);
     }
+	printf("b\n");
     if (!game->mlx.wall)
         return;
     fill_image(game->mlx.wall, 0x00000000, game->mlx.mlx->width, game->mlx.mlx->height);
@@ -114,4 +116,5 @@ void raycaster(t_data *game, bool force_recreate)
         put_wall(game, ray, count, game->mlx.mlx->height / 2  - (height / 2), height);   
         count++;
     }
+	printf("c\n");
 }
