@@ -6,7 +6,7 @@
 #    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/15 18:29:21 by dbank            ###   ########.fr        #
+#    Updated: 2025/07/15 19:00:37 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ## Commands ##
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./inc -I./  -flto -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I./inc -I./  -flto
 LDFLAGS = -L./libft
 
 ## Files ##
