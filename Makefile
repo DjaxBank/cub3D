@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: showard <showard@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/15 15:08:02 by showard          ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: showard <showard@student.42.fr>              +#+                      #
+#                                                    +#+                       #
+#    Created: 2025/06/30 16:22:59 by dbank         #+#    #+#                  #
+#    Updated: 2025/07/15 17:36:29 by showard       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ LDFLAGS = -L./libft
 
 SRCS 	= src/parse.c src/rendering.c src/main.c src/raycaster.c \
 		 src/parse.c src/parse_utils_a.c src/parse_utils_b.c src/elements.c \
-	   src/validate.c src/init.c src/put_wall.c src/minimap.c src/loop.c
+	   src/validate.c src/init.c src/put_wall.c src/minimap.c src/loop.c src/movement.c \
+	   src/minimap_fov.c
 OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
