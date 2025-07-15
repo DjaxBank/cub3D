@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: showard <showard@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/15 17:32:12 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
+/*   Updated: 2025/07/15 18:38:49 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	init_textures(t_data *data, t_mlx *mlx)
 	mlx->tex[E] = mlx_load_png(data->e_tex);
 	if (mlx->tex[E] == NULL)
 		werror("Failure loading EA texture.", data);
+	mlx->door = mlx_load_png("./textures/Door.png");
+	if (mlx->door == NULL)
+	werror("Failure loading Door texture.", data);
 }
 
 static void	init_map(t_data *data)
