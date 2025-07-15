@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:48:39 by showard           #+#    #+#             */
-/*   Updated: 2025/07/02 21:05:15 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/15 17:33:25 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	input_check(char *str, t_data *data)
 static int	valid_char(char c)
 {
 	if (c == ' ' || c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
-		|| c == 'E')
+		|| c == 'E' || c == 'D')
 		return (1);
 	return (0);
 }
