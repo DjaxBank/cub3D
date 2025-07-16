@@ -25,9 +25,12 @@
 # define MFACTOR 0.25
 # define SCREENSIZE 1500
 # define MINIMAP_SCALE SCREENSIZE / 100
+#define	FOV 60 * M_PI / 180.0
 
 typedef struct t_ray
 {
+	int		y;
+	int 	x;
 	double	hit_x;
 	double	hit_y;
 	double	raydir_X;
@@ -102,5 +105,7 @@ void 	handle_window_resize(t_data *game);
 void 	collision_check(t_data *game, float new_y, float new_x);
 void	init_textures(t_data *data, t_mlx *mlx);
 void	draw_minimap_fov(t_data *data);
+void	open_door(t_data *game);
+void init_ray(t_data *game, t_ray *ray);
 
 #endif

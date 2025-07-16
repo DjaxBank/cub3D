@@ -6,12 +6,11 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/15 18:24:28 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/16 14:58:31 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-#define	FOV 60 * M_PI / 180.0
 
 mlx_texture_t *choose_image(t_data *game, t_ray ray)
 {
@@ -35,7 +34,7 @@ mlx_texture_t *choose_image(t_data *game, t_ray ray)
 		return (game->mlx.door);
 }
 
-static void init_ray(t_data *game, t_ray *ray)
+void init_ray(t_data *game, t_ray *ray)
 {
 	ray->raydir_X = cos(ray->angle);
 	ray->raydir_Y = sin(ray->angle);
@@ -65,32 +64,29 @@ static void init_ray(t_data *game, t_ray *ray)
 
 static t_ray cast_ray(t_data *game, t_ray ray)
 {
-	int x;
-	int y;
-
-	y = game->player.pos_y;
-	x = game->player.pos_x;
+	ray.y = game->player.pos_y;
+	ray.x = game->player.pos_x;
 	init_ray(game, &ray);
-	while (game->map[y][x] != '1' && game->map[y][x] != 'D')
+	while (game->map[ray.y][ray.x] != '1' && game->map[ray.y][ray.x] != 'D')
 	{
 		if (ray.sidedistX < ray.sidedistY)
 		{
-			x += ray.stepX;
+			ray.x += ray.stepX;
 			ray.sidedistX += ray.deltaX;
 			ray.side = VERTICAL;
 		}
 		else
 		{
-			y += ray.stepY;
+			ray.y += ray.stepY;
 			ray.sidedistY += ray.deltaY;
 			ray.side = HORIZONTAL;
 		}
 	}
-	ray.hit_door = game->map[y][x] == 'D';
+	ray.hit_door = game->map[ray.y][ray.x] == 'D';
 	if (ray.side == VERTICAL)
-		ray.distance = (x - game->player.pos_x + (1 - ray.stepX) / 2) / ray.raydir_X;
+		ray.distance = (ray.x - game->player.pos_x + (1 - ray.stepX) / 2) / ray.raydir_X;
 	else
-		ray.distance = (y - game->player.pos_y + (1 - ray.stepY) / 2) / ray.raydir_Y;
+		ray.distance = (ray.y - game->player.pos_y + (1 - ray.stepY) / 2) / ray.raydir_Y;
 	ray.hit_y = game->player.pos_y + ray.raydir_Y * ray.distance;
 	ray.hit_x = game->player.pos_x + ray.raydir_X * ray.distance;
 	return (ray);
@@ -101,7 +97,6 @@ void raycaster(t_data *game, bool force_recreate)
     size_t count;
     t_ray ray;
     int height;
-    size_t max_rays;
     
 	if (!is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
         return;
@@ -119,11 +114,10 @@ void raycaster(t_data *game, bool force_recreate)
     if (!game->mlx.wall)
         return;
     fill_image(game->mlx.wall, 0x00000000, game->mlx.mlx->width, game->mlx.mlx->height);
-	max_rays = game->mlx.mlx->width;
     count = 0;
-    while (count < max_rays)
+    while (count < (size_t)game->mlx.mlx->width)
     {
-        ray.angle = game->player.orientation - (FOV / 2) + ((FOV / max_rays) * count);
+        ray.angle = game->player.orientation - (FOV / 2) + ((FOV / game->mlx.mlx->width) * count);
         ray = cast_ray(game, ray);
         ray.distance *= cos(ray.angle - game->player.orientation);
         if (ray.distance < 0.0001)
