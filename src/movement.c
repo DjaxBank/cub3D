@@ -6,13 +6,13 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:08:10 by showard           #+#    #+#             */
-/*   Updated: 2025/07/16 14:07:29 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/16 17:14:15 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-void	try_x_movement(t_data *game, float new_x)
+static void	try_x_movement(t_data *game, float new_x)
 {
 	float	temp_x;
 	float	temp_y;
@@ -36,7 +36,7 @@ void	try_x_movement(t_data *game, float new_x)
 	}
 }
 
-void	try_y_movement(t_data *game, float new_y)
+static void	try_y_movement(t_data *game, float new_y)
 {
 	float	temp_x;
 	float	temp_y;
