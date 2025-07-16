@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   put_wall.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/07 13:29:04 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/15 18:47:21 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   put_wall.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 13:29:04 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/16 17:57:03 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void sample_wall(t_data *game, mlx_image_t *wall, mlx_texture_t *to_rende
 	uint8_t			colour[3];
 	size_t			texture_y;
 	double			tex_pos;
+	int				calc;
 	
 	tex_pos = 0;
 	if (y < 0)
@@ -35,9 +36,10 @@ static void sample_wall(t_data *game, mlx_image_t *wall, mlx_texture_t *to_rende
 		tex_pos += step;
 		if (texture_y >= to_render->height)
 			texture_y = to_render->height - 1;
-		colour[0] = to_render->pixels[(texture_y * to_render->width + texture_x) * to_render->bytes_per_pixel];
-		colour[1] = to_render->pixels[((texture_y * to_render->width + texture_x) * to_render->bytes_per_pixel) + 1];
-		colour[2] = to_render->pixels[((texture_y * to_render->width + texture_x) * to_render->bytes_per_pixel) + 2];
+		calc = (texture_y * to_render->width + texture_x) * to_render->bytes_per_pixel;
+		colour[0] = to_render->pixels[calc];
+		colour[1] = to_render->pixels[++calc];
+		colour[2] = to_render->pixels[++calc];
 		mlx_put_pixel(wall, x, y, (uint32_t){colour[0] << 24 | colour[1] << 16 | colour[2] << 8 | 255});
 		y++;
 		size--;

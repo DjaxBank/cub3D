@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/07 14:50:17 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/15 18:55:21 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 14:50:17 by showard           #+#    #+#             */
+/*   Updated: 2025/07/16 17:18:21 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #include "parse.h"
 
-void	put_player_pixel(t_data *data, int pos_x, int pos_y, int radius)
+static void	put_player_pixel(t_data *data, int pos_x, int pos_y, int radius)
 {
 	int	offsetx;
 	int	offsety;
@@ -39,7 +39,7 @@ void	put_player_pixel(t_data *data, int pos_x, int pos_y, int radius)
 	}
 }
 
-void	draw_player(t_data *data)
+static void	draw_player(t_data *data)
 {
 	int	pos_x;
 	int	pos_y;
@@ -51,7 +51,7 @@ void	draw_player(t_data *data)
 	put_player_pixel(data, pos_x, pos_y, radius);
 }
 
-void	draw_minimap_pixel(t_data *data, int map_i, int map_j, uint32_t color)
+static void	draw_minimap_pixel(t_data *data, int map_i, int map_j, uint32_t color)
 {
 	int	pos_x;
 	int	pos_y;
@@ -73,11 +73,13 @@ void	draw_minimap_pixel(t_data *data, int map_i, int map_j, uint32_t color)
 	}
 }
 
-void	recreate_minimap(t_data *data)
+static void	recreate_minimap(t_data *data)
 {
-	if (data->mlx.minimap_image)
-		mlx_delete_image(data->mlx.mlx, data->mlx.minimap_image);
-	data->mlx.minimap_image = mlx_new_image(data->mlx.mlx, data->map_width
+	if (!data->mlx.minimap_image)
+		data->mlx.minimap_image = mlx_new_image(data->mlx.mlx, data->map_width
+			* data->minimap_scale, data->map_height * data->minimap_scale);
+	else
+		mlx_resize_image(data->mlx.minimap_image, data->map_width
 			* data->minimap_scale, data->map_height * data->minimap_scale);
 	if (!data->mlx.minimap_image)
 		werror("Failed to create minimap image", data);
