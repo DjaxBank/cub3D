@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_wall.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:04 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 13:26:56 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/17 16:40:03 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	wall_loop(t_wall *wall)
 	uint8_t	colour[3];
 	size_t	texture_y;
 	int		calc;
+	const int transparancy = 255 - ((wall->content == 'd') * 200);
 
 	while (wall->size > 0 && wall->y < wall->max_y)
 	{
@@ -54,14 +55,13 @@ static void	wall_loop(t_wall *wall)
 		colour[0] = wall->tex->pixels[calc];
 		colour[1] = wall->tex->pixels[++calc];
 		colour[2] = wall->tex->pixels[++calc];
-		mlx_put_pixel(wall->wall, wall->x, wall->y,
+		mlx_put_pixel(wall->wall, wall->x, wall->y++,
 			(uint32_t)
 		{
 			colour[0] << 24
 			| colour[1] << 16
-			| colour[2] << 8 | 255
+			| colour[2] << 8 | transparancy
 		});
-		wall->y++;
 		wall->size--;
 	}
 }

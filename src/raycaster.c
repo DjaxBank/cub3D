@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 13:39:30 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/17 16:38:58 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static mlx_texture_t	*choose_image(t_data *game, t_ray ray)
 {
 	if (ray.hit_door)
-		return (game->mlx.door);
+			return (game->mlx.door);
 	if (ray.side == HORIZONTAL)
 	{
 		if (game->player.pos_y > ray.hit_y)
@@ -36,7 +36,7 @@ static mlx_texture_t	*choose_image(t_data *game, t_ray ray)
 
 static void	trace_ray(t_data *game, t_ray *ray)
 {
-	while (game->map[ray->y][ray->x] != '1' && game->map[ray->y][ray->x] != 'D')
+	while (game->map[ray->y][ray->x] != '1' && game->map[ray->y][ray->x] != 'D' && game->map[ray->y][ray->x] != 'd')
 	{
 		if (ray->sidedistx < ray->sidedisty)
 		{
@@ -51,7 +51,7 @@ static void	trace_ray(t_data *game, t_ray *ray)
 			ray->side = HORIZONTAL;
 		}
 	}
-	ray->hit_door = (game->map[ray->y][ray->x] == 'D');
+	ray->hit_door = (game->map[ray->y][ray->x] == 'D') || game->map[ray->y][ray->x] == 'd';
 	if (ray->side == VERTICAL)
 		ray->distance = (ray->x - game->player.pos_x + (1 - ray->stepx) / 2)
 			/ ray->raydir_x;
@@ -91,12 +91,12 @@ static void	render_wall_slices(t_data *game)
 			/ (ray.distance + 0.0001);
 		if (height < 1)
 			height = 1;
-		wall.x = count;
+		wall.x = count++;
 		wall.y = game->mlx.mlx->height / 2 - (height / 2);
 		wall.size = height;
 		wall.tex = choose_image(game, ray);
+		wall.content = game->map[ray.y][ray.x];
 		put_wall(game, ray, wall);
-		count++;
 	}
 }
 

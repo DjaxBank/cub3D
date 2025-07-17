@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:31 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 13:39:30 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/17 16:17:02 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ void	open_door(t_data *game)
 {
 	const t_ray	ray = cast_ray(game);
 
-	if (game->map[ray.y][ray.x] == 'D')
+	if (game->map[ray.y][ray.x] == 'D' || game->map[ray.y][ray.x] == 'd')
 	{
-		game->map[ray.y][ray.x] = '0';
+		if (game->map[ray.y][ray.x] == 'D')
+			game->map[ray.y][ray.x] = 'd';
+		else
+			game->map[ray.y][ray.x] = 'D';
 		raycaster(game, false);
 		draw_minimap(game, false);
 	}
