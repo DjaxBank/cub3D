@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/16 14:38:24 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:28:20 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 #include "parse.h"
 
-static double	set_orientation(char player)
+double	set_orientation(char player)
 {
 	if (player == 'N')
 		return (-M_PI / 2);
@@ -25,10 +25,10 @@ static double	set_orientation(char player)
 		return (M_PI);
 }
 
-void handle_window_resize(t_data *game)
+void	handle_window_resize(t_data *game)
 {
-	int width;
-	int height;
+	int	width;
+	int	height;
 
 	width = game->mlx.mlx->width;
 	height = game->mlx.mlx->height;
@@ -71,7 +71,6 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	init_textures(&data, &data.mlx);
-	data.player.orientation = set_orientation(data.map[(int)data.player.pos_y][(int)data.player.pos_x]);
 	render_background(data.ceiling, data.floor, &data, true);
 	raycaster(&data, true);
 	draw_minimap(&data, true);
