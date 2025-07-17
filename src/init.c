@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/15 18:38:49 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:25:36 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_textures(t_data *data, t_mlx *mlx)
 		werror("Failure loading EA texture.", data);
 	mlx->door = mlx_load_png("./textures/Door.png");
 	if (mlx->door == NULL)
-	werror("Failure loading Door texture.", data);
+		werror("Failure loading Door texture.", data);
 }
 
 static void	init_map(t_data *data)
