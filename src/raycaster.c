@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 13:23:18 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/17 13:39:30 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,28 @@ static void	trace_ray(t_data *game, t_ray *ray)
 {
 	while (game->map[ray->y][ray->x] != '1' && game->map[ray->y][ray->x] != 'D')
 	{
-		if (ray->sidedistX < ray->sidedistY)
+		if (ray->sidedistx < ray->sidedisty)
 		{
-			ray->x += ray->stepX;
-			ray->sidedistX += ray->deltaX;
+			ray->x += ray->stepx;
+			ray->sidedistx += ray->deltax;
 			ray->side = VERTICAL;
 		}
 		else
 		{
-			ray->y += ray->stepY;
-			ray->sidedistY += ray->deltaY;
+			ray->y += ray->stepy;
+			ray->sidedisty += ray->deltay;
 			ray->side = HORIZONTAL;
 		}
 	}
 	ray->hit_door = (game->map[ray->y][ray->x] == 'D');
 	if (ray->side == VERTICAL)
-		ray->distance = (ray->x - game->player.pos_x + (1 - ray->stepX) / 2)
-			/ ray->raydir_X;
+		ray->distance = (ray->x - game->player.pos_x + (1 - ray->stepx) / 2)
+			/ ray->raydir_x;
 	else
-		ray->distance = (ray->y - game->player.pos_y + (1 - ray->stepY) / 2)
-			/ ray->raydir_Y;
-	ray->hit_y = game->player.pos_y + ray->raydir_Y * ray->distance;
-	ray->hit_x = game->player.pos_x + ray->raydir_X * ray->distance;
+		ray->distance = (ray->y - game->player.pos_y + (1 - ray->stepy) / 2)
+			/ ray->raydir_y;
+	ray->hit_y = game->player.pos_y + ray->raydir_y * ray->distance;
+	ray->hit_x = game->player.pos_x + ray->raydir_x * ray->distance;
 }
 
 static t_ray	cast_ray(t_data *game, t_ray ray)
