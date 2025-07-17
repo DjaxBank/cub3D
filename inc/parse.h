@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:48:50 by showard           #+#    #+#             */
-/*   Updated: 2025/07/08 15:36:28 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 13:37:52 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,20 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-
-void		map_trim(t_data *data, char **start_line);
-char		*ft_strdup_nonl(const char *s);
-int			atoi_overflow(const char *nptr, t_data *data);
-char		**lst_to_2darray(t_data *data);
-void		werror(char *error_msg, t_data *data);
-int			count_list(t_list *lst);
-int			validate_elements(char **map, t_data *data);
-bool		input_check(char *str, t_data *data);
-void		validate_chars(t_data *data, char **map);
-char		**find_start_line(char **map, int start_line);
-void		flood_map(t_data *data, char **map, int x, int y);
-void		map_init(t_data *data);
-void		ft_lstdelcontent(void *content);
-
+void	map_trim(t_data *data, char **start_line);
+char	*ft_strdup_nonl(const char *s);
+int		atoi_overflow(const char *nptr, t_data *data);
+char	**lst_to_2darray(t_data *data);
+void	werror(char *error_msg, t_data *data);
+int		count_list(t_list *lst);
+int		validate_elements(char **map, t_data *data);
+bool	input_check(char *str, t_data *data);
+void	validate_chars(t_data *data, char **map);
+char	**find_start_line(char **map, int start_line);
+void	flood_map(t_data *data, char **map, int x, int y);
+void	map_init(t_data *data);
+void	ft_lstdelcontent(void *content);
 
 // debug
-void		print_map(t_data *data);
+void	print_map(t_data *data);
 #endif

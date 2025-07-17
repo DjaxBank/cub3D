@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/17 12:25:36 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/17 13:37:18 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,6 @@ void	map_init(t_data *data)
 	data->l_map = NULL;
 	data->minimap_scale = SCREENSIZE / 100;
 	data->resizing = false;
+	data->player.orientation = set_orientation(
+			data->map[(int)data->player.pos_y][(int)data->player.pos_x]);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
+#    By: showard <showard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/16 17:54:24 by dbank            ###   ########.fr        #
+#    Updated: 2025/07/17 13:18:40 by showard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LDFLAGS = -L./libft
 SRCS 	= src/parse.c src/rendering.c src/main.c src/raycaster.c \
 		 src/parse.c src/parse_utils_a.c src/parse_utils_b.c src/elements.c \
 	   src/validate.c src/init.c src/put_wall.c src/minimap.c src/loop.c src/movement.c \
-	   src/minimap_fov.c src/doors.c
+	   src/minimap_fov.c src/doors.c src/raycaster_utils.c
 OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
