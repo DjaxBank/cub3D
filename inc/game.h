@@ -36,6 +36,7 @@ typedef struct s_wall
 	int				size;
 	size_t			texture_x;
 	double			step;
+	char			content;
 	double			tex_pos;
 	int				max_y;
 }					t_wall;
