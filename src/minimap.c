@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:50:17 by showard           #+#    #+#             */
-/*   Updated: 2025/07/16 17:18:21 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:38:26 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void	draw_player(t_data *data)
 	put_player_pixel(data, pos_x, pos_y, radius);
 }
 
-static void	draw_minimap_pixel(t_data *data, int map_i, int map_j, uint32_t color)
+static void	draw_minimap_pixel(t_data *data, int map_i, int map_j,
+		uint32_t color)
 {
 	int	pos_x;
 	int	pos_y;
@@ -77,14 +78,14 @@ static void	recreate_minimap(t_data *data)
 {
 	if (!data->mlx.minimap_image)
 		data->mlx.minimap_image = mlx_new_image(data->mlx.mlx, data->map_width
-			* data->minimap_scale, data->map_height * data->minimap_scale);
+				* data->minimap_scale, data->map_height * data->minimap_scale);
 	else
 		mlx_resize_image(data->mlx.minimap_image, data->map_width
 			* data->minimap_scale, data->map_height * data->minimap_scale);
 	if (!data->mlx.minimap_image)
 		werror("Failed to create minimap image", data);
-	if (mlx_image_to_window(data->mlx.mlx, data->mlx.minimap_image, 10, 10) ==
-		-1)
+	if (mlx_image_to_window(data->mlx.mlx, data->mlx.minimap_image,
+			10, 10) == -1)
 		werror("Failed to add minimap image to window", data);
 	mlx_set_instance_depth(data->mlx.minimap_image->instances, 2);
 }
@@ -96,27 +97,24 @@ void	draw_minimap(t_data *data, bool force_recreate)
 	uint32_t	color;
 
 	if (!is_window_size_valid(data->mlx.mlx->width, data->mlx.mlx->height))
-		return;
+		return ;
 	if (force_recreate || !data->mlx.minimap_image)
 		recreate_minimap(data);
 	fill_image(data->mlx.minimap_image, 0xFF000000, data->map_width
 		* data->minimap_scale, data->map_height * data->minimap_scale);
-	i = 0;
-	while (data->map[i] != NULL)
+	i = -1;
+	while (data->map[++i] != NULL)
 	{
-		j = 0;
-		while (data->map[i][j] != '\0')
+		j = -1;
+		while (data->map[i][++j] != '\0')
 		{
 			color = 0xFFEEEEEE;
 			if (data->map[i][j] == '1' || data->map[i][j] == ' ')
 				color = 0x000000FF;
-            if (data->map[i][j] == 'D')
+			if (data->map[i][j] == 'D')
 				color = (uint32_t){176 << 24 | 109 << 16 | 28 << 8 | 255};
 			draw_minimap_pixel(data, i, j, color);
-			j++;
 		}
-		i++;
 	}
-	draw_minimap_fov(data);
-	draw_player(data);
+	(draw_minimap_fov(data), draw_player(data));
 }
