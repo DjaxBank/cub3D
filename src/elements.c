@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   elements.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: showard <showard@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 15:45:03 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/01 15:43:45 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   elements.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:45:03 by showard           #+#    #+#             */
+/*   Updated: 2025/07/17 12:25:05 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	validate_rgb(char *str, t_data *data, int *colour_arr)
 			i++;
 		counter++;
 		if ((counter != 3 && str[i++] != ',') || (num < 0 || num > 255))
-    		werror("RGB values incorrectly formatted.\n", data);
+			werror("RGB values incorrectly formatted.\n", data);
 	}
 	while (str[i] == ' ')
 		i++;
