@@ -6,47 +6,11 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/16 16:20:17 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 13:29:51 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-static void    handle_key_w(t_data *game)
-{
-	double      new_y;
-	double      new_x;
-
-	new_y = game->player.pos_y + sin(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	new_x = game->player.pos_x + cos(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	collision_check(game, new_y, new_x);
-}
-
-static void    handle_key_s(t_data *game)
-{
-	double      new_y;
-	double      new_x;
-
-	new_y = game->player.pos_y - sin(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	new_x = game->player.pos_x - cos(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	collision_check(game, new_y, new_x);
-}
-
-static void    handle_key_a(t_data *game)
-{
-	game->player.orientation -= 0.05
-		* (game->mlx.mlx->delta_time * 60.0);
-}
-
-static void    handle_key_d(t_data *game)
-{
-	game->player.orientation += 0.05
-		* (game->mlx.mlx->delta_time * 60.0);
-}
 
 void	loop_hook(void *game)
 {
@@ -57,14 +21,13 @@ void	loop_hook(void *game)
 		mlx_close_window(((t_data *)game)->mlx.mlx);
 	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ENTER))
 		open_door(game);
-	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_W))
-		handle_key_w(game);
-	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_S))
-		handle_key_s(game);
-	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_A))
-		handle_key_a(game);
-	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_D))
-		handle_key_d(game);
+	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_W)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_S)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_A)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_D)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_LEFT)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_RIGHT))
+		keypress(game);
 	if (save[0] != ((t_data *)game)->player.pos_y
 		|| save[1] != ((t_data *)game)->player.pos_x
 		|| save[2] != ((t_data *)game)->player.orientation)

@@ -102,10 +102,9 @@ bool 	is_window_size_valid(int32_t width, int32_t height);
 void	werror(char *error_msg, t_data *data);
 void    loop_hook(void *game);
 void 	handle_window_resize(t_data *game);
-void 	collision_check(t_data *game, float new_y, float new_x);
 void	init_textures(t_data *data, t_mlx *mlx);
 void	draw_minimap_fov(t_data *data);
 void	open_door(t_data *game);
-void init_ray(t_data *game, t_ray *ray);
-
+void	init_ray(t_data *game, t_ray *ray);
+void	keypress(t_data *game);
 #endif
