@@ -3,49 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/16 16:20:17 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:19:38 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static void    handle_key_w(t_data *game)
+static void	handle_key_w(t_data *game)
 {
-	double      new_y;
-	double      new_x;
+	double	new_y;
+	double	new_x;
 
-	new_y = game->player.pos_y + sin(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	new_x = game->player.pos_x + cos(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
+	new_y = game->player.pos_y + sin(game->player.orientation) / 20.0
+		* (game->mlx.mlx->delta_time * 60.0);
+	new_x = game->player.pos_x + cos(game->player.orientation) / 20.0
+		* (game->mlx.mlx->delta_time * 60.0);
 	collision_check(game, new_y, new_x);
 }
 
-static void    handle_key_s(t_data *game)
+static void	handle_key_s(t_data *game)
 {
-	double      new_y;
-	double      new_x;
+	double	new_y;
+	double	new_x;
 
-	new_y = game->player.pos_y - sin(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
-	new_x = game->player.pos_x - cos(game->player.orientation)
-		/ 20.0 * (game->mlx.mlx->delta_time * 60.0);
+	new_y = game->player.pos_y - sin(game->player.orientation) / 20.0
+		* (game->mlx.mlx->delta_time * 60.0);
+	new_x = game->player.pos_x - cos(game->player.orientation) / 20.0
+		* (game->mlx.mlx->delta_time * 60.0);
 	collision_check(game, new_y, new_x);
 }
 
-static void    handle_key_a(t_data *game)
+static void	handle_key_a(t_data *game)
 {
-	game->player.orientation -= 0.05
-		* (game->mlx.mlx->delta_time * 60.0);
+	game->player.orientation -= 0.05 * (game->mlx.mlx->delta_time * 60.0);
 }
 
-static void    handle_key_d(t_data *game)
+static void	handle_key_d(t_data *game)
 {
-	game->player.orientation += 0.05
-		* (game->mlx.mlx->delta_time * 60.0);
+	game->player.orientation += 0.05 * (game->mlx.mlx->delta_time * 60.0);
 }
 
 void	loop_hook(void *game)
@@ -69,7 +67,7 @@ void	loop_hook(void *game)
 		|| save[1] != ((t_data *)game)->player.pos_x
 		|| save[2] != ((t_data *)game)->player.orientation)
 	{
-		save[0] = ((t_data*)game)->player.pos_y;
+		save[0] = ((t_data *)game)->player.pos_y;
 		save[1] = ((t_data *)game)->player.pos_x;
 		save[2] = ((t_data *)game)->player.orientation;
 		raycaster(game, false);
