@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap_fov.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: showard <showard@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/15 17:35:31 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/15 18:50:14 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap_fov.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 17:35:31 by showard           #+#    #+#             */
+/*   Updated: 2025/07/17 12:33:53 by showard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	draw_minimap_ray(t_data *data, double angle, double max_distance,
 	distance = 0.0;
 	while (distance < max_distance)
 	{
-		if (data->map[(int)y][(int)x] == '1' || data->map[(int)y][(int)x] == 'D')
+		if (data->map[(int)y][(int)x] == '1'
+			|| data->map[(int)y][(int)x] == 'D')
 			break ;
 		px = (int)(x * data->minimap_scale);
 		py = (int)(y * data->minimap_scale);
@@ -43,11 +44,11 @@ static void	draw_minimap_ray(t_data *data, double angle, double max_distance,
 
 void	draw_minimap_fov(t_data *data)
 {
-	int i;
-	double fov;
-	double start_angle;
-	double ray_angle;
-	double max_distance;
+	int		i;
+	double	fov;
+	double	start_angle;
+	double	ray_angle;
+	double	max_distance;
 
 	i = 0;
 	fov = 60.0 * M_PI / 180.0;
