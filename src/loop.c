@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/17 13:29:51 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/17 13:46:49 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	loop_hook(void *game)
 		|| save[1] != ((t_data *)game)->player.pos_x
 		|| save[2] != ((t_data *)game)->player.orientation)
 	{
-		save[0] = ((t_data*)game)->player.pos_y;
+		save[0] = ((t_data *)game)->player.pos_y;
 		save[1] = ((t_data *)game)->player.pos_x;
 		save[2] = ((t_data *)game)->player.orientation;
 		raycaster(game, false);
