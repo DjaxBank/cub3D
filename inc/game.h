@@ -76,6 +76,7 @@ typedef struct t_mlx
 	mlx_image_t		*floor;
 	mlx_image_t		*wall;
 	mlx_texture_t	*tex[4];
+	mlx_texture_t	*tex2[4];
 	mlx_texture_t	*door;
 	mlx_image_t		*minimap_image;
 

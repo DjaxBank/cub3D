@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/15 15:05:51 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/18 13:18:17 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/18 15:11:47 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,6 @@ void	loop_hook(void *game)
 		save[2] = ((t_data *)game)->player.orientation;
 		(raycaster(game, false), draw_minimap(game, false));
 	}
+	else if ((int)mlx_get_time() % 2 == 0)
+		raycaster(game, false);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/17 13:37:18 by showard          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/18 15:26:19 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	init_textures(t_data *data, t_mlx *mlx)
 	mlx->tex[W] = mlx_load_png(data->w_tex);
 	if (mlx->tex[W] == NULL)
 		werror("Failure loading WE texture.", data);
+	mlx->tex2[W] = mlx_load_png("./textures/Wall_3_2.png");
+	if (mlx->tex2[W] == NULL)
+		werror("Failure loading WE2 texture.", data);
 	mlx->tex[E] = mlx_load_png(data->e_tex);
 	if (mlx->tex[E] == NULL)
 		werror("Failure loading EA texture.", data);

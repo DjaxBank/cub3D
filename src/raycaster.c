@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycaster.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 13:39:30 by showard          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycaster.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/18 15:26:12 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,17 @@ static mlx_texture_t	*choose_image(t_data *game, t_ray ray)
 			return (game->mlx.tex[N]);
 		else
 			return (game->mlx.tex[S]);
+	
 	}
 	else if (ray.side == VERTICAL)
 	{
 		if (game->player.pos_x > ray.hit_x)
 			return (game->mlx.tex[E]);
 		else
-			return (game->mlx.tex[W]);
+			if ((int)mlx_get_time() % 2 == 0)
+				return (game->mlx.tex[W]);
+			else
+				return (game->mlx.tex2[W]);
 	}
 	else
 		return (game->mlx.door);
@@ -79,6 +83,7 @@ static void	render_wall_slices(t_data *game)
 	t_wall	wall;
 
 	count = 0;
+
 	while (count < (size_t)game->mlx.mlx->width)
 	{
 		ray.angle = game->player.orientation - (FOV / 2) + ((FOV
