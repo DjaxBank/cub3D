@@ -60,7 +60,6 @@ typedef struct t_ray
 	double			pos;
 	int				side;
 	bool			hit_door;
-	bool			hit_open_door;
 	size_t			*count;
 }					t_ray;
 typedef struct t_player
