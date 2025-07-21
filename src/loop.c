@@ -6,11 +6,20 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/21 16:22:42 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 17:46:30 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+static void swap_walls(t_data *game)
+{
+	mlx_texture_t *temp;
+
+	temp = game->mlx.tex[W];
+	game->mlx.tex[W] = game->mlx.tex2[W];
+	game->mlx.tex2[W] = temp;
+}
 
 static int	check_keys(void *game)
 {
@@ -26,8 +35,12 @@ static int	check_keys(void *game)
 
 void	loop_hook(void *game)
 {
-	static double	save[3];
+	static double		save[3];
+	static double		deltatime;
+	bool				raycasterrun;
 
+	deltatime += ((t_data *)game)->mlx.mlx->delta_time;
+	raycasterrun = false;
 	handle_window_resize(game);
 	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(((t_data *)game)->mlx.mlx);
@@ -40,8 +53,13 @@ void	loop_hook(void *game)
 		save[0] = ((t_data *)game)->player.pos_y;
 		save[1] = ((t_data *)game)->player.pos_x;
 		save[2] = ((t_data *)game)->player.orientation;
-		(raycaster(game, false), draw_minimap(game, false));
+		(raycasterrun = true, raycaster(game, false), draw_minimap(game, false));
 	}
-	else if ((int)mlx_get_time() % 2 != 0)
-		raycaster(game, false);
+	if (deltatime > 2)
+	{
+		swap_walls(game);
+		if (!raycasterrun)
+			raycaster(game, false);
+		deltatime = 0;
+	}
 }
