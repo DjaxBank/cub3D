@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:31 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/21 16:18:20 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 17:05:55 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	open_door(struct mlx_key_data key, void *game)
 	if (!mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ENTER))
 		return ;
 	ray = cast_ray(game);
-	if (((t_data *)game)->map[ray.y][ray.x] == 'D' || ((t_data *)game)->map[ray.y][ray.x] == 'd')
+	if (((t_data *)game)->map[ray.y][ray.x] == 'D'
+		|| ((t_data *)game)->map[ray.y][ray.x] == 'd')
 	{
 		if (((t_data *)game)->map[ray.y][ray.x] == 'D')
 			((t_data *)game)->map[ray.y][ray.x] = 'd';

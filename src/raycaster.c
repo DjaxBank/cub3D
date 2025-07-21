@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/21 16:21:42 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 17:13:32 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,17 @@ static void	render_door(t_data *game, t_ray ray)
 static void	trace_ray(t_data *game, t_ray *ray)
 {
 	size_t count;
+	bool open_door_hit;
 
 	count = 0;
+	open_door_hit = false;
 	while (game->map[ray->y][ray->x] != '1' && game->map[ray->y][ray->x] != 'D')
 	{
-		if (game->map[ray->y][ray->x] == 'd' && count > 0)
+		if (game->map[ray->y][ray->x] == 'd' && count > 0 && !open_door_hit)
+		{
 			render_door(game, *ray);
+			open_door_hit = true;
+		}
 		if (ray->sidedistx < ray->sidedisty)
 		{
 			ray->x += ray->stepx;
