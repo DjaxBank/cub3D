@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/21 14:58:41 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 16:12:25 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	loop_hook(void *game)
 	handle_window_resize(game);
 	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(((t_data *)game)->mlx.mlx);
-	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ENTER))
-		open_door(game);
 	if (check_keys(game))
 		keypress(game);
 	if (save[0] != ((t_data *)game)->player.pos_y
