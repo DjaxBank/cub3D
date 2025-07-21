@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:31 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 16:17:02 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 16:18:20 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,20 @@ static t_ray	cast_ray(t_data *game)
 	return (ray);
 }
 
-void	open_door(t_data *game)
+void	open_door(struct mlx_key_data key, void *game)
 {
-	const t_ray	ray = cast_ray(game);
+	t_ray	ray;
 
-	if (game->map[ray.y][ray.x] == 'D' || game->map[ray.y][ray.x] == 'd')
+	(void)key;
+	if (!mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ENTER))
+		return ;
+	ray = cast_ray(game);
+	if (((t_data *)game)->map[ray.y][ray.x] == 'D' || ((t_data *)game)->map[ray.y][ray.x] == 'd')
 	{
-		if (game->map[ray.y][ray.x] == 'D')
-			game->map[ray.y][ray.x] = 'd';
+		if (((t_data *)game)->map[ray.y][ray.x] == 'D')
+			((t_data *)game)->map[ray.y][ray.x] = 'd';
 		else
-			game->map[ray.y][ray.x] = 'D';
+			((t_data *)game)->map[ray.y][ray.x] = 'D';
 		raycaster(game, false);
 		draw_minimap(game, false);
 	}

@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/18 15:53:06 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 16:12:59 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char *argv[])
 	raycaster(&data, true);
 	draw_minimap(&data, true);
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
+	mlx_key_hook(data.mlx.mlx, open_door, &data);
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);
 	werror(NULL, &data);

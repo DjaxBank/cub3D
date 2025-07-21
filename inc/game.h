@@ -122,7 +122,7 @@ void				loop_hook(void *game);
 void				handle_window_resize(t_data *game);
 void				init_textures(t_data *data, t_mlx *mlx);
 void				draw_minimap_fov(t_data *data);
-void				open_door(t_data *game);
+void				open_door(struct mlx_key_data key, void *game);
 void				init_ray(t_data *game, t_ray *ray);
 double				set_orientation(char player);
 void				keypress(t_data *game);
