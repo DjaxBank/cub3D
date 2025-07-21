@@ -6,42 +6,52 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/18 15:29:19 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 16:08:47 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static mlx_texture_t	*choose_image(t_data *game, t_ray ray)
+static void	render_door(t_data *game, t_ray ray)
 {
-	if (ray.hit_door)
-			return (game->mlx.door);
-	if (ray.side == HORIZONTAL)
-	{
-		if (game->player.pos_y > ray.hit_y)
-			return (game->mlx.tex[N]);
-		else
-			return (game->mlx.tex[S]);
-	
-	}
-	else if (ray.side == VERTICAL)
-	{
-		if (game->player.pos_x > ray.hit_x)
-			return (game->mlx.tex[E]);
-		else
-			if ((int)mlx_get_time() % 2 == 0)
-				return (game->mlx.tex[W]);
-			else
-				return (game->mlx.tex2[W]);
-	}
+	t_wall	wall;
+	int		height;
+
+	if (ray.side == VERTICAL)
+		ray.distance = (ray.x - game->player.pos_x + (1 - ray.stepx) / 2) / ray.raydir_x;
 	else
-		return (game->mlx.door);
+		ray.distance = (ray.y - game->player.pos_y + (1 - ray.stepy) / 2) / ray.raydir_y;
+	ray.hit_y = game->player.pos_y + ray.raydir_y * ray.distance;
+	ray.hit_x = game->player.pos_x + ray.raydir_x * ray.distance;
+	if (!game->mlx.open_doors)
+	{
+		game->mlx.open_doors = mlx_new_image(game->mlx.mlx, game->mlx.mlx->width, game->mlx.mlx->height);
+		mlx_image_to_window(game->mlx.mlx, game->mlx.open_doors, 0, 0);
+		mlx_set_instance_depth(game->mlx.open_doors->instances, 3);
+	}
+	ray.distance *= cos(ray.angle - game->player.orientation);
+	if (ray.distance < 0.0001)
+		ray.distance = 0.0001;
+	height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
+	if (height < 1)
+		height = 1;
+	wall.x = *ray.count;
+	wall.y = game->mlx.mlx->height / 2 - (height / 2);
+	wall.size = height;
+	wall.tex = game->mlx.door;
+	wall.content = game->map[ray.y][ray.x];
+	put_wall(game, ray, wall, game->mlx.open_doors);
 }
 
 static void	trace_ray(t_data *game, t_ray *ray)
 {
-	while (game->map[ray->y][ray->x] != '1' && game->map[ray->y][ray->x] != 'D' && game->map[ray->y][ray->x] != 'd')
+	size_t count;
+
+	count = 0;
+	while (game->map[ray->y][ray->x] != '1' && game->map[ray->y][ray->x] != 'D')
 	{
+		if (game->map[ray->y][ray->x] == 'd' && count > 0)
+			render_door(game, *ray);
 		if (ray->sidedistx < ray->sidedisty)
 		{
 			ray->x += ray->stepx;
@@ -54,8 +64,9 @@ static void	trace_ray(t_data *game, t_ray *ray)
 			ray->sidedisty += ray->deltay;
 			ray->side = HORIZONTAL;
 		}
+		count++;
 	}
-	ray->hit_door = (game->map[ray->y][ray->x] == 'D') || game->map[ray->y][ray->x] == 'd';
+	ray->hit_door = (game->map[ray->y][ray->x] == 'D');
 	if (ray->side == VERTICAL)
 		ray->distance = (ray->x - game->player.pos_x + (1 - ray->stepx) / 2)
 			/ ray->raydir_x;
@@ -83,7 +94,8 @@ static void	render_wall_slices(t_data *game)
 	t_wall	wall;
 
 	count = 0;
-
+	ft_bzero(&ray, sizeof(t_ray));
+	ray.count = &count;
 	while (count < (size_t)game->mlx.mlx->width)
 	{
 		ray.angle = game->player.orientation - (FOV / 2) + ((FOV
@@ -101,7 +113,7 @@ static void	render_wall_slices(t_data *game)
 		wall.size = height;
 		wall.tex = choose_image(game, ray);
 		wall.content = game->map[ray.y][ray.x];
-		put_wall(game, ray, wall);
+		put_wall(game, ray, wall, game->mlx.wall);
 	}
 }
 
@@ -109,6 +121,8 @@ void	raycaster(t_data *game, bool force_recreate)
 {
 	if (!is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
 		return ;
+	mlx_delete_image(game->mlx.mlx, game->mlx.open_doors);
+	game->mlx.open_doors = NULL;
 	if (force_recreate || !game->mlx.wall)
 	{
 		if (game->mlx.wall)

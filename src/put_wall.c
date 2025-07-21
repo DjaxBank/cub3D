@@ -6,17 +6,17 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:04 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 16:40:03 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/21 14:57:11 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static void	init_wall(t_data *game, t_ray ray, t_wall *wall)
+static void	init_wall(t_data *game, t_ray ray, t_wall *wall, mlx_image_t *image)
 {
 	double	hit_pos;
 
-	wall->wall = game->mlx.wall;
+	wall->wall = image;
 	wall->max_y = game->mlx.mlx->height;
 	if (ray.side == VERTICAL)
 		hit_pos = fmod(ray.hit_y, 1.0);
@@ -39,10 +39,10 @@ static void	init_wall(t_data *game, t_ray ray, t_wall *wall)
 
 static void	wall_loop(t_wall *wall)
 {
-	uint8_t	colour[3];
-	size_t	texture_y;
-	int		calc;
-	const int transparancy = 255 - ((wall->content == 'd') * 200);
+	uint8_t		colour[3];
+	size_t		texture_y;
+	int			calc;
+	const int	transparancy = 255 - ((wall->content == 'd') * 150);
 
 	while (wall->size > 0 && wall->y < wall->max_y)
 	{
@@ -66,8 +66,8 @@ static void	wall_loop(t_wall *wall)
 	}
 }
 
-void	put_wall(t_data *game, t_ray ray, t_wall wall)
+void	put_wall(t_data *game, t_ray ray, t_wall wall, mlx_image_t *image)
 {
-	init_wall(game, ray, &wall);
+	init_wall(game, ray, &wall, image);
 	wall_loop(&wall);
 }
