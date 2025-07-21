@@ -6,7 +6,7 @@
 #    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/21 16:51:19 by dbank            ###   ########.fr        #
+#    Updated: 2025/07/21 17:02:18 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ fclean: clean
 	$(RM) $(OBJS) $(NAME)
 	$(MAKE) -C libft fclean
 	rm -rf build
-	rm -rf MLX42
 
 re: fclean $(NAME)
 
