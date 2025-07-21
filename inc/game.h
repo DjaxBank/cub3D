@@ -23,7 +23,7 @@
 # define W 2
 # define E 3
 # define MFACTOR 0.25
-# define SCREENSIZE 1500
+# define SCREENSIZE 1250
 # define MINIMAP_SCALE SCREENSIZE / 100
 # define FOV 60 * M_PI / 180.0
 
@@ -60,7 +60,8 @@ typedef struct t_ray
 	double			pos;
 	int				side;
 	bool			hit_door;
-
+	bool			hit_open_door;
+	size_t			*count;
 }					t_ray;
 typedef struct t_player
 {
@@ -79,6 +80,7 @@ typedef struct t_mlx
 	mlx_texture_t	*tex[4];
 	mlx_texture_t	*tex2[4];
 	mlx_texture_t	*door;
+	mlx_image_t		*open_doors;
 	mlx_image_t		*minimap_image;
 
 }					t_mlx;
@@ -113,7 +115,7 @@ void				raycaster(t_data *game, bool force_recreate);
 void				fill_image(mlx_image_t *image, uint32_t colour,
 						size_t width, size_t height);
 void				draw_minimap(t_data *d, bool force_recreate);
-void				put_wall(t_data *game, t_ray ray, t_wall wall);
+void				put_wall(t_data *game, t_ray ray, t_wall wall, mlx_image_t *image);
 bool				is_window_size_valid(int32_t width, int32_t height);
 void				werror(char *error_msg, t_data *data);
 void				loop_hook(void *game);
@@ -124,5 +126,6 @@ void				open_door(t_data *game);
 void				init_ray(t_data *game, t_ray *ray);
 double				set_orientation(char player);
 void				keypress(t_data *game);
+mlx_texture_t		*choose_image(t_data *game, t_ray ray);
 
 #endif

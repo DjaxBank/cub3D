@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   movement.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/15 18:08:10 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/18 13:22:38 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   movement.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 18:08:10 by showard           #+#    #+#             */
+/*   Updated: 2025/07/21 14:57:32 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ static int	handle_key_movement(t_data *game, double *new_y, double *new_x)
 			*new_x = game->player.pos_x - sin(game->player.orientation) / 20.0
 			* (game->mlx.mlx->delta_time * 60.0));
 }
+
 void	keypress(t_data *game)
 {
 	double	new_y;
