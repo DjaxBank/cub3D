@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/23 13:39:30 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/23 15:27:37 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@ double	set_orientation(char player)
 
 void	handle_window_resize(t_data *game)
 {
-	int	width;
-	int	height;
-
-	width = game->mlx.mlx->width;
-	height = game->mlx.mlx->height;
-	if ((width != game->last_w || height != game->last_h)
-		&& is_window_size_valid(width, height))
+	if ((game->mlx.mlx->width != game->last_w || game->mlx.mlx->height != game->last_h)
+		&& is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
 	{
-		game->last_w = width;
-		game->last_h = height;
-		game->minimap_scale = height / 100;
+		game->last_w = game->mlx.mlx->width;
+		game->last_h = game->mlx.mlx->height;
+		game->minimap_scale = game->mlx.mlx->height / 100;
 		render_background(game->ceiling, game->floor, game, true);
 		raycaster(game, true);
 		draw_minimap(game, true);
@@ -75,8 +70,11 @@ int	main(int argc, char *argv[])
 	render_background(data.ceiling, data.floor, &data, true);
 	raycaster(&data, true);
 	draw_minimap(&data, true);
+	mlx_cursor_hook(data.mlx.mlx, mousemovement, &data);
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
-	mlx_key_hook(data.mlx.mlx, open_door, &data);
+	mlx_key_hook(data.mlx.mlx, key_hook, &data);
+	mlx_mouse_hook(data.mlx.mlx, mouse_hook, &data);
+	data.toggle = true;
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);
 	werror(NULL, &data);

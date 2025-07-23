@@ -122,10 +122,13 @@ void				loop_hook(void *game);
 void				handle_window_resize(t_data *game);
 void				init_textures(t_data *data, t_mlx *mlx);
 void				draw_minimap_fov(t_data *data);
-void				open_door(struct mlx_key_data key, void *game);
+void				open_door(t_data *game);
 void				init_ray(t_data *game, t_ray *ray);
 double				set_orientation(char player);
 void				keypress(t_data *game);
 mlx_texture_t		*choose_image(t_data *game, t_ray ray);
+void 				mousemovement(double x, double y, void *game);
+void				mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
+void 				key_hook(struct mlx_key_data key, void *game);
 
 #endif

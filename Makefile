@@ -6,7 +6,7 @@
 #    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/07/21 17:48:14 by dbank            ###   ########.fr        #
+#    Updated: 2025/07/23 14:53:08 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LDFLAGS = -L./libft
 SRCS 	= src/rendering.c src/main.c src/raycaster.c \
 		 src/parse.c src/parse_utils_a.c src/parse_utils_b.c src/elements.c \
 	   src/validate.c src/init.c src/put_wall.c src/minimap.c src/loop.c src/movement.c \
-	   src/minimap_fov.c src/doors.c src/raycaster_utils.c
+	   src/minimap_fov.c src/doors.c src/raycaster_utils.c src/mouse_movement.c
 OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
