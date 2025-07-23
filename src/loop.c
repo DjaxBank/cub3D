@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/21 17:46:30 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/23 13:04:38 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static void swap_walls(t_data *game)
 	temp = game->mlx.tex[W];
 	game->mlx.tex[W] = game->mlx.tex2[W];
 	game->mlx.tex2[W] = temp;
+	temp = game->mlx.tex[E];
+	game->mlx.tex[E] = game->mlx.tex2[E];
+	game->mlx.tex2[E] = temp;
 }
 
 static int	check_keys(void *game)
