@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/15 15:05:51 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/23 13:46:11 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/23 13:58:05 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,36 @@ static int	check_keys(void *game)
 		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_DOWN));
 }
 
+static void mousemovement(t_data *game)
+{
+	int			mousepos[2];
+	int	differential;
+
+	mlx_get_mouse_pos((t_data *){game}->mlx.mlx, &mousepos[0], &mousepos[1]);
+	differential = mousepos[1] - ((t_data *)game)->mlx.mlx->width / 2;
+	if (differential < 0)
+		differential *= -1;
+	printf("%d\n", differential);
+	if (mousepos[0] < ((t_data *)game)->mlx.mlx->width / 2)
+		((t_data *)game)->player.orientation -= (0.05 * differential) * ((t_data *)game)->mlx.mlx->delta_time
+				* 60.0;
+	if (mousepos[0] > ((t_data *)game)->mlx.mlx->width / 2)
+		((t_data *)game)->player.orientation += (0.05 * differential) * ((t_data *)game)->mlx.mlx->delta_time
+				* 60.0;
+	mlx_set_mouse_pos(((t_data *)game)->mlx.mlx, ((t_data *)game)->mlx.mlx->width / 2, ((t_data *)game)->mlx.mlx->height / 2);
+	
+}
+
 void	loop_hook(void *game)
 {
 	static double		save[3];
 	static double		deltatime;
 	bool				raycasterrun;
-	int					mousepos[2];
 	
 	deltatime += ((t_data *)game)->mlx.mlx->delta_time;
 	raycasterrun = false;
-	mlx_get_mouse_pos((t_data *){game}->mlx.mlx, &mousepos[0], &mousepos[1]);
-	printf("%d %d\n", mousepos[0], mousepos[1]);
 	if (((t_data *)game)->toggle == false)
-	{
-		if (mousepos[0] < ((t_data *)game)->mlx.mlx->width / 2)
-			((t_data *)game)->player.orientation -= 0.05 * ((t_data *)game)->mlx.mlx->delta_time
-					* 60.0;
-		if (mousepos[0] > ((t_data *)game)->mlx.mlx->width / 2)
-			((t_data *)game)->player.orientation += 0.05 * ((t_data *)game)->mlx.mlx->delta_time
-					* 60.0;
-		mlx_set_mouse_pos(((t_data *)game)->mlx.mlx, ((t_data *)game)->mlx.mlx->width / 2, ((t_data *)game)->mlx.mlx->height / 2);
-	}
+		mousemovement(game);
 	handle_window_resize(game);
 	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(((t_data *)game)->mlx.mlx);
