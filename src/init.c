@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/21 16:47:07 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/23 13:04:02 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	init_textures(t_data *data, t_mlx *mlx)
 	mlx->tex[E] = mlx_load_png(data->e_tex);
 	if (mlx->tex[E] == NULL)
 		werror("Failure loading EA texture.", data);
+	mlx->tex2[E] = mlx_load_png("./textures/Wall_4_1.png");
+	if (mlx->tex2[E] == NULL)
+		werror("Failure loading EA2 texture.", data);
 	mlx->door = mlx_load_png("./textures/Door.png");
 	if (mlx->door == NULL)
 		werror("Failure loading Door texture.", data);
