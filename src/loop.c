@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   loop.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/15 15:05:51 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/23 13:58:05 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
+/*   Updated: 2025/07/23 15:20:32 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-static void swap_walls(t_data *game)
-{
-	mlx_texture_t *temp;
-
-	temp = game->mlx.tex[W];
-	game->mlx.tex[W] = game->mlx.tex2[W];
-	game->mlx.tex2[W] = temp;
-	temp = game->mlx.tex[E];
-	game->mlx.tex[E] = game->mlx.tex2[E];
-	game->mlx.tex2[E] = temp;
-}
 
 static int	check_keys(void *game)
 {
@@ -35,56 +23,64 @@ static int	check_keys(void *game)
 		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_UP)
 		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_DOWN));
 }
-
-static void mousemovement(t_data *game)
+static void swap_walls(t_data *game)
 {
-	int			mousepos[2];
-	int	differential;
+	mlx_texture_t *temp;
 
-	mlx_get_mouse_pos((t_data *){game}->mlx.mlx, &mousepos[0], &mousepos[1]);
-	differential = mousepos[1] - ((t_data *)game)->mlx.mlx->width / 2;
-	if (differential < 0)
-		differential *= -1;
-	printf("%d\n", differential);
-	if (mousepos[0] < ((t_data *)game)->mlx.mlx->width / 2)
-		((t_data *)game)->player.orientation -= (0.05 * differential) * ((t_data *)game)->mlx.mlx->delta_time
-				* 60.0;
-	if (mousepos[0] > ((t_data *)game)->mlx.mlx->width / 2)
-		((t_data *)game)->player.orientation += (0.05 * differential) * ((t_data *)game)->mlx.mlx->delta_time
-				* 60.0;
-	mlx_set_mouse_pos(((t_data *)game)->mlx.mlx, ((t_data *)game)->mlx.mlx->width / 2, ((t_data *)game)->mlx.mlx->height / 2);
-	
+	temp = game->mlx.tex[W];
+	game->mlx.tex[W] = game->mlx.tex2[W];
+	game->mlx.tex2[W] = temp;
+	temp = game->mlx.tex[E];
+	game->mlx.tex[E] = game->mlx.tex2[E];
+	game->mlx.tex2[E] = temp;
+}
+
+void mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void* param)
+{
+	(void)mods;
+	if (button == MLX_MOUSE_BUTTON_LEFT && action == MLX_PRESS)
+		open_door(param);
+	}
+
+void key_hook(struct mlx_key_data key, void *game)
+{
+	if (key.key == MLX_KEY_ESCAPE)
+		mlx_close_window(((t_data *)game)->mlx.mlx);
+	else if (key.key == MLX_KEY_LEFT_CONTROL && key.action == MLX_PRESS)
+	{
+		((t_data *)game)->toggle = !((t_data *)game)->toggle;
+		return;
+	}
+	else if (key.key == MLX_KEY_ENTER && key.action == MLX_PRESS)
+			open_door(game);
 }
 
 void	loop_hook(void *game)
 {
-	static double		save[3];
 	static double		deltatime;
-	bool				raycasterrun;
+	static double		save[3];
 	
 	deltatime += ((t_data *)game)->mlx.mlx->delta_time;
-	raycasterrun = false;
-	if (((t_data *)game)->toggle == false)
-		mousemovement(game);
 	handle_window_resize(game);
-	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(((t_data *)game)->mlx.mlx);
 	if (check_keys(game))
+	{
 		keypress(game);
-	if (save[0] != ((t_data *)game)->player.pos_y
+		if (save[0] != ((t_data *)game)->player.pos_y
 		|| save[1] != ((t_data *)game)->player.pos_x
 		|| save[2] != ((t_data *)game)->player.orientation)
 	{
 		save[0] = ((t_data *)game)->player.pos_y;
 		save[1] = ((t_data *)game)->player.pos_x;
 		save[2] = ((t_data *)game)->player.orientation;
-		(raycasterrun = true, raycaster(game, false), draw_minimap(game, false));
+		if (deltatime < 2)
+			raycaster(game, false);
+		draw_minimap(game, false);
 	}
-	if (deltatime > 2)
+	}
+	if (deltatime >= 2)
 	{
 		swap_walls(game);
-		if (!raycasterrun)
-			raycaster(game, false);
+		raycaster(game, false);
 		deltatime = 0;
 	}
 }
