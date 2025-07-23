@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   doors.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 14:16:31 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/21 17:05:55 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   doors.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/16 14:16:31 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/23 13:34:51 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ void	open_door(struct mlx_key_data key, void *game)
 	t_ray	ray;
 
 	(void)key;
+	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_LEFT_CONTROL))
+	{
+		((t_data *)game)->toggle = !((t_data *)game)->toggle;
+		return ;
+	}
 	if (!mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_ENTER))
 		return ;
 	ray = cast_ray(game);

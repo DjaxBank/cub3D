@@ -102,6 +102,7 @@ typedef struct t_data
 	t_mlx			mlx;
 	int				minimap_scale;
 	bool			resizing;
+	bool			toggle;
 	int				last_w;
 	int				last_h;
 
