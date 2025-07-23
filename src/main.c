@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/21 16:12:59 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/23 13:39:30 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char *argv[])
 		printf("Failed to initialize MLX\n");
 		return (1);
 	}
+	mlx_set_cursor_mode(data.mlx.mlx, MLX_MOUSE_HIDDEN);
 	init_textures(&data, &data.mlx);
 	render_background(data.ceiling, data.floor, &data, true);
 	raycaster(&data, true);
