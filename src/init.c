@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/24 10:15:24 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/24 14:26:26 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,13 @@ void	init_textures(t_data *data, t_mlx *mlx)
 	mlx->tex[W] = mlx_load_png(data->w_tex);
 	if (mlx->tex[W] == NULL)
 		werror("Failure loading WE texture.", data);
-	mlx->tex2[W] = mlx_load_png("./textures/Wall_3_2.png");
-	if (mlx->tex2[W] == NULL)
-		werror("Failure loading WE2 texture.", data);
 	mlx->tex[E] = mlx_load_png(data->e_tex);
 	if (mlx->tex[E] == NULL)
 		werror("Failure loading EA texture.", data);
-	mlx->tex2[E] = mlx_load_png("./textures/Wall_4_1.png");
-	if (mlx->tex2[E] == NULL)
-		werror("Failure loading EA2 texture.", data);
 	mlx->door = mlx_load_png("./textures/Door.png");
 	if (mlx->door == NULL)
 		werror("Failure loading Door texture.", data);
+	torch_check(data, mlx);
 }
 
 static void	init_map(t_data *data)
@@ -135,4 +130,6 @@ void	map_init(t_data *data)
 	data->player.orientation = set_orientation(
 			data->map[(int)data->player.pos_y][(int)data->player.pos_x]);
 	data->toggle = false;
+	data->rtorch = false;
+	data->btorch = false;
 }
