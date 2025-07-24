@@ -105,6 +105,8 @@ typedef struct t_data
 	bool			toggle;
 	int				last_w;
 	int				last_h;
+	bool			rtorch;
+	bool			btorch;
 
 }					t_data;
 
@@ -132,5 +134,6 @@ void				mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, voi
 void 				key_hook(struct mlx_key_data key, void *game);
 void				render_door(t_data *game, t_ray ray);
 void				init_wall_vars(size_t *count, t_ray *ray);
+void				torch_check(t_data *data, t_mlx *mlx);
 
 #endif
