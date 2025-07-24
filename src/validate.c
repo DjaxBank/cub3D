@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   validate.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:48:39 by showard           #+#    #+#             */
-/*   Updated: 2025/07/15 17:33:25 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   validate.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:48:39 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/24 09:48:09 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	validate_chars(t_data *data, char **map)
 		{
 			if (valid_char(map[i][j]) == 0)
 			{
-				printf("%s\n", map[i]);
 				werror("Invalid character detected in map.", data);
 			}
 			j++;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/23 15:27:37 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/24 10:36:40 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ double	set_orientation(char player)
 
 void	handle_window_resize(t_data *game)
 {
-	if ((game->mlx.mlx->width != game->last_w || game->mlx.mlx->height != game->last_h)
+	if ((game->mlx.mlx->width != game->last_w
+			|| game->mlx.mlx->height != game->last_h)
 		&& is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
 	{
 		game->last_w = game->mlx.mlx->width;
@@ -48,6 +49,13 @@ bool	is_window_size_valid(int32_t width, int32_t height)
 	return (true);
 }
 
+void	first_run(t_data *data)
+{
+	render_background(data->ceiling, data->floor, data, true);
+	raycaster(data, true);
+	draw_minimap(data, true);
+}
+
 int	main(int argc, char *argv[])
 {
 	static t_data	data;
@@ -59,17 +67,11 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	map_init(&data);
+	init_textures(&data, &data.mlx);
 	data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", true);
 	if (!data.mlx.mlx)
-	{
-		printf("Failed to initialize MLX\n");
-		return (1);
-	}
+		werror("Failed to initialize MLX", &data);
 	mlx_set_cursor_mode(data.mlx.mlx, MLX_MOUSE_HIDDEN);
-	init_textures(&data, &data.mlx);
-	render_background(data.ceiling, data.floor, &data, true);
-	raycaster(&data, true);
-	draw_minimap(&data, true);
 	mlx_cursor_hook(data.mlx.mlx, mousemovement, &data);
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
