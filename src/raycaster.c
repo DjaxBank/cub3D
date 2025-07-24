@@ -1,52 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycaster.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/21 17:13:32 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycaster.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/24 10:40:58 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static void	render_door(t_data *game, t_ray ray)
+static void	step_ray(t_ray *ray)
 {
-	t_wall	wall;
-	int		height;
-
-	if (ray.side == VERTICAL)
-		ray.distance = (ray.x - game->player.pos_x + (1 - ray.stepx) / 2) / ray.raydir_x;
-	else
-		ray.distance = (ray.y - game->player.pos_y + (1 - ray.stepy) / 2) / ray.raydir_y;
-	ray.hit_y = game->player.pos_y + ray.raydir_y * ray.distance;
-	ray.hit_x = game->player.pos_x + ray.raydir_x * ray.distance;
-	if (!game->mlx.open_doors)
+	if (ray->sidedistx < ray->sidedisty)
 	{
-		game->mlx.open_doors = mlx_new_image(game->mlx.mlx, game->mlx.mlx->width, game->mlx.mlx->height);
-		mlx_image_to_window(game->mlx.mlx, game->mlx.open_doors, 0, 0);
-		mlx_set_instance_depth(game->mlx.open_doors->instances, 3);
+		ray->x += ray->stepx;
+		ray->sidedistx += ray->deltax;
+		ray->side = VERTICAL;
 	}
-	ray.distance *= cos(ray.angle - game->player.orientation);
-	if (ray.distance < 0.0001)
-		ray.distance = 0.0001;
-	height = (((game->mlx.mlx->width + game->mlx.mlx->height) / 2) / 3) / (ray.distance + 0.0001);
-	if (height < 1)
-		height = 1;
-	wall.x = *ray.count;
-	wall.y = game->mlx.mlx->height / 2 - (height / 2);
-	wall.size = height;
-	wall.tex = game->mlx.door;
-	wall.content = game->map[ray.y][ray.x];
-	put_wall(game, ray, wall, game->mlx.open_doors);
+	else
+	{
+		ray->y += ray->stepy;
+		ray->sidedisty += ray->deltay;
+		ray->side = HORIZONTAL;
+	}
 }
 
 static void	trace_ray(t_data *game, t_ray *ray)
 {
-	size_t count;
-	bool open_door_hit;
+	size_t	count;
+	bool	open_door_hit;
 
 	count = 0;
 	open_door_hit = false;
@@ -57,18 +42,7 @@ static void	trace_ray(t_data *game, t_ray *ray)
 			render_door(game, *ray);
 			open_door_hit = true;
 		}
-		if (ray->sidedistx < ray->sidedisty)
-		{
-			ray->x += ray->stepx;
-			ray->sidedistx += ray->deltax;
-			ray->side = VERTICAL;
-		}
-		else
-		{
-			ray->y += ray->stepy;
-			ray->sidedisty += ray->deltay;
-			ray->side = HORIZONTAL;
-		}
+		step_ray(ray);
 		count++;
 	}
 	ray->hit_door = (game->map[ray->y][ray->x] == 'D');
@@ -98,9 +72,7 @@ static void	render_wall_slices(t_data *game)
 	int		height;
 	t_wall	wall;
 
-	count = 0;
-	ft_bzero(&ray, sizeof(t_ray));
-	ray.count = &count;
+	init_wall_vars(&count, &ray);
 	while (count < (size_t)game->mlx.mlx->width)
 	{
 		ray.angle = game->player.orientation - (FOV / 2) + ((FOV

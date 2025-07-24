@@ -130,5 +130,7 @@ mlx_texture_t		*choose_image(t_data *game, t_ray ray);
 void 				mousemovement(double x, double y, void *game);
 void				mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 void 				key_hook(struct mlx_key_data key, void *game);
+void				render_door(t_data *game, t_ray ray);
+void				init_wall_vars(size_t *count, t_ray *ray);
 
 #endif

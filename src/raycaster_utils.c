@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycaster_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 13:17:46 by showard           #+#    #+#             */
-/*   Updated: 2025/07/21 17:39:11 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycaster_utils.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/17 13:17:46 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/24 10:13:38 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	init_ray(t_data *game, t_ray *ray)
 
 mlx_texture_t	*choose_image(t_data *game, t_ray ray)
 {
-
 	if (ray.hit_door)
 		return (game->mlx.door);
 	if (ray.side == HORIZONTAL)
@@ -76,7 +75,7 @@ mlx_texture_t	*choose_image(t_data *game, t_ray ray)
 		if (game->player.pos_x > ray.hit_x)
 			return (game->mlx.tex[E]);
 		else
-				return (game->mlx.tex[W]);
+			return (game->mlx.tex[W]);
 	}
 	else
 		return (game->mlx.door);
