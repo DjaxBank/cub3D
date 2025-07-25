@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:31 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/23 14:42:17 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/25 14:10:59 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_ray	init_door_ray(t_data *game)
 {
 	t_ray	ray;
 
-	ray.angle = game->player.orientation - (FOV / 2) + ((FOV
+	ray.angle = game->player.orientation - (game->fov / 2) + ((game->fov
 				/ game->mlx.mlx->width) * game->mlx.mlx->width);
 	ray.x = game->player.pos_x;
 	ray.y = game->player.pos_y;

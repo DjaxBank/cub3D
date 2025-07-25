@@ -1,7 +1,7 @@
 NO ./textures/Wall_1.png
 SO ./textures/Wall_2.png
 WE ./textures/Wall_3_rtorch.png
-EA ./textures/Wall_4_1.png
+EA ./textures/Wall_4_btorch.png
 
 F 13,30,13
 C 0,0,0

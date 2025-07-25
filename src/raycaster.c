@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 13:59:36 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/24 10:40:58 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
+/*   Updated: 2025/07/25 14:10:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	render_wall_slices(t_data *game)
 	init_wall_vars(&count, &ray);
 	while (count < (size_t)game->mlx.mlx->width)
 	{
-		ray.angle = game->player.orientation - (FOV / 2) + ((FOV
+		ray.angle = game->player.orientation - (game->fov / 2) + ((game->fov
 					/ game->mlx.mlx->width) * count);
 		ray = cast_ray(game, ray);
 		ray.distance *= cos(ray.angle - game->player.orientation);

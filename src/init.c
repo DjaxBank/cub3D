@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/24 14:26:26 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
+/*   Updated: 2025/07/25 15:42:22 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void	init_player_pos(t_data *data, char **map)
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W'
 				|| map[y][x] == 'E')
 			{
-				data->player.pos_x = x;
-				data->player.pos_y = y;
+				data->player.pos_x = x + 0.5;
+				data->player.pos_y = y + 0.5;
 				counter++;
 			}
 			x++;
