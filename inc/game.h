@@ -24,8 +24,6 @@
 # define E 3
 # define MFACTOR 0.25
 # define SCREENSIZE 1250
-# define MINIMAP_SCALE SCREENSIZE / 100
-# define FOV 60 * M_PI / 180.0
 
 typedef struct s_wall
 {
@@ -107,6 +105,7 @@ typedef struct t_data
 	int				last_h;
 	bool			rtorch;
 	bool			btorch;
+	double			fov;
 
 }					t_data;
 
@@ -117,7 +116,8 @@ void				raycaster(t_data *game, bool force_recreate);
 void				fill_image(mlx_image_t *image, uint32_t colour,
 						size_t width, size_t height);
 void				draw_minimap(t_data *d, bool force_recreate);
-void				put_wall(t_data *game, t_ray ray, t_wall wall, mlx_image_t *image);
+void				put_wall(t_data *game, t_ray ray,
+						t_wall wall, mlx_image_t *image);
 bool				is_window_size_valid(int32_t width, int32_t height);
 void				werror(char *error_msg, t_data *data);
 void				loop_hook(void *game);
@@ -129,11 +129,15 @@ void				init_ray(t_data *game, t_ray *ray);
 double				set_orientation(char player);
 void				keypress(t_data *game);
 mlx_texture_t		*choose_image(t_data *game, t_ray ray);
-void 				mousemovement(double x, double y, void *game);
-void				mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
-void 				key_hook(struct mlx_key_data key, void *game);
+void				mousemovement(double x, double y, void *game);
+void				mouse_hook(mouse_key_t button, action_t action,
+						modifier_key_t mods, void *param);
+void				key_hook(struct mlx_key_data key, void *game);
 void				render_door(t_data *game, t_ray ray);
 void				init_wall_vars(size_t *count, t_ray *ray);
 void				torch_check(t_data *data, t_mlx *mlx);
+void				collision_check(t_data *game, float new_y, float new_x);
+void				handle_key_movement(t_data *game,
+						double *new_y, double *new_x);
 
 #endif

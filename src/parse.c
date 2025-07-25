@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:44:41 by showard           #+#    #+#             */
-/*   Updated: 2025/07/10 11:52:38 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/25 17:05:39 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,3 @@ char	**find_start_line(char **map, int start_line)
 	}
 	return (NULL);
 }
-
-// to do:
-// fix everything to be t_data
