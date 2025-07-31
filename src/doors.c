@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:31 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/25 14:10:59 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/31 13:47:53 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	open_door(t_data *game)
 		else
 			game->map[ray.y][ray.x] = 'D';
 		raycaster(game, false);
-		draw_minimap(game, false);
+		draw_minimap(game, true);
 	}
 }

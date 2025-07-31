@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:48:50 by showard           #+#    #+#             */
-/*   Updated: 2025/07/17 13:37:52 by showard          ###   ########.fr       */
+/*   Updated: 2025/07/31 13:49:39 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,4 @@ void	flood_map(t_data *data, char **map, int x, int y);
 void	map_init(t_data *data);
 void	ft_lstdelcontent(void *content);
 
-// debug
-void	print_map(t_data *data);
 #endif

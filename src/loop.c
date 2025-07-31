@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   loop.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/15 15:05:51 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/24 14:17:43 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
+/*   Updated: 2025/07/31 13:49:11 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,11 @@ void	key_hook(struct mlx_key_data key, void *game)
 		mlx_close_window(((t_data *)game)->mlx.mlx);
 	else if (key.key == MLX_KEY_LEFT_CONTROL && key.action == MLX_PRESS)
 	{
-		((t_data *)game)->toggle = !((t_data *)game)->toggle;
-		return ;
+		((t_data *)game)->mouse_enabled = !((t_data *)game)->mouse_enabled;
+		if (((t_data *)game)->mouse_enabled)
+			mlx_set_cursor_mode(((t_data *)game)->mlx.mlx, MLX_MOUSE_HIDDEN);
+		else
+			mlx_set_cursor_mode(((t_data *)game)->mlx.mlx, MLX_MOUSE_NORMAL);
 	}
 	else if (key.key == MLX_KEY_ENTER && key.action == MLX_PRESS)
 		open_door(game);
@@ -82,7 +85,7 @@ void	loop_hook(void *game)
 			save[2] = ((t_data *)game)->player.orientation;
 			if (deltatime < 2)
 				raycaster(game, false);
-			draw_minimap(game, false);
+			draw_minimap(game, true);
 		}
 	}
 	if (deltatime >= 2)
