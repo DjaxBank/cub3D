@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/31 16:29:04 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/31 16:31:52 by showard       ########   odam.nl         */
+/*   Updated: 2025/07/31 16:41:57 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	mousemovement(double x, double y, void *param)
 	game = param;
 	if (!game->mouse_enabled)
 		return ;
-	last_x = x;
-	last_y = y;
 	game->player.orientation += (x - last_x) * sensitivity
 		* (game->mlx.mlx->delta_time * 60.0);
+	last_x = x;
+	last_y = y;
 	if (game->player.orientation < 0)
 		game->player.orientation += 2 * M_PI;
 	else if (game->player.orientation > 2 * M_PI)
