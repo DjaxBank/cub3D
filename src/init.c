@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/31 13:42:40 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:45:12 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/31 14:16:13 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,6 @@ void	map_init(t_data *data)
 	data->minimap_scale = SCREENSIZE / 100;
 	data->player.orientation = set_orientation(
 			data->map[(int)data->player.pos_y][(int)data->player.pos_x]);
+	data->last_mouse_x = 0;
+	data->last_mouse_y = 0;
 }

@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 15:05:51 by showard           #+#    #+#             */
-/*   Updated: 2025/07/31 13:49:11 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   loop.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/15 15:05:51 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/31 16:31:35 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-static int	check_keys(void *game)
-{
-	return (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_W)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_S)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_A)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_D)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_LEFT)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_RIGHT)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_UP)
-		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_DOWN));
-}
 
 static void	swap_walls(t_data *game)
 {
@@ -58,7 +46,7 @@ void	key_hook(struct mlx_key_data key, void *game)
 	{
 		((t_data *)game)->mouse_enabled = !((t_data *)game)->mouse_enabled;
 		if (((t_data *)game)->mouse_enabled)
-			mlx_set_cursor_mode(((t_data *)game)->mlx.mlx, MLX_MOUSE_HIDDEN);
+			mlx_set_cursor_mode(((t_data *)game)->mlx.mlx, MLX_MOUSE_DISABLED);
 		else
 			mlx_set_cursor_mode(((t_data *)game)->mlx.mlx, MLX_MOUSE_NORMAL);
 	}
@@ -66,31 +54,31 @@ void	key_hook(struct mlx_key_data key, void *game)
 		open_door(game);
 }
 
-void	loop_hook(void *game)
+void	loop_hook(void *param)
 {
+	t_data			*data;
 	static double	deltatime;
 	static double	save[3];
+	int32_t			mouse[2];
 
-	deltatime += ((t_data *)game)->mlx.mlx->delta_time;
-	handle_window_resize(game);
-	if (check_keys(game))
+	data = (t_data *)param;
+	deltatime += data->mlx.mlx->delta_time;
+	mlx_get_mouse_pos(data->mlx.mlx, &mouse[0], &mouse[1]);
+	handle_window_resize(data);
+	if (check_stuff(mouse, data) && (save[0] != data->player.pos_y
+			|| save[1] != data->player.pos_x
+			|| save[2] != data->player.orientation))
 	{
-		keypress(game);
-		if (save[0] != ((t_data *)game)->player.pos_y
-			|| save[1] != ((t_data *)game)->player.pos_x
-			|| save[2] != ((t_data *)game)->player.orientation)
-		{
-			save[0] = ((t_data *)game)->player.pos_y;
-			save[1] = ((t_data *)game)->player.pos_x;
-			save[2] = ((t_data *)game)->player.orientation;
-			if (deltatime < 2)
-				raycaster(game, false);
-			draw_minimap(game, true);
-		}
+		save[0] = data->player.pos_y;
+		save[1] = data->player.pos_x;
+		save[2] = data->player.orientation;
+		if (deltatime < 2.0)
+			raycaster(data, false);
+		draw_minimap(data, true);
 	}
-	if (deltatime >= 2)
+	if (deltatime >= 2.0)
 	{
-		(swap_walls(game), raycaster(game, false));
-		deltatime = 0;
+		(swap_walls(data), raycaster(data, false));
+		deltatime = 0.0;
 	}
 }
