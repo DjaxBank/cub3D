@@ -100,7 +100,7 @@ typedef struct t_data
 	t_mlx			mlx;
 	int				minimap_scale;
 	bool			resizing;
-	bool			toggle;
+	bool			mouse_enabled;
 	int				last_w;
 	int				last_h;
 	bool			rtorch;

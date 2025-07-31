@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/25 14:08:26 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/31 13:47:18 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char *argv[])
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
 	mlx_mouse_hook(data.mlx.mlx, mouse_hook, &data);
-	data.toggle = true;
+	data.mouse_enabled = true;
 	mlx_loop(data.mlx.mlx);
 	mlx_terminate(data.mlx.mlx);
 	werror(NULL, &data);

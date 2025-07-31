@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:45:12 by showard           #+#    #+#             */
-/*   Updated: 2025/07/25 15:42:22 by dbank            ###   ########.fr       */
+/*   Updated: 2025/07/31 13:42:40 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,7 @@ void	map_init(t_data *data)
 	data->map = lst_to_2darray(data);
 	map_trim(data, find_start_line(data->map, counter));
 	ft_lstclear(&data->l_map, ft_lstdelcontent);
-	data->l_map = NULL;
 	data->minimap_scale = SCREENSIZE / 100;
-	data->resizing = false;
 	data->player.orientation = set_orientation(
 			data->map[(int)data->player.pos_y][(int)data->player.pos_x]);
-	data->toggle = false;
-	data->rtorch = false;
-	data->btorch = false;
 }
