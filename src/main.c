@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/31 13:47:18 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
+/*   Updated: 2025/07/31 15:40:51 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,6 @@ bool	is_window_size_valid(int32_t width, int32_t height)
 	return (true);
 }
 
-void	first_run(t_data *data)
-{
-	render_background(data->ceiling, data->floor, data, true);
-	raycaster(data, true);
-	draw_minimap(data, true);
-}
-
 int	main(int argc, char *argv[])
 {
 	static t_data	data;
@@ -73,7 +66,6 @@ int	main(int argc, char *argv[])
 	if (!data.mlx.mlx)
 		werror("Failed to initialize MLX", &data);
 	mlx_set_cursor_mode(data.mlx.mlx, MLX_MOUSE_HIDDEN);
-	mlx_cursor_hook(data.mlx.mlx, mousemovement, &data);
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
 	mlx_mouse_hook(data.mlx.mlx, mouse_hook, &data);

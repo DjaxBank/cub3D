@@ -1,38 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mouse_movement.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 14:42:59 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/31 14:04:29 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   mouse_movement.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: showard <showard@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/31 16:29:04 by showard       #+#    #+#                 */
+/*   Updated: 2025/07/31 16:31:52 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
+#include <game.h>
 
-void	mousemovement(double x, double y, void *game)
+static void	mousemovement(double x, double y, void *param)
 {
-	static bool	ignore;
+	t_data			*game;
+	static double	last_x = 0;
+	static double	last_y = 0;
+	const double	sensitivity = 0.001;
 
-	if (((t_data *)game)->mouse_enabled == false || ignore)
-	{
-		if (ignore)
-			ignore = false;
+	game = param;
+	if (!game->mouse_enabled)
 		return ;
+	last_x = x;
+	last_y = y;
+	game->player.orientation += (x - last_x) * sensitivity
+		* (game->mlx.mlx->delta_time * 60.0);
+	if (game->player.orientation < 0)
+		game->player.orientation += 2 * M_PI;
+	else if (game->player.orientation > 2 * M_PI)
+		game->player.orientation -= 2 * M_PI;
+	if (x > game->mlx.mlx->width - 5 || x < 5)
+	{
+		mlx_set_mouse_pos(((t_data *)game)->mlx.mlx,
+			((t_data *)game)->mlx.mlx->width / 2,
+			((t_data *)game)->mlx.mlx->height / 2);
+		last_x = ((t_data *)game)->mlx.mlx->width / 2;
+		last_y = ((t_data *)game)->mlx.mlx->height / 2;
 	}
-	(void)y;
-	if (x < ((t_data *)game)->mlx.mlx->width / 2)
-		((t_data *)game)->player.orientation -= 0.05
-			* ((t_data *)game)->mlx.mlx->delta_time * 60.0;
-	if (x > ((t_data *)game)->mlx.mlx->width / 2)
-		((t_data *)game)->player.orientation += 0.05
-			* ((t_data *)game)->mlx.mlx->delta_time * 60.0;
-	raycaster(game, false);
-	draw_minimap(game, false);
-	mlx_set_mouse_pos(((t_data *)game)->mlx.mlx,
-		((t_data *)game)->mlx.mlx->width / 2, ((t_data *)game)->mlx.mlx->height
-		/ 2);
-	ignore = true;
+}
+
+static bool	check_if_mouse_moved(int32_t x, int32_t y, t_data *data)
+{
+	if (data->last_mouse_x != x || data->last_mouse_y != y)
+	{
+		data->last_mouse_x = x;
+		data->last_mouse_y = y;
+		return (mousemovement((double)data->last_mouse_x,
+				(double)data->last_mouse_y, data), true);
+	}
+	return (false);
+}
+
+static int	check_keys(void *game)
+{
+	if (mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_W)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_S)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_A)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_D)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_LEFT)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_RIGHT)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_UP)
+		|| mlx_is_key_down(((t_data *)game)->mlx.mlx, MLX_KEY_DOWN))
+		return (keypress(game), true);
+	return (false);
+}
+
+int	check_stuff(int32_t mouse[2], t_data *data)
+{
+	const bool	keys = check_keys(data);
+	const bool	mouse_chck = check_if_mouse_moved(mouse[0], mouse[1], data);
+
+	return (keys || mouse_chck);
 }
