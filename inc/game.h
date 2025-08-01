@@ -71,8 +71,7 @@ typedef struct t_player
 typedef struct t_mlx
 {
 	mlx_t			*mlx;
-	mlx_image_t		*ceiling;
-	mlx_image_t		*floor;
+	mlx_image_t		*background;
 	mlx_image_t		*wall;
 	mlx_texture_t	*tex[4];
 	mlx_texture_t	*tex2[4];
@@ -141,5 +140,6 @@ void				collision_check(t_data *game, float new_y, float new_x);
 void				handle_key_movement(t_data *game, double *new_y,
 						double *new_x);
 int					check_stuff(int32_t mouse[2], t_data *data);
+void				create_images(t_data *data);
 
 #endif
