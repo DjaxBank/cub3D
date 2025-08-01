@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:44:41 by showard           #+#    #+#             */
-/*   Updated: 2025/07/25 17:05:39 by dbank            ###   ########.fr       */
+/*   Updated: 2025/08/01 16:00:41 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	werror(char *error_msg, t_data *data)
 	{
 		ft_putstr_fd("Error\n", 2, NULL);
 		ft_putstr_fd(error_msg, 2, NULL);
+		mlx_terminate(data->mlx.mlx);
 		exit(EXIT_FAILURE);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:59:36 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/31 13:47:01 by dbank            ###   ########.fr       */
+/*   Updated: 2025/08/01 16:06:29 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,22 +98,20 @@ void	raycaster(t_data *game, bool force_recreate)
 {
 	if (!is_window_size_valid(game->mlx.mlx->width, game->mlx.mlx->height))
 		return ;
-	mlx_delete_image(game->mlx.mlx, game->mlx.open_doors);
-	game->mlx.open_doors = NULL;
-	if (force_recreate || !game->mlx.wall)
+	if (force_recreate)
 	{
-		if (game->mlx.wall)
-			mlx_delete_image(game->mlx.mlx, game->mlx.wall);
-		game->mlx.wall = mlx_new_image(game->mlx.mlx, game->mlx.mlx->width,
-				game->mlx.mlx->height);
-		if (!game->mlx.wall)
-			werror("Failed to create wall image", game);
-		if (mlx_image_to_window(game->mlx.mlx, game->mlx.wall, 0, 0) == -1)
-			werror("Failed to add wall image to window", game);
+		mlx_resize_image(game->mlx.wall, game->mlx.mlx->width,
+			game->mlx.mlx->height);
+		mlx_resize_image(game->mlx.open_doors, game->mlx.mlx->width,
+			game->mlx.mlx->height);
+		if (!game->mlx.wall || ! game->mlx.open_doors)
+			werror("Failed to resize image", game);
 		mlx_set_instance_depth(game->mlx.wall->instances, 1);
 	}
 	if (!game->mlx.wall)
 		return ;
+	fill_image(game->mlx.open_doors, 0x00000000, game->mlx.mlx->width,
+		game->mlx.mlx->height);
 	fill_image(game->mlx.wall, 0x00000000, game->mlx.mlx->width,
 		game->mlx.mlx->height);
 	render_wall_slices(game);

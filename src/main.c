@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dbank <dbank@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/31 15:40:51 by showard       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:22:29 by dbank             #+#    #+#             */
+/*   Updated: 2025/08/01 16:03:09 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	main(int argc, char *argv[])
 	data.mlx.mlx = mlx_init(SCREENSIZE, SCREENSIZE, "Cub3d", true);
 	if (!data.mlx.mlx)
 		werror("Failed to initialize MLX", &data);
+	create_images(&data);
 	mlx_set_cursor_mode(data.mlx.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(data.mlx.mlx, loop_hook, &data);
 	mlx_key_hook(data.mlx.mlx, key_hook, &data);
