@@ -6,7 +6,7 @@
 #    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/08/01 16:03:40 by dbank            ###   ########.fr        #
+#    Updated: 2025/08/01 16:10:28 by dbank            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ## Commands ##
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I./inc -I./ -O3 -ffast-math -flto
+CFLAGS = -Wall -Wextra -Werror -I./inc -I./ -O3 -ffast-math -flto
 LDFLAGS = -L./libft
 
 ## Files ##
