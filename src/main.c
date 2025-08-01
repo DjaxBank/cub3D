@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 12:22:29 by dbank         #+#    #+#                 */
-/*   Updated: 2025/07/31 15:40:51 by showard       ########   odam.nl         */
+/*   Updated: 2025/08/01 16:11:46 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,14 @@ void	handle_window_resize(t_data *game)
 	{
 		game->last_w = game->mlx.mlx->width;
 		game->last_h = game->mlx.mlx->height;
-		game->minimap_scale = game->mlx.mlx->height / 100;
+		if (game->map_width > game->map_height)
+			game->minimap_scale = (int)(game->mlx.mlx->height / game->map_width
+					* 0.40);
+		else
+			game->minimap_scale = (int)(game->mlx.mlx->height / game->map_height
+					* 0.40);
+		if (game->minimap_scale < 1)
+			game->minimap_scale = 1;
 		render_background(game->ceiling, game->floor, game, true);
 		raycaster(game, true);
 		draw_minimap(game, true);

@@ -98,7 +98,7 @@ typedef struct t_data
 	int				map_height;
 	t_player		player;
 	t_mlx			mlx;
-	int				minimap_scale;
+	double			minimap_scale;
 	bool			resizing;
 	bool			mouse_enabled;
 	int				last_w;
