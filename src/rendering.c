@@ -6,7 +6,7 @@
 /*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/08/01 16:05:28 by dbank            ###   ########.fr       */
+/*   Updated: 2025/08/01 16:09:59 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,4 @@ void	create_images(t_data *data)
 		werror("Failed to add background wall to window", data);
 	if (mlx_image_to_window(data->mlx.mlx, data->mlx.open_doors, 0, 0) == -1)
 		werror("Failed to add door image to window", data);
-	mlx_set_instance_depth((data->mlx.background)->instances, 0);
 }
