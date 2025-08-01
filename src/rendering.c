@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showard <showard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:24:43 by dbank             #+#    #+#             */
-/*   Updated: 2025/07/17 13:32:07 by showard          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:05:28 by dbank            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,35 @@ void	fill_image(mlx_image_t *image, uint32_t colour, size_t width,
 	}
 }
 
-static void	recreate_bg_image(t_data *data, mlx_image_t **img, int y_offset)
+static void	fill_background(t_data *data, uint32_t colours[2])
 {
-	if (*img)
-		mlx_delete_image(data->mlx.mlx, *img);
-	*img = mlx_new_image(data->mlx.mlx, data->mlx.mlx->width,
-			data->mlx.mlx->height / 2);
-	if (!*img)
-		werror("Failed to create background image", data);
-	if (mlx_image_to_window(data->mlx.mlx, *img, 0, y_offset) == -1)
-		werror("Failed to add background image to window", data);
-	mlx_set_instance_depth((*img)->instances, 0);
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < data->mlx.mlx->height)
+	{
+		x = 0;
+		while (x < data->mlx.mlx->width)
+		{
+			if (y < data->mlx.mlx->height / 2)
+				mlx_put_pixel(data->mlx.background, x, y, colours[0]);
+			else
+				mlx_put_pixel(data->mlx.background, x, y, colours[1]);
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	recreate_bg_image(t_data *data,
+			uint32_t converted_ceiling, uint32_t converted_floor)
+{
+	mlx_resize_image(data->mlx.background, data->mlx.mlx->width,
+		data->mlx.mlx->height);
+	if (!data->mlx.background)
+		werror("Failed to resize background image", data);
+	fill_background(data, (uint32_t[2]){converted_ceiling, converted_floor});
 }
 
 void	render_background(const int ceilingc[3], const int floorc[3],
@@ -61,12 +79,25 @@ void	render_background(const int ceilingc[3], const int floorc[3],
 	converted_floor |= 255;
 	if (!is_window_size_valid(data->mlx.mlx->width, data->mlx.mlx->height))
 		return ;
-	if (force_recreate || !data->mlx.ceiling)
-		recreate_bg_image(data, &data->mlx.ceiling, 0);
-	fill_image(data->mlx.ceiling, converted_ceiling, data->mlx.mlx->width,
-		data->mlx.mlx->height / 2);
-	if (force_recreate || !data->mlx.floor)
-		recreate_bg_image(data, &data->mlx.floor, data->mlx.mlx->height / 2);
-	fill_image(data->mlx.floor, converted_floor, data->mlx.mlx->width,
-		data->mlx.mlx->height / 2);
+	if (force_recreate || !data->mlx.background)
+		recreate_bg_image(data, converted_ceiling, converted_floor);
+}
+
+void	create_images(t_data *data)
+{
+	data->mlx.background = mlx_new_image(data->mlx.mlx,
+			data->mlx.mlx->width, data->mlx.mlx->height);
+	data->mlx.wall = mlx_new_image(data->mlx.mlx,
+			data->mlx.mlx->width, data->mlx.mlx->height);
+	data->mlx.open_doors = mlx_new_image(data->mlx.mlx,
+			data->mlx.mlx->width, data->mlx.mlx->height);
+	if (!data->mlx.background || !data->mlx.wall || !data->mlx.open_doors)
+		werror("Failed to create image", data);
+	if (mlx_image_to_window(data->mlx.mlx, data->mlx.background, 0, 0) == -1)
+		werror("Failed to add background image to window", data);
+	if (mlx_image_to_window(data->mlx.mlx, data->mlx.wall, 0, 0) == -1)
+		werror("Failed to add background wall to window", data);
+	if (mlx_image_to_window(data->mlx.mlx, data->mlx.open_doors, 0, 0) == -1)
+		werror("Failed to add door image to window", data);
+	mlx_set_instance_depth((data->mlx.background)->instances, 0);
 }
