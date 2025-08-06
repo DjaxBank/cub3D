@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:44:41 by showard           #+#    #+#             */
-/*   Updated: 2025/08/01 16:14:26 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:44:41 by showard       #+#    #+#                 */
+/*   Updated: 2025/08/06 13:52:39 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	werror(char *error_msg, t_data *data)
 	if (error_msg)
 	{
 		ft_putstr_fd("Error\n", 2, NULL);
-		ft_putstr_fd(error_msg, 2, NULL);
+		ft_putendl_fd(error_msg, 2);
 		if (data->mlx.mlx)
 			mlx_terminate(data->mlx.mlx);
 		exit(EXIT_FAILURE);

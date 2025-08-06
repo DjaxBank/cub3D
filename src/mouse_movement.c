@@ -6,11 +6,26 @@
 /*   By: showard <showard@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/31 16:29:04 by showard       #+#    #+#                 */
-/*   Updated: 2025/07/31 16:41:57 by showard       ########   odam.nl         */
+/*   Updated: 2025/08/06 13:58:07 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <game.h>
+
+static bool	initialized_questionmark(double *last_x, double *last_y, double x,
+		double y)
+{
+	static bool	initialized = false;
+
+	if (!initialized)
+	{
+		*last_x = x;
+		*last_y = y;
+		initialized = true;
+		return (false);
+	}
+	return (true);
+}
 
 static void	mousemovement(double x, double y, void *param)
 {
@@ -20,7 +35,8 @@ static void	mousemovement(double x, double y, void *param)
 	const double	sensitivity = 0.001;
 
 	game = param;
-	if (!game->mouse_enabled)
+	if (!game->mouse_enabled || !initialized_questionmark(&last_x, &last_y, x,
+			y))
 		return ;
 	game->player.orientation += (x - last_x) * sensitivity
 		* (game->mlx.mlx->delta_time * 60.0);
