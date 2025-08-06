@@ -29,7 +29,7 @@ OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
 
-NAME = cub3d
+NAME = cub3D
 
 ## Compilation rules ##
 
