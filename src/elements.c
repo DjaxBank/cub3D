@@ -6,7 +6,7 @@
 /*   By: showard <showard@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:45:03 by showard       #+#    #+#                 */
-/*   Updated: 2025/08/01 15:36:18 by showard       ########   odam.nl         */
+/*   Updated: 2025/08/06 14:11:14 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ static void	validate_rgb(char *str, t_data *data, int *colour_arr)
 	while (str[i] != '\0' && counter < 3)
 	{
 		if (str[i] == '-' || !ft_isdigit(str[i]) || i < 1)
-			werror("RGB values incorrectly formatted\n", data);
+			werror("RGB values incorrectly formatted", data);
 		num = atoi_overflow(&str[i], data);
 		colour_arr[counter] = num;
 		while (ft_isdigit(str[i]))
 			i++;
 		counter++;
 		if ((counter != 3 && str[i++] != ',') || (num < 0 || num > 255))
-			werror("RGB values incorrectly formatted.\n", data);
+			werror("RGB values incorrectly formatted.", data);
 	}
 	while (str[i] == ' ')
 		i++;
 	if (counter < 3 || str[i] != '\0')
-		werror("RGB values incorrectly formatted.\n", data);
+		werror("RGB values incorrectly formatted.", data);
 }
 
 static char	*copy_path(const char *s, t_data *data)
