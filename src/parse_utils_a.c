@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_utils_a.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:44:55 by showard           #+#    #+#             */
-/*   Updated: 2025/07/21 16:47:05 by dbank            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_utils_a.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbank <dbank@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/30 15:44:55 by showard       #+#    #+#                 */
+/*   Updated: 2025/08/06 14:12:00 by showard       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ char	**lst_to_2darray(t_data *data)
 	lines = count_list(data->l_map);
 	map = (char **)malloc((lines + 1) * sizeof(char **));
 	if (map == NULL)
-		werror("Malloc failure in map initialization\n", data);
+		werror("Malloc failure in map initialization", data);
 	while (current)
 	{
 		map[i] = ft_strdup_nonl((char *)current->content);
 		if (map[i] == NULL)
-			werror("Malloc failure in map initialization\n", data);
+			werror("Malloc failure in map initialization", data);
 		current = current->next;
 		i++;
 	}
@@ -63,9 +63,9 @@ int	atoi_overflow(const char *nptr, t_data *data)
 	{
 		digit = *nptr - '0';
 		if (sign == 1 && (value > (INT_MAX - digit) / 10))
-			werror("Integer overflow detected.\n", data);
+			werror("Integer overflow detected.", data);
 		if (sign == -1 && (-value < (INT_MIN + digit) / 10))
-			werror("Integer underflow detected.\n", data);
+			werror("Integer underflow detected.", data);
 		value = value * 10 + digit;
 		nptr++;
 	}
