@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: dbank <dbank@student.codam.nl>             +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/30 16:22:59 by dbank             #+#    #+#              #
-#    Updated: 2025/08/01 16:10:28 by dbank            ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: dbank <dbank@student.codam.nl>               +#+                      #
+#                                                    +#+                       #
+#    Created: 2025/06/30 16:22:59 by dbank         #+#    #+#                  #
+#    Updated: 2025/08/06 14:05:36 by showard       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(SRCS:src/%.c=obj/%.o)
 
 ## Configuration ##
 
-NAME = cub3d
+NAME = cub3D
 
 ## Compilation rules ##
 
@@ -47,9 +47,11 @@ clean:
 	$(MAKE) -C libft clean
 
 fclean: clean
-	$(RM) $(OBJS) $(NAME)
 	$(MAKE) -C libft fclean
+	rm $(NAME)
 	rm -rf build
+	rm -rf obj
+	rm -rf MLX42
 
 re: fclean $(NAME)
 
